@@ -123,7 +123,7 @@ INSTALLED_APPS = (
     'relations',
     'quests',
     'rewards',
-    'message',
+    'messages',
     # 'accounts',
 )
 
