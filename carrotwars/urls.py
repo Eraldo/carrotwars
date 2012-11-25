@@ -14,5 +14,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^quests/', include('quests.urls', namespace="quests")),
+    url(r'^messages/', include('django_messages.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )

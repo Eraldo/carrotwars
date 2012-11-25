@@ -84,7 +84,7 @@ SECRET_KEY = '3rri^fj2c&amp;-n+w2g!ch@2=3+^6du*1q81-&amp;*9_v&amp;e&amp;bl(7b%^q
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -123,11 +123,16 @@ INSTALLED_APPS = (
     'relations',
     'quests',
     'rewards',
-    'messages',
+    'django_messages',
     # 'accounts',
 )
 
 # AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+'django_messages.context_processors.inbox',
+'django.contrib.auth.context_processors.auth'
+)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
