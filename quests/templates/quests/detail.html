@@ -1,4 +1,7 @@
+{% extends 'base.html' %}
 {% load url from future %}
+
+{% block content %}
 
 <h1>{{ quest.title }}</h1>
 owner: {{ quest.relation.owner }}<br>
@@ -7,3 +10,5 @@ created: {{ quest.creation_date }}<br>
 activated: {{ quest.get_activation_date_display }}<br>
 rating: {{ quest.get_rating_display }}<br>
 status: {{ quest.get_status_display }}<br>
+
+{% endblock %}

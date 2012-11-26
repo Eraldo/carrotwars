@@ -3,8 +3,11 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+import os.path
+PROJECT_DIR = os.path.join(os.path.dirname(__file__), '..')
+
 ADMINS = (
-    # ('Eraldo Helal', 'eraldo@eraldo.org'),
+    ('Eraldo Helal', 'eraldo@eraldo.org'),
 )
 
 MANAGERS = ADMINS
@@ -45,12 +48,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = 'http://localhost:8000/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -95,6 +98,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'pagination.middleware.PaginationMiddleware', # django-pagination
 )
 
 ROOT_URLCONF = 'carrotwars.urls'
@@ -106,7 +111,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "/Users/eraldo/Documents/django/carrotwars/carrotwars/templates",
+    os.path.join(PROJECT_DIR, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -120,18 +125,27 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+
     'relations',
     'quests',
     'rewards',
-    'django_messages',
+
+    'postman',
+    'pagination'
+
     # 'accounts',
 )
 
 # AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-'django_messages.context_processors.inbox',
-'django.contrib.auth.context_processors.auth'
+   "django.contrib.auth.context_processors.auth",
+    # "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    # "django.core.context_processors.static",
+    # "django.contrib.messages.context_processors.messages")
+    "django.core.context_processors.request"
 )
 
 # A sample logging configuration. The only tangible logging
@@ -162,3 +176,11 @@ LOGGING = {
         },
     }
 }
+
+
+#### django-postman settings
+POSTMAN_DISALLOW_ANONYMOUS = True
+POSTMAN_DISALLOW_MULTIRECIPIENTS = True
+POSTMAN_DISALLOW_COPIES_ON_REPLY = True
+POSTMAN_DISABLE_USER_EMAILING = True
+POSTMAN_NOTIFIER_APP = True

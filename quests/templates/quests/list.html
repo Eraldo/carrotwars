@@ -1,4 +1,7 @@
+{% extends 'base.html' %}
 {% load url from future %}
+
+{% block content %}
 
 <h1>All Quests</h1>
 {% if all_quests %}
@@ -32,3 +35,5 @@
 {% else %}
     <p>No quests are available.</p>
 {% endif %}
+    
+{% endblock %}
