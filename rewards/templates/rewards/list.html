@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block content %}
+
+<h1>All Rewards</h1>
+{% if all_rewards %}
+    <ul>
+    {% for reward in all_rewards %}
+        <li><a href="{% url 'rewards:detail' reward.id %}">{{ reward.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No rewards are available.</p>
+{% endif %}
+
+<h1>Owned Rewards</h1>
+{% if owned_rewards %}
+    <ul>
+    {% for reward in owned_rewards %}
+        <li><a href="{% url 'rewards:detail' reward.id %}">{{ reward.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No rewards are available.</p>
+{% endif %}
+
+<h1>Offered Rewards</h1>
+{% if offered_rewards %}
+    <ul>
+    {% for reward in offered_rewards %}
+        <li><a href="{% url 'rewards:detail' reward.id %}">{{ reward.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No rewards are available.</p>
+{% endif %}
+    
+{% endblock %}

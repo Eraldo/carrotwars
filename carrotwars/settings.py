@@ -5,6 +5,7 @@ TEMPLATE_DEBUG = DEBUG
 
 import os.path
 PROJECT_DIR = os.path.join(os.path.dirname(__file__), '..')
+DOMAIN = 'http://localhost:8000/'
 
 ADMINS = (
     ('Eraldo Helal', 'eraldo@eraldo.org'),
@@ -70,6 +71,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_DIR, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -130,8 +132,10 @@ INSTALLED_APPS = (
     'quests',
     'rewards',
 
+    'pagination', # should be above postman
+    'ajax_select', # should be above postman
     'postman',
-    'pagination'
+
 
     # 'accounts',
 )
@@ -140,12 +144,12 @@ INSTALLED_APPS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
    "django.contrib.auth.context_processors.auth",
-    # "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    # "django.core.context_processors.static",
-    # "django.contrib.messages.context_processors.messages")
-    "django.core.context_processors.request"
+   # "django.core.context_processors.debug",
+   "django.core.context_processors.i18n",
+   "django.core.context_processors.media",
+   "django.core.context_processors.static",
+   # "django.contrib.messages.context_processors.messages")
+   "django.core.context_processors.request"
 )
 
 # A sample logging configuration. The only tangible logging
@@ -179,8 +183,26 @@ LOGGING = {
 
 
 #### django-postman settings
+
 POSTMAN_DISALLOW_ANONYMOUS = True
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True
 POSTMAN_DISALLOW_COPIES_ON_REPLY = True
 POSTMAN_DISABLE_USER_EMAILING = True
 POSTMAN_NOTIFIER_APP = True
+
+#### django-ajax-selects settings
+
+# define the lookup channels in use on the site
+AJAX_LOOKUP_CHANNELS = {
+    #   pass a dict with the model and the field to search against
+    # 'person'  : {'model':'example.person', 'search_field':'name'}
+    'postman_users': dict(model='auth.user', search_field='username'),
+}
+
+# POSTMAN_AUTOCOMPLETER_APP = {
+#     'arg_default': 'postman_users',
+# }
+
+# # magically include jqueryUI/js/css
+# AJAX_SELECT_BOOTSTRAP = True
+# AJAX_SELECT_INLINES = 'inline'

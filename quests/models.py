@@ -8,7 +8,6 @@ class QuestManager(models.Manager):
     def get_relation_quests(self, relation):        
         return super(QuestManager, self).get_query_set().filter(relation=relation)
     def get_owned_quests(self, user):
-        print(user)
         return super(QuestManager, self).get_query_set().filter(relation__owner=user)
     def get_assigned_quests(self, user):
         return super(QuestManager, self).get_query_set().filter(relation__quester=user)

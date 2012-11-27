@@ -1,7 +1,10 @@
 from django.conf.urls import patterns, include, url
+from django.shortcuts import redirect
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from ajax_select import urls as ajax_select_urls
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -13,8 +16,12 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
+    url(r'^$', lambda x: redirect('/quests')),
     url(r'^quests/', include('quests.urls', namespace="quests")),
+    url(r'^rewards/', include('rewards.urls', namespace="rewards")),
+    # url(r'^relations/', include('relations.urls', namespace="relations")),
     url(r'^messages/', include('postman.urls')),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 

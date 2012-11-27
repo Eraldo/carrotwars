@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block content %}
+
+<h1>{{ reward.title }}</h1>
+<b>owner:</b> {{ reward.relation.owner }}<br>
+<b>quester:</b> {{ reward.relation.quester }}<br>
+<b>created:</b> {{ reward.creation_date }}<br>
+<b>price:</b> {{ reward.price }}<br>
+<b>status:</b> {{ reward.get_status_display }}<br>
+
+{% endblock %}
