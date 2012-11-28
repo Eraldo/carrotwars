@@ -21,7 +21,8 @@
         <li><a href="/" class="first">Home</a></li>
         <li><a href="/quests/">Quests</a></li>
         <li><a href="/rewards/">Rewards</a></li>
-        <li><a href="/messages/">Messages{% if unread_count > 0 %} [{{ unread_count }}]{% endif %}</a></li>
+        <li><a href="/messages/">Messages
+          {% if unread_count > 0 %}<span style="font-weight:normal;">({{ unread_count }})</span>{% endif %}</a></li>
       </ul>
       {% block postman_menu %}{% endblock %}
     </div>
@@ -39,7 +40,7 @@
   </div>
   <div id="footer">
     {% block footer %}
-    Footer stuff..
+    Footer stuff.. last update: {% now "Y-m-d" %}
     {% endblock %}
   </div>
 </div>

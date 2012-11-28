@@ -1,39 +1,43 @@
 {% extends 'base.html' %}
 {% load url from future %}
+{% load render_table from django_tables2 %}
 
 {% block content %}
 
+{% regroup all_quets by relation as relation_quests %}
+<h1>Test Quests</h1>
+<ul>
+  {% for quest in relation_quests %}
+    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
+  {% empty %}
+    <li>No quests are available.</li>
+    {% endfor %}
+</ul>
+
 <h1>All Quests</h1>
-{% if all_quests %}
-    <ul>
-    {% for quest in all_quests %}
-        <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No quests are available.</p>
-{% endif %}
+<ul>
+  {% for quest in all_quests %}
+    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
+  {% empty %}
+    <li>No quests are available.</li>
+    {% endfor %}
+</ul>
 
 <h1>Owned Quests</h1>
-{% if owned_quests %}
-    <ul>
-    {% for quest in owned_quests %}
-        <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No quests are available.</p>
-{% endif %}
+<ul>
+  {% for quest in owned_quests %}
+    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
+  {% empty %}
+    <li>No quests are available.</li>
+    {% endfor %}
+</ul>
 
 <h1>Assigned Quests</h1>
-{% if assigned_quests %}
-    <ul>
-    {% for quest in assigned_quests %}
-        <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No quests are available.</p>
-{% endif %}
-    
+<ul>
+  {% for quest in assigned_quests %}
+    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
+  {% empty %}
+    <li>No quests are available.</li>
+    {% endfor %}
+</ul>    
 {% endblock %}
