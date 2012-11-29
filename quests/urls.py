@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from django.views.generic import DetailView, UpdateView, FormView
+from django.views.generic import DetailView, UpdateView, FormView, CreateView
 from quests.models import Quest
 from quests.views import QuestListView
 
@@ -18,4 +18,10 @@ urlpatterns = patterns('',
             model=Quest,
             ),
         name='detail'),
+    # ex: /quests/add/
+    url(r'^add$',
+        CreateView.as_view(
+            model=Quest,
+            ),
+        name='add'),
 )

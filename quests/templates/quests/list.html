@@ -4,6 +4,9 @@
 
 {% block content %}
 
+<a href="{% url 'quests:add' %}">+ add quest</a>
+<br><br>
+
 <h1>All Quests</h1>
 <ul>
   {% for quest in all_quests %}

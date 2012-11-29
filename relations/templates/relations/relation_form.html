@@ -2,10 +2,11 @@
 
 {% block content %}
 
-<h1>{{ relation }}</h1>
+<h1>{% if relation %}{{ relation.quester }}{% else %}New relation{% endif %}</h1>
+
 <form action="." method="POST">
   {{ form|linebreaksbr }}{% csrf_token %}
-  <input type="submit" value="Save" />
+  <input type="submit" value="Go" />
 </form>
 
 {% endblock %}

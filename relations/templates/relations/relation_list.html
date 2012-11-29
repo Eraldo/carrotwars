@@ -3,6 +3,9 @@
 
 {% block content %}
 
+<a href="{% url 'relations:add' %}">+ add relation</a>
+<br><br>
+
 <h1>All Relations</h1>
 <ul>
   {% for relation in object_list %}
