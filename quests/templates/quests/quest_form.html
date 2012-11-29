@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ quest.title }}</h1>
+<form action="." method="POST">
+  {{ form|linebreaksbr }}{% csrf_token %}
+  <input type="submit" value="Save" />
+</form>
+
+{% endblock %}

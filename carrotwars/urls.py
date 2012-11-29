@@ -17,9 +17,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^$', lambda x: redirect('/quests')),
+    url(r'^relations/', include('relations.urls', namespace="relations")),
     url(r'^quests/', include('quests.urls', namespace="quests")),
     url(r'^rewards/', include('rewards.urls', namespace="rewards")),
-    # url(r'^relations/', include('relations.urls', namespace="relations")),
     url(r'^messages/', include('postman.urls')),
 
     url(r'^admin/', include(admin.site.urls)),

@@ -11,7 +11,7 @@ class QuestManager(models.Manager):
         return super(QuestManager, self).get_query_set().filter(relation__owner=user)
     def get_assigned_quests(self, user):
         return super(QuestManager, self).get_query_set().filter(relation__quester=user)
-    def get_all_quests(self, user):
+    def get_all_quests(self):
         return super(QuestManager, self).get_query_set()
     
 class Quest(models.Model):

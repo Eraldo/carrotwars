@@ -4,23 +4,13 @@
 
 {% block content %}
 
-{% regroup all_quets by relation as relation_quests %}
-<h1>Test Quests</h1>
-<ul>
-  {% for quest in relation_quests %}
-    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
-  {% empty %}
-    <li>No quests are available.</li>
-    {% endfor %}
-</ul>
-
 <h1>All Quests</h1>
 <ul>
   {% for quest in all_quests %}
-    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
+    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}----{{ quest.relation }}</a></li>
   {% empty %}
     <li>No quests are available.</li>
-    {% endfor %}
+  {% endfor %}
 </ul>
 
 <h1>Owned Quests</h1>
@@ -29,7 +19,7 @@
     <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
   {% empty %}
     <li>No quests are available.</li>
-    {% endfor %}
+  {% endfor %}
 </ul>
 
 <h1>Assigned Quests</h1>
@@ -38,6 +28,6 @@
     <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
   {% empty %}
     <li>No quests are available.</li>
-    {% endfor %}
+  {% endfor %}
 </ul>    
 {% endblock %}

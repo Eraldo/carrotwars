@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block content %}
+
+<h1>All Relations</h1>
+<ul>
+  {% for relation in object_list %}
+    <li><a href="{% url 'relations:detail' relation.id %}">{{ relation }}</a></li>
+  {% empty %}
+    <li>No quests are available.</li>
+  {% endfor %}
+</ul>
+
+<h1>Owned Relations</h1>
+<ul>
+  {% for relation in owned_relations %}
+    <li><a href="{% url 'relations:detail' relation.id %}">{{ relation }}</a></li>
+  {% empty %}
+    <li>No relations are available.</li>
+  {% endfor %}
+</ul>
+
+<h1>Assigned Relations</h1>
+<ul>
+  {% for relation in assigned_relations %}
+    <li><a href="{% url 'relations:detail' relation.id %}">{{ relation }}</a></li>
+  {% empty %}
+    <li>No relations are available.</li>
+  {% endfor %}
+</ul>
+    
+{% endblock %}
