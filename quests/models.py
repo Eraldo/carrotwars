@@ -7,9 +7,9 @@ from django.utils import timezone
 class QuestManager(models.Manager):
     def for_relation(self, relation):        
         return super(QuestManager, self).get_query_set().filter(relation=relation)
-    def owned(self, user):
+    def owned_by(self, user):
         return super(QuestManager, self).get_query_set().filter(relation__owner=user)
-    def assigned(self, user):
+    def assigned_to(self, user):
         return super(QuestManager, self).get_query_set().filter(relation__quester=user)
     
 class Quest(models.Model):

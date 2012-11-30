@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class RelationManager(models.Manager):
-    def owned(self, user):
+    def owned_by(self, user):
         return super(RelationManager, self).get_query_set().filter(owner=user)
-    def assigned(self, user):
+    def assigned_to(self, user):
         return super(RelationManager, self).get_query_set().filter(quester=user)
 
 class Relation(models.Model):

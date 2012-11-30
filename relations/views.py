@@ -25,8 +25,8 @@ class RelationMixin(LoginRequiredMixin):
     
     def get_context_data(self, **kwargs):
         context = super(RelationMixin, self).get_context_data(**kwargs)
-        context['owned'] = Relation.objects.owned(self.request.user)
-        context['assigned'] = Relation.objects.assigned(self.request.user)
+        context['owned'] = Relation.objects.owned_by(self.request.user)
+        context['assigned'] = Relation.objects.assigned_to(self.request.user)
         return context
 
     def form_valid(self, form):

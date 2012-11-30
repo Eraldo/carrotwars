@@ -7,9 +7,9 @@ from django.utils import timezone
 class RewardManager(models.Manager):
     def for_relation(self, relation):        
         return super(RewardManager, self).get_query_set().filter(relation=relation)
-    def owned(self, user):
+    def owned_by(self, user):
         return super(RewardManager, self).get_query_set().filter(relation__owner=user)
-    def assigned(self, user):
+    def assigned_to(self, user):
         return super(RewardManager, self).get_query_set().filter(relation__quester=user)
 
 class Reward(models.Model):

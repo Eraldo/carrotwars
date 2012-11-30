@@ -9,7 +9,7 @@
 
 <h1>All Quests</h1>
 <ul>
-  {% for quest in all_quests %}
+  {% for quest in object_list %}
     <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}----{{ quest.relation }}</a></li>
   {% empty %}
     <li>No quests are available.</li>
@@ -18,7 +18,7 @@
 
 <h1>Owned Quests</h1>
 <ul>
-  {% for quest in owned_quests %}
+  {% for quest in owned %}
     <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
   {% empty %}
     <li>No quests are available.</li>
@@ -27,7 +27,7 @@
 
 <h1>Assigned Quests</h1>
 <ul>
-  {% for quest in assigned_quests %}
+  {% for quest in assigned %}
     <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
   {% empty %}
     <li>No quests are available.</li>
