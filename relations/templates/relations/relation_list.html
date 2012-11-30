@@ -17,7 +17,7 @@
 
 <h1>Owned Relations</h1>
 <ul>
-  {% for relation in owned_relations %}
+  {% for relation in owned %}
     <li><a href="{% url 'relations:detail' relation.id %}">{{ relation }}</a></li>
   {% empty %}
     <li>No relations are available.</li>
@@ -26,7 +26,7 @@
 
 <h1>Assigned Relations</h1>
 <ul>
-  {% for relation in assigned_relations %}
+  {% for relation in assigned %}
     <li><a href="{% url 'relations:detail' relation.id %}">{{ relation }}</a></li>
   {% empty %}
     <li>No relations are available.</li>
