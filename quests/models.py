@@ -5,14 +5,12 @@ import datetime
 from django.utils import timezone
 
 class QuestManager(models.Manager):
-    def get_relation_quests(self, relation):        
+    def for_relation(self, relation):        
         return super(QuestManager, self).get_query_set().filter(relation=relation)
-    def get_owned_quests(self, user):
+    def owned(self, user):
         return super(QuestManager, self).get_query_set().filter(relation__owner=user)
-    def get_assigned_quests(self, user):
+    def assigned(self, user):
         return super(QuestManager, self).get_query_set().filter(relation__quester=user)
-    def get_all_quests(self):
-        return super(QuestManager, self).get_query_set()
     
 class Quest(models.Model):
     relation = models.ForeignKey(Relation)
@@ -36,7 +34,7 @@ class Quest(models.Model):
         ('F', 'failed'),
     )
     status = models.CharField(default='C', max_length=1, choices=STATUS)
-    quests = QuestManager()
+    objects = QuestManager()
 
     def __unicode__(self):
         return self.title
@@ -49,5 +47,3 @@ class Quest(models.Model):
         self.activation_date = timezone.now()
         self.status = 'A'
 
-    # class Meta:
-    #     verbose_name_plural = "quests"
