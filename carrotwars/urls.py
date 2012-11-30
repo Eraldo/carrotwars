@@ -22,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^rewards/', include('rewards.urls', namespace="rewards")),
     url(r'^messages/', include('postman.urls')),
 
+    # include the lookup urls
+    url(r'^admin/lookups/', include(ajax_select_urls)),
     url(r'^admin/', include(admin.site.urls)),
 )
 

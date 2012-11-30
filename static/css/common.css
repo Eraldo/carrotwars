@@ -1,6 +1,6 @@
 /* @import url("button.css"); */
 
-   /* Begin Base Styling */
+   /* Begin base styling */
 	body,
 	html {
 		margin:0;
@@ -13,6 +13,9 @@
 		width:1000px;
 		margin:0 auto;
 		background:#fff;
+        border-radius: 15px;
+        -moz-border-radius: 15px;
+        overflow:hidden;
 	}
     #logo {
         font-size: 1.5em;
@@ -73,10 +76,10 @@
 	* html #footer {
 		height:1px;
 	}
-   /* End Base Styling */
+   /* End base styling */
 
 
-   /* Begin Menu Bar Styling */
+   /* Begin menu bar styling */
    #menu { }
    #menu ul {
        width: 100%;
@@ -102,7 +105,7 @@
    /* End menu bar styling. */
 
 
-   /* Begin Menu Bar Styling */
+   /* Begin sub-menu bar styling */
    #postman_menu {
        background-color: #e0e0e0 !important;
    }
@@ -116,4 +119,4 @@
    }
    #postman_menu li a:hover {
    }
-   /* End menu bar styling. */
+   /* End sub-menu bar styling. */

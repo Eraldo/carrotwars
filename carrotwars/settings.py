@@ -197,13 +197,20 @@ POSTMAN_NOTIFIER_APP = True
 AJAX_LOOKUP_CHANNELS = {
     #   pass a dict with the model and the field to search against
     # 'person'  : {'model':'example.person', 'search_field':'name'}
-    'postman_users': dict(model='auth.user', search_field='username'),
+    'user': dict(model='auth.user', search_field='username'),
 }
+
+# magically include jqueryUI/js/css
+AJAX_SELECT_BOOTSTRAP = True
+AJAX_SELECT_INLINES = 'inline'
 
 # POSTMAN_AUTOCOMPLETER_APP = {
 #     'arg_default': 'postman_users',
 # }
 
-# # magically include jqueryUI/js/css
-# AJAX_SELECT_BOOTSTRAP = True
-# AJAX_SELECT_INLINES = 'inline'
+POSTMAN_AUTOCOMPLETER_APP = {
+        'name': 'ajax_select',
+        'field': 'AutoCompleteField',
+        'arg_name': 'channel',
+        'arg_default': 'user', # no default, mandatory to enable the feature
+}
