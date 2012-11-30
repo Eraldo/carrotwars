@@ -83,7 +83,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '3rri^fj2c&amp;-n+w2g!ch@2=3+^6du*1q81-&amp;*9_v&amp;e&amp;bl(7b%^q'
+from secrets.py import *
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

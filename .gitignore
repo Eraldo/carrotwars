@@ -1,3 +1,6 @@
-# Ignore development database
+# ignore development database
 dev.db
 dev.db.bk
+
+# ignore personal settings file
+carrotwars/secrets.py
