@@ -5,7 +5,18 @@ from django.shortcuts import redirect
 from django.contrib import admin
 from ajax_select import urls as ajax_select_urls
 
+# api
+from tastypie.api import Api
+# from carrotwars.api import UserResource, RelationResource, QuestResource, RewardResource
+
 admin.autodiscover()
+
+# api config
+v1_api = Api(api_name='v1')
+# v1_api.register(UserResource())
+# v1_api.register(RelationResource())
+# v1_api.register(QuestResource())
+# v1_api.register(RewardResource())
 
 urlpatterns = patterns('',
     # Examples:
@@ -24,7 +35,11 @@ urlpatterns = patterns('',
 
     # include the lookup urls
     url(r'^admin/lookups/', include(ajax_select_urls)),
+    # include the admin interface
     url(r'^admin/', include(admin.site.urls)),
+
+    # include api
+    url(r'^api/', include(v1_api.urls)),
 )
 
 from django.conf import settings
