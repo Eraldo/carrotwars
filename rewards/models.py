@@ -5,14 +5,12 @@ import datetime
 from django.utils import timezone
 
 class RewardManager(models.Manager):
-    def get_relation_rewards(self, relation):        
+    def for_relation(self, relation):        
         return super(RewardManager, self).get_query_set().filter(relation=relation)
-    def get_owned_rewards(self, user):
+    def owned(self, user):
         return super(RewardManager, self).get_query_set().filter(relation__owner=user)
-    def get_offered_rewards(self, user):
+    def assigned(self, user):
         return super(RewardManager, self).get_query_set().filter(relation__quester=user)
-    def get_all_rewards(self, user):
-        return super(RewardManager, self).get_query_set()
 
 class Reward(models.Model):
     relation = models.ForeignKey(Relation)
@@ -27,7 +25,7 @@ class Reward(models.Model):
         ('B', 'bought'),
     )
     status = models.CharField(default='C', max_length=1, choices=STATUS)
-    rewards = RewardManager()
+    objects = RewardManager()
 
     def __unicode__(self):
         return self.title
@@ -39,5 +37,3 @@ class Reward(models.Model):
         self.activation_date = timezone.now()
         self.status = 'A'
 
-    # class Meta:
-    #     verbose_name_plural = "rewards"
