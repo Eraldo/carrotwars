@@ -138,6 +138,8 @@ INSTALLED_APPS = (
 
     'django_tables2', # display model tables
 
+    'tastypie' # api
+
     # 'accounts',
 )
 
