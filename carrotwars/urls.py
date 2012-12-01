@@ -7,16 +7,16 @@ from ajax_select import urls as ajax_select_urls
 
 # api
 from tastypie.api import Api
-# from carrotwars.api import UserResource, RelationResource, QuestResource, RewardResource
+from carrotwars.api import UserResource, RelationResource, QuestResource, RewardResource
 
 admin.autodiscover()
 
 # api config
 v1_api = Api(api_name='v1')
-# v1_api.register(UserResource())
-# v1_api.register(RelationResource())
-# v1_api.register(QuestResource())
-# v1_api.register(RewardResource())
+v1_api.register(UserResource())
+v1_api.register(RelationResource())
+v1_api.register(QuestResource())
+v1_api.register(RewardResource())
 
 urlpatterns = patterns('',
     # Examples:

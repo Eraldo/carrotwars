@@ -8,14 +8,13 @@ from rewards.models import Reward
 class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
-        resource_name = 'user'
 
 class RelationResource(ModelResource):
     owner = fields.ForeignKey(UserResource, 'owner')
     quester = fields.ForeignKey(UserResource, 'quester')
 
     class Meta:
-        queryset = Relation.relations.all()
+        queryset = Relation.objects.all()
 
 class QuestResource(ModelResource):
     relation = fields.ForeignKey(RelationResource, 'relation')

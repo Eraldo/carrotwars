@@ -83,7 +83,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-from secrets.py import *
+from secrets import *
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
