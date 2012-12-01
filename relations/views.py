@@ -16,12 +16,9 @@ class LoginRequiredMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
-class RelationMixin(LoginRequiredMixin):
+class RelationMixin(object):
     model = Relation
     form_class = RelationForm
-    
-    def get_success_url(self):
-        return reverse('list')
     
     def get_context_data(self, **kwargs):
         context = super(RelationMixin, self).get_context_data(**kwargs)
@@ -40,6 +37,7 @@ class RelationMixin(LoginRequiredMixin):
         self.object.save()
         # ok now call the base class and we are done.
         return super(ModelFormMixin, self).form_valid(form)
+    
 
 class RelationListView(RelationMixin, ListView):
     pass

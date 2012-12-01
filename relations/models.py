@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 class RelationManager(models.Manager):
     def owned_by(self, user):
@@ -21,6 +22,9 @@ class Relation(models.Model):
     
     def __unicode__(self):
         return u'%s - %s' % (self.owner, self.quester)
+
+    def get_absolute_url(self):
+        return reverse('relations:detail', args=[self.pk])
     
     class Meta:
         unique_together = ("owner", "quester")
