@@ -9,6 +9,8 @@
 		padding:10px;
 		color:#000;
 		background:#555;
+        background-image: url('../images/logo-bg-trans4.png');
+        background-position: center top;
         font: small/1.3 Arial, Helvetica, sans-serif;
 	}
 	#page-wrapper {
