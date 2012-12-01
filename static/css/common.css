@@ -1,4 +1,5 @@
 @import url("gradient.css");
+@import url("pm_messages.css");
 /* @import url("button.css"); */
 
    /* Begin base styling */
@@ -18,7 +19,22 @@
         -moz-border-radius: 15px;
         overflow:hidden;
 	}
+    @font-face {
+        font-family: 'LOT';
+        src: url('LOT.otf');
+        src: local('☺'),
+        url("LOT.otf") format("opentype");
+    }
+    @font-face {
+        font-family: 'rtw';
+        src: url('raleway_thin-webfont.ttf');
+        src: local('☺'),
+        url('../fonts/raleway_thin-webfont.ttf') format('truetype');    
+    }
     #logo {
+        text-align: center;
+        font-family: 'rtw', Georgia, serif;
+        font-weight: 900;
         font-size: 1.5em;
         padding: 1em 8px;
         color: #333;
@@ -56,8 +72,10 @@
 		background:#F8F8F8 ; /* remove */
         border-right: 1px solid #ccc;
 	}
-	h2 {
-		margin:0 0 1em;
+	#content h1 {
+        font-family: 'rtw', Georgia, serif;
+		margin:0 0 0.5em;
+        color: #069;
 	}
 	#sidebar {
 		float:right;
@@ -122,6 +140,7 @@
    }
    /* End sub-menu bar styling. */
 
+   /* Start add button styling. */
    #add {
        Background-color: #cfc;
        display : inline-block;
@@ -152,7 +171,16 @@
        filter: progid:DXImageTransform.Microsoft.gradient( 
            startColorstr='#8fc800', endColorstr='#438c00',GradientType=0 );
    }
+   /* End add button styling. */
 
-   .paleblue {
+   /* Start table styling. */
+   .paleblue, #pm_messages {
        width: 100%;
    }
+   /* End table styling. */
+
+   /* Start postman styling. */
+   .help {
+       display: none;
+   }
+   /* End postman styling. */
