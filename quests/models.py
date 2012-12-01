@@ -1,5 +1,6 @@
 from django.db import models
 from relations.models import Relation
+from django.core.urlresolvers import reverse
 
 import datetime
 from django.utils import timezone
@@ -38,6 +39,9 @@ class Quest(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('quests:detail', args=[self.pk])
 
     def is_active(self):
         "Returns True if this quest is active."

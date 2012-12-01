@@ -2,35 +2,21 @@
 {% load url from future %}
 {% load render_table from django_tables2 %}
 
+{% block extra-head %}
+<link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+{% endblock %}
+
+
 {% block content %}
 
 <a href="{% url 'quests:add' %}">+ add quest</a>
-<br><br>
-
-<h1>All Quests</h1>
-<ul>
-  {% for quest in object_list %}
-    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}----{{ quest.relation }}</a></li>
-  {% empty %}
-    <li>No quests are available.</li>
-  {% endfor %}
-</ul>
-
 <h1>Owned Quests</h1>
-<ul>
-  {% for quest in owned %}
-    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
-  {% empty %}
-    <li>No quests are available.</li>
-  {% endfor %}
-</ul>
-
+{% render_table owned_table %}
+<br>
 <h1>Assigned Quests</h1>
-<ul>
-  {% for quest in assigned %}
-    <li><a href="{% url 'quests:detail' quest.id %}">{{ quest.title }}</a></li>
-  {% empty %}
-    <li>No quests are available.</li>
-  {% endfor %}
-</ul>    
+{% render_table assigned_table %}
+<br>
+<h1>All Quests</h1>
+{% render_table object_list %}
+
 {% endblock %}

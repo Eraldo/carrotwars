@@ -1,25 +1,25 @@
 import django_tables2 as tables
 from django_tables2.utils import A  # alias for Accessor
-from quests.models import Quest
+from rewards.models import Reward
 
-class OwnedQuestTable(tables.Table):
+class OwnedRewardTable(tables.Table):
     quester = tables.Column(accessor='relation.quester')
-    title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    title = tables.LinkColumn('rewards:detail', args=[A('pk')])
     
     class Meta:
-        model = Quest
+        model = Reward
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "quester")
-        fields = ("title", "description", "rating", "status")
+        fields = ("title", "description", "price", "status")
 
-class AssignedQuestTable(tables.Table):
+class AssignedRewardTable(tables.Table):
     owner = tables.Column(accessor='relation.owner')
-    title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    title = tables.LinkColumn('rewards:detail', args=[A('pk')])
     
     class Meta:
-        model = Quest
+        model = Reward
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "owner")
-        fields = ("title", "description", "rating", "status")
+        fields = ("title", "description", "price", "status")

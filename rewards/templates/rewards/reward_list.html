@@ -1,39 +1,21 @@
 {% extends 'base.html' %}
 {% load url from future %}
+{% load render_table from django_tables2 %}
+
+{% block extra-head %}
+<link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+{% endblock %}
 
 {% block content %}
 
-<h1>All Rewards</h1>
-{% if object_list %}
-    <ul>
-    {% for reward in object_list %}
-        <li><a href="{% url 'rewards:detail' reward.id %}">{{ reward.title }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No rewards are available.</p>
-{% endif %}
-
+<a href="{% url 'rewards:add' %}">+ add reward</a>
 <h1>Owned Rewards</h1>
-{% if owned %}
-    <ul>
-    {% for reward in owned %}
-        <li><a href="{% url 'rewards:detail' reward.id %}">{{ reward.title }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No rewards are available.</p>
-{% endif %}
-
+{% render_table owned_table %}
+<br>
 <h1>Offered Rewards</h1>
-{% if assigned %}
-    <ul>
-    {% for reward in assigned %}
-        <li><a href="{% url 'rewards:detail' reward.id %}">{{ reward.title }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No rewards are available.</p>
-{% endif %}
-    
+{% render_table assigned_table %}
+<br>
+<h1>All Rewards</h1>
+{% render_table object_list %}
+
 {% endblock %}

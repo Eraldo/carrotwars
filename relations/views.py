@@ -4,7 +4,7 @@ from django.views.generic.edit import ModelFormMixin
 from django.forms import ModelForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-
+from relations.tables import OwnedRelationTable, AssignedRelationTable
 
 class RelationForm(ModelForm):
     class Meta:
@@ -24,6 +24,8 @@ class RelationMixin(object):
         context = super(RelationMixin, self).get_context_data(**kwargs)
         context['owned'] = Relation.objects.owned_by(self.request.user)
         context['assigned'] = Relation.objects.assigned_to(self.request.user)
+        context['owned_table'] = OwnedRelationTable(context['owned'])
+        context['assigned_table'] = AssignedRelationTable(context['assigned'])
         return context
 
     def form_valid(self, form):
