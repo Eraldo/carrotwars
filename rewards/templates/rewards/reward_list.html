@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<a href="{% url 'rewards:add' %}">+ add reward</a>
+<a href="{% url 'rewards:add' %}" id="add">+ add reward</a>
 <h1>Owned Rewards</h1>
 {% render_table owned_table %}
 <br>
