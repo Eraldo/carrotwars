@@ -40,21 +40,15 @@ class RelationDetailView(RelationMixin, DetailView):
 class RelationCreateView(RelationMixin, CreateView):
 
     def form_valid(self, form):
-        # save but don't commit the model form
         self.object = form.save(commit=False)
-        # set the owner to be the current user
         self.object.owner = self.request.user
-        #
-        # Here you can make any other adjustments to the model
-        #
         self.object.save()
         self.inform_user()
-        # ok now call the base class and we are done.
-        return super(ModelFormMixin, self).form_valid(form)
+        return super(RelationCreateView, self).form_valid(form)
 
     def inform_user(self):
-        subject = "New relation requested by: %s" % self.object.owner
-        body = "This is a test.\nWith 2 lines."
+        subject = "New relation requested by %s" % self.object.owner
+        body = """<a href="%s">%s</a>""" % (self.object.get_absolute_url(), self.object.owner)
         pm_write(
             sender=self.request.user,
             recipient=self.object.quester,

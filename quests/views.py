@@ -44,15 +44,12 @@ class QuestCreateView(QuestMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
-        # Here you can make any other adjustments to the model
-        # ..
         self.object.save()
-        print("test")
         self.inform_user()
         return super(QuestCreateView, self).form_valid(form)
 
     def inform_user(self):
-        subject = "New quest from %s" % self.object.owner
+        subject = "New quest for you: %s" % self.object.title
         body = """<a href="%s">%s</a>""" % (self.object.get_absolute_url(), self.object.title)
         pm_write(
             sender=self.request.user,
