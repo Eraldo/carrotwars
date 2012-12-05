@@ -7,11 +7,13 @@ from django.utils import timezone
 
 class QuestManager(models.Manager):
     def for_relation(self, relation):        
-        return super(QuestManager, self).get_query_set().filter(relation=relation)
+        return super(QuestManager, self).get_query_set().filter(relation=relation, status='A')
     def owned_by(self, user):
-        return super(QuestManager, self).get_query_set().filter(relation__owner=user)
+        return super(QuestManager, self).get_query_set().filter(relation__owner=user, status='A')
     def assigned_to(self, user):
-        return super(QuestManager, self).get_query_set().filter(relation__quester=user)
+        return super(QuestManager, self).get_query_set().filter(relation__quester=user, status='A')
+    def pending_for(self, user):
+        return super(QuestManager, self).get_query_set().filter(relation__quester=user).filter(status='C')
     
 class Quest(models.Model):
     relation = models.ForeignKey(Relation)

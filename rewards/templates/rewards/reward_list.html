@@ -7,15 +7,14 @@
 {% endblock %}
 
 {% block content %}
-
+<h1>Offered Rewards</h1>
+{% render_table assigned_table %}
+<br>
 <a href="{% url 'rewards:add' %}" id="add">+ add reward</a>
 <h1>Owned Rewards</h1>
 {% render_table owned_table %}
 <br>
-<h1>Offered Rewards</h1>
-{% render_table assigned_table %}
-<br>
-<h1>All Rewards</h1>
-{% render_table object_list %}
+<!-- <h1>All Rewards</h1> -->
+<!-- {% render_table object_list %} -->
 
 {% endblock %}

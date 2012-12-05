@@ -7,6 +7,8 @@ class RelationManager(models.Manager):
         return super(RelationManager, self).get_query_set().filter(owner=user)
     def assigned_to(self, user):
         return super(RelationManager, self).get_query_set().filter(quester=user)
+    def pending_for(self, user):
+        return super(RelationManager, self).get_query_set().filter(quester=user, status='C')
 
 class Relation(models.Model):
     owner = models.ForeignKey(User, related_name='relation_owner')

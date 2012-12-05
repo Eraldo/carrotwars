@@ -8,9 +8,9 @@
 		margin:0;
 		padding:10px;
 		color:#000;
-		background:#555;
-        background-image: url('../images/logo-bg-trans4.png');
-        background-position: center top;
+		background:#EDF3FE;
+        background-image: url('../images/carrots-bg.png');
+        background-position: center center;
         font: small/1.3 Arial, Helvetica, sans-serif;
 	}
 	#page-wrapper {
@@ -49,6 +49,10 @@
     }
     h1 {
 	    margin:0;
+    }
+    a:hover {
+        color: #FF9900 !important;
+
     }
 	#header {
 	}

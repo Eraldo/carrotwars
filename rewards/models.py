@@ -25,7 +25,7 @@ class Reward(models.Model):
         ('M', 'marked bought'),
         ('B', 'bought'),
     )
-    status = models.CharField(default='C', max_length=1, choices=STATUS)
+    status = models.CharField(default='A', max_length=1, choices=STATUS)
     objects = RewardManager()
 
     def __unicode__(self):
