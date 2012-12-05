@@ -31,6 +31,14 @@ class RelationMixin(object):
         context['pending_table'] = PendingRelationTable(context['pending'])
         return context
 
+class RelationListView(RelationMixin, ListView):
+    pass
+
+class RelationDetailView(RelationMixin, DetailView):
+    pass
+
+class RelationCreateView(RelationMixin, CreateView):
+
     def form_valid(self, form):
         # save but don't commit the model form
         self.object = form.save(commit=False)
@@ -46,22 +54,13 @@ class RelationMixin(object):
 
     def inform_user(self):
         subject = "New relation requested by: %s" % self.object.owner
-        body = "Have a look at your Quest List."
+        body = "This is a test.\nWith 2 lines."
         pm_write(
             sender=self.request.user,
             recipient=self.object.quester,
             subject=subject,
             body=body
             )
-
-class RelationListView(RelationMixin, ListView):
-    pass
-
-class RelationDetailView(RelationMixin, DetailView):
-    pass
-
-class RelationCreateView(RelationMixin, CreateView):
-    pass
 
 class RelationDeleteView(RelationMixin, DeleteView):
     pass

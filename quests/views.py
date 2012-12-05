@@ -6,6 +6,7 @@ from django import forms
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable
+from postman.api import pm_write
 
 class QuestForm(ModelForm):
     class Meta:
@@ -31,18 +32,6 @@ class QuestMixin(object):
         context['pending_table'] = PendingQuestTable(context['pending'])
         return context
 
-    # def form_valid(self, form):
-    #     # save but don't commit the model form
-    #     self.object = form.save(commit=False)
-    #     # set the owner to be the current user
-    #     # self.object.owner = self.request.user
-    #     #
-    #     # Here you can make any other adjustments to the model
-    #     #
-    #     self.object.save()
-    #     # ok now call the base class and we are done.
-    #     return super(ModelFormMixin, self).form_valid(form)
-
 
 class QuestListView(QuestMixin, ListView):
     pass
@@ -51,7 +40,26 @@ class QuestDetailView(QuestMixin, DetailView):
     pass
 
 class QuestCreateView(QuestMixin, CreateView):
-    pass
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        # Here you can make any other adjustments to the model
+        # ..
+        self.object.save()
+        print("test")
+        self.inform_user()
+        return super(QuestCreateView, self).form_valid(form)
+
+    def inform_user(self):
+        subject = "New quest from %s" % self.object.owner
+        body = """<a href="%s">%s</a>""" % (self.object.get_absolute_url(), self.object.title)
+        pm_write(
+            sender=self.request.user,
+            recipient=self.object.relation.quester,
+            subject=subject,
+            body=body
+            )
 
 class QuestDeleteView(QuestMixin, DeleteView):
     pass
