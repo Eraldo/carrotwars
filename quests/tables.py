@@ -47,4 +47,4 @@ class PendingQuestTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "owner", "accept", "decline")
-        fields = ("title", "description", "rating", "id")
+        fields = ("title", "description", "rating")
