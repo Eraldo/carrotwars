@@ -1,12 +1,12 @@
 from quests.models import Quest
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from django.views.generic.edit import ModelFormMixin
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, RedirectView
 from django.forms import ModelForm
 from django import forms
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable
 from postman.api import pm_write
+from django.core.urlresolvers import reverse
 
 class QuestForm(ModelForm):
     class Meta:
@@ -63,3 +63,17 @@ class QuestDeleteView(QuestMixin, DeleteView):
 
 class QuestUpdateView(QuestMixin, UpdateView):
     pass
+
+class AcceptView(RedirectView):
+    def get_redirect_url(self, pk):
+        quest = Quest.objects.get(pk=pk)
+        quest.status = 'A'
+        quest.save()
+        return reverse('quests:detail', kwargs={'pk': pk})
+
+class DeclineView(RedirectView):
+    def get_redirect_url(self, pk):
+        quest = Quest.objects.get(pk=pk)
+        quest.status = 'D'
+        quest.save()
+        return reverse('quests:detail', kwargs={'pk': pk})

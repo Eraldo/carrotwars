@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.views.generic import DetailView, UpdateView, FormView, CreateView
 from quests.models import Quest
-from quests.views import QuestListView, QuestDetailView, QuestCreateView, QuestDeleteView, QuestUpdateView
+from quests.views import QuestListView, QuestDetailView, QuestCreateView, QuestDeleteView, QuestUpdateView, AcceptView, DeclineView
 
 urlpatterns = patterns('',
     # ex: /quests/
@@ -20,4 +20,12 @@ urlpatterns = patterns('',
             model=Quest,
             ),
         name='add'),
+    # ex: /quests/4/accept/
+    url(r'^(?P<pk>\d+)/accept/$',
+        AcceptView.as_view(),
+        name='accept'),
+    # ex: /quests/4/decline/
+    url(r'^(?P<pk>\d+)/decline/$',
+        DeclineView.as_view(),
+        name='decline'),
 )
