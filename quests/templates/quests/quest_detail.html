@@ -1,7 +1,26 @@
 {% extends 'base.html' %}
+{% load url from future %}
 
 {% block content %}
 
-{{ quest }}
+<h1>{{ quest.title }}</h1>
+<b>owner:</b> {{ quest.relation.owner }}<br>
+<b>quester:</b> {{ quest.relation.quester }}<br>
+<b>created:</b> {{ quest.creation_date }}<br>
+<b>activated:</b> {{ quest.get_activation_date_display }}<br>
+<b>rating:</b> {{ quest.get_rating_display }}<br>
+<b>status:</b> {{ quest.get_status_display }}<br>
+
+{% if quest.status == 'C' %}
+<form action="{% url 'quests:accept' quest.pk %}" method="POST">
+{% csrf_token %}
+  <input type="submit" value="Accept" />
+</form>
+<form action="{% url 'quests:decline' quest.pk %}" method="POST">
+  {{ form|linebreaksbr }}{% csrf_token %}
+  <input type="submit" value="Decline" />
+</form>
+
+{% endif %}
 
 {% endblock %}

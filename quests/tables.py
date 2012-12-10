@@ -30,7 +30,8 @@ from django.core.urlresolvers import reverse
 class AcceptColumn(tables.Column):
     def render(self, value):
         url = reverse('quests:accept', kwargs={'pk': value})
-        return mark_safe('<a href="%s"><img src="/static/images/accept.gif" /></a>' % escape(url))
+        button = '<a href="%s"><img src="/static/images/accept.gif" /></a>' % escape(url)
+        return mark_safe(button)
 class DeclineColumn(tables.Column):
     def render(self, value):
         url = reverse('quests:decline', kwargs={'pk': value})

@@ -40,12 +40,14 @@ class QuestDetailView(QuestMixin, DetailView):
     pass
 
 class QuestCreateView(QuestMixin, CreateView):
+    success_url = '.' # reverse('quests:list')
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.save()
         self.inform_user()
+        print(reverse('quests:list'))
         return super(QuestCreateView, self).form_valid(form)
 
     def inform_user(self):
@@ -66,10 +68,11 @@ class QuestUpdateView(QuestMixin, UpdateView):
 
 class AcceptView(RedirectView):
     def get_redirect_url(self, pk):
+        print(">>> ACCEPT", pk)
         quest = Quest.objects.get(pk=pk)
         quest.status = 'A'
         quest.save()
-        return reverse('quests:detail', kwargs={'pk': pk})
+        return reverse('quests:list')
 
 class DeclineView(RedirectView):
     def get_redirect_url(self, pk):
