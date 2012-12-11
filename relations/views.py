@@ -17,7 +17,7 @@ class LoginRequiredMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
-class RelationMixin(object):
+class RelationMixin(LoginRequiredMixin):
     model = Relation
     form_class = RelationForm
     

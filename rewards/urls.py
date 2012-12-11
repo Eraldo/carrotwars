@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, url
-from django.views.generic import DetailView, UpdateView, FormView, CreateView
 from rewards.models import Reward
-from rewards.views import RewardListView
+from rewards.views import RewardListView, RewardDetailView, RewardCreateView, RewardDeleteView, RewardUpdateView
 
 urlpatterns = patterns('',
     # ex: /rewards/
@@ -10,13 +9,13 @@ urlpatterns = patterns('',
         name='list'),
     # ex: /reward/4/
     url(r'^(?P<pk>\d+)/$',
-        DetailView.as_view(
+        RewardDetailView.as_view(
             model=Reward,
             template_name='rewards/detail.html'),
         name='detail'),
     # ex: /rewards/add/
     url(r'^add$',
-        CreateView.as_view(
+        RewardCreateView.as_view(
             model=Reward,
             ),
         name='add'),

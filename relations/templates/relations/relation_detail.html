@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
+{% load url from future %}
 
 {% block content %}
 
-{{ object }}
+<h1>{{ object }}</h1>
+<b>owner:</b> {{ relation.owner }}<br>
+<b>quester:</b> {{ relation.quester }}<br>
+<b>created:</b> {{ relation.creation_date }}<br>
+<b>balance:</b> {{ relation.balance }}<br>
+<b>status:</b> {{ relation.get_status_display }}<br>
 
 {% endblock %}

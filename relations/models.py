@@ -18,6 +18,8 @@ class Relation(models.Model):
     STATUS = (
         ('C', 'created'),
         ('A', 'accepted'),
+        ('R', 'declined'),
+        ('X', 'deleted'),
     )
     status = models.CharField(default='C', max_length=1, choices=STATUS)
     objects = RelationManager()

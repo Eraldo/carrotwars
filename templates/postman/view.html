@@ -28,7 +28,7 @@
 {% if reply_to_pk %}<hr />
 <h2>{% trans 'Reply' %}</h2>
 <form action="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}" method="post">{% csrf_token %}
-<div id="pm_reply">{{ form.body }}</div>
+<div id="pm_reply">{{ form.body|truncatewords_html:2 }}</div>
 <button type="submit">{% trans 'Reply' %}</button>
 </form>{% endif %}
 {% endif %}

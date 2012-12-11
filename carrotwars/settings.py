@@ -143,6 +143,8 @@ INSTALLED_APPS = (
     # 'accounts',
 )
 
+# LOGIN_URL='/account/login/'
+
 # AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (

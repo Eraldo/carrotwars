@@ -11,16 +11,4 @@
 <b>rating:</b> {{ quest.get_rating_display }}<br>
 <b>status:</b> {{ quest.get_status_display }}<br>
 
-{% if quest.status == 'C' %}
-<form action="{% url 'quests:accept' quest.pk %}" method="POST">
-{% csrf_token %}
-  <input type="submit" value="Accept" />
-</form>
-<form action="{% url 'quests:decline' quest.pk %}" method="POST">
-  {{ form|linebreaksbr }}{% csrf_token %}
-  <input type="submit" value="Decline" />
-</form>
-
-{% endif %}
-
 {% endblock %}

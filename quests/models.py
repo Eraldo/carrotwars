@@ -22,19 +22,21 @@ class Quest(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     activation_date = models.DateTimeField(blank=True, null=True)
     RATINGS = (
-        (1, '*\tconsider it done'),
-        (2, '**\tsounds easy'),
-        (3, '***\tI will give it a try'),
-        (4, '****\tsounds challenging'),
-        (5, '*****\tI will do my best'),
+        (1, '*'),
+        (2, '**'),
+        (3, '***'),
+        (4, '****'),
+        (5, '*****'),
     )
     rating = models.PositiveSmallIntegerField(default=1, max_length=1, choices=RATINGS)
     STATUS = (
         ('C', 'created'),
         ('A', 'accepted'),
+        ('R', 'declined'),
         ('M', 'marked complete'),
         ('D', 'done'),
         ('F', 'failed'),
+        ('X', 'deleted'),
     )
     status = models.CharField(default='C', max_length=1, choices=STATUS)
     objects = QuestManager()

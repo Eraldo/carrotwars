@@ -26,7 +26,12 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
+    # login page
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    # logout page
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
+
+    # main urls
     url(r'^$', lambda x: redirect('/quests')),
     url(r'^relations/', include('relations.urls', namespace="relations")),
     url(r'^quests/', include('quests.urls', namespace="quests")),

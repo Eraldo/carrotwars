@@ -1,4 +1,5 @@
 from quests.models import Quest
+from relations.models import Relation
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, RedirectView
 from django.forms import ModelForm
 from django import forms
@@ -9,6 +10,11 @@ from postman.api import pm_write
 from django.core.urlresolvers import reverse
 
 class QuestForm(ModelForm):
+    def __init__(self, user=None, **kwargs):
+        super(QuestForm, self).__init__(**kwargs)
+        if user:
+            self.fields['relation'].queryset = Relation.objects.filter(owner=user)
+
     class Meta:
         model = Quest
         exclude = ('activation_date', 'status',)
@@ -18,7 +24,7 @@ class LoginRequiredMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
-class QuestMixin(object):
+class QuestMixin(LoginRequiredMixin):
     model = Quest
     form_class = QuestForm
     
@@ -32,7 +38,6 @@ class QuestMixin(object):
         context['pending_table'] = PendingQuestTable(context['pending'])
         return context
 
-
 class QuestListView(QuestMixin, ListView):
     pass
 
@@ -41,6 +46,9 @@ class QuestDetailView(QuestMixin, DetailView):
 
 class QuestCreateView(QuestMixin, CreateView):
     success_url = '.' # reverse('quests:list')
+
+    def get_form(self, form_class):
+        return QuestForm(user=self.request.user)
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -51,7 +59,7 @@ class QuestCreateView(QuestMixin, CreateView):
         return super(QuestCreateView, self).form_valid(form)
 
     def inform_user(self):
-        subject = "New quest for you: %s" % self.object.title
+        subject = "New quest!"
         body = """<a href="%s">%s</a>""" % (self.object.get_absolute_url(), self.object.title)
         pm_write(
             sender=self.request.user,
