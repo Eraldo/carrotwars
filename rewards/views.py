@@ -1,4 +1,5 @@
 from rewards.models import Reward
+from relations.models import Relation
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, RedirectView
 from django.forms import ModelForm
 from django import forms
@@ -11,6 +12,11 @@ from django.core.urlresolvers import reverse
 from rewards.tables import OwnedRewardTable, AssignedRewardTable
 
 class RewardForm(ModelForm):
+    def __init__(self, user=None, **kwargs):
+        super(RewardForm, self).__init__(**kwargs)
+        if user:
+            self.fields['relation'].queryset = Relation.objects.filter(owner=user)
+
     class Meta:
         model = Reward
         exclude = ('status',)
@@ -40,6 +46,9 @@ class RewardDetailView(RewardMixin, DetailView):
 
 class RewardCreateView(RewardMixin, CreateView):
     success_url = '.' # reverse('rewards:list')
+
+    def get_form(self, form_class):
+        return RewardForm(user=self.request.user)
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

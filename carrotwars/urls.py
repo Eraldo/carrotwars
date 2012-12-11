@@ -27,12 +27,12 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # login page
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
     # logout page
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', name='logout'),
 
     # main urls
-    url(r'^$', lambda x: redirect('/quests')),
+    url(r'^$', lambda x: redirect('/quests'), name='home'),
     url(r'^relations/', include('relations.urls', namespace="relations")),
     url(r'^quests/', include('quests.urls', namespace="quests")),
     url(r'^rewards/', include('rewards.urls', namespace="rewards")),

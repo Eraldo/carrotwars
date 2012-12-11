@@ -1,5 +1,6 @@
 from quests.models import Quest
 from relations.models import Relation
+from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, RedirectView
 from django.forms import ModelForm
 from django import forms
@@ -10,6 +11,8 @@ from postman.api import pm_write
 from django.core.urlresolvers import reverse
 
 class QuestForm(ModelForm):
+    quester = forms.ModelChoiceField(queryset = User.objects.all())
+    
     def __init__(self, user=None, **kwargs):
         super(QuestForm, self).__init__(**kwargs)
         if user:
@@ -17,7 +20,7 @@ class QuestForm(ModelForm):
 
     class Meta:
         model = Quest
-        exclude = ('activation_date', 'status',)
+        exclude = ('relation', 'activation_date', 'status',)
 
 class LoginRequiredMixin(object):
     @method_decorator(login_required)
@@ -48,11 +51,22 @@ class QuestCreateView(QuestMixin, CreateView):
     success_url = '.' # reverse('quests:list')
 
     def get_form(self, form_class):
-        return QuestForm(user=self.request.user)
+        form = super(QuestCreateView, self).get_form(form_class)
+        # form.fields['relation'].queryset = Relation.objects.filter(owner=self.request.user)
+
+        owned_relations = Relation.objects.owned_by(self.request.user)
+        print(self.request.user)
+        form.fields['quester'].queryset = User.objects.filter(pk__in=owned_relations)
+
+        return form
 
     def form_valid(self, form):
+        user = self.request.user
+        print(user)
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
+        print(self.request.user, form.instance, form.cleaned_data['quester'])
+        self.object.relation = Relation.objects.get(owner=user, quester=form.cleaned_data['quester'])
         self.object.save()
         self.inform_user()
         print(reverse('quests:list'))

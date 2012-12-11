@@ -1,4 +1,5 @@
 # Django settings for carrotwars project.
+from django.core.urlresolvers import reverse
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -144,7 +145,7 @@ INSTALLED_APPS = (
 )
 
 # LOGIN_URL='/account/login/'
-
+LOGIN_REDIRECT_URL = reverse('home')
 # AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
