@@ -27,12 +27,31 @@ class AssignedQuestTable(tables.Table):
 from django.utils.safestring import mark_safe
 from django.utils.html import escape
 from django.core.urlresolvers import reverse
-class AcceptColumn(tables.Column):
-    def render(self, value):
-        url = reverse('quests:accept', kwargs={'pk': value})
-        button = '<a href="%s"><img src="/static/images/accept.gif" /></a>' % escape(url)
-        return mark_safe(button)
-class DeclineColumn(tables.Column):
+
+class AcceptColumn(tables.TemplateColumn):
+
+    def __init__(self, *args, **kwargs):
+        kwargs['template_code'] = """
+        {% load url from future %}
+        <form action="{% url 'quests:accept' value %}" method="POST">
+            {% csrf_token %}
+            <input type="image" value="Accept" src="/static/images/accept.gif" />
+            </form>
+            """ 
+        super(AcceptColumn, self).__init__(*args, **kwargs)
+
+class DeclineColumn(tables.TemplateColumn):
+
+    def __init__(self, *args, **kwargs):
+        kwargs['template_code'] = """
+        {% load url from future %}
+        <form action="{% url 'quests:decline' value %}" method="POST">
+            {% csrf_token %}
+            <input type="image" value="Decline" src="/static/images/decline.gif" />
+            </form>
+            """ 
+        super(DeclineColumn, self).__init__(*args, **kwargs)
+
     def render(self, value):
         url = reverse('quests:decline', kwargs={'pk': value})
         return mark_safe('<a href="%s"><img src="/static/images/decline.gif" /></a>' % escape(url))
