@@ -7,15 +7,21 @@
 {% endblock %}
 
 {% block content %}
+
+{% if not owned and not assigned and not pending %}
+You do not have any relation yet.
+{% endif %}
 <a href="{% url 'relations:add' %}" id="add">+ add relation</a>
 {% if pending %}
 <h1>Pending Relations</h1>
 {% render_table pending_table %}
 <br>
 {% endif %}
+{% if assigned %}
 <h1>Assigned Relations</h1>
 {% render_table assigned_table %}
 <br>
+{% endif %}
 {% if owned %}
 <h1>Owned Relations</h1>
 {% render_table owned_table %}
