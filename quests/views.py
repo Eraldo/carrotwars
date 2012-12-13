@@ -88,6 +88,12 @@ class AcceptView(RedirectView):
         quest.status = 'A'
         quest.save()
         messages.add_message(self.request, messages.INFO, 'Quest has been accepted.')
+        pm_write(
+            sender=self.request.user,
+            recipient=quest.relation.owner,
+            subject="Quest %s has been accepted." % quest.title,
+            body=""
+            )
         return reverse('quests:list')
 
 class DeclineView(RedirectView):
@@ -96,4 +102,10 @@ class DeclineView(RedirectView):
         quest.status = 'R'
         quest.save()
         messages.add_message(self.request, messages.INFO, 'Quest has been declined.')
+        pm_write(
+            sender=self.request.user,
+            recipient=quest.relation.owner,
+            subject="Quest %s has been declined." % quest.title,
+            body=""
+            )
         return reverse('quests:list')
