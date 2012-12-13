@@ -144,8 +144,8 @@ INSTALLED_APPS = (
     # 'accounts',
 )
 
-# LOGIN_URL='/account/login/'
-LOGIN_REDIRECT_URL = reverse('home')
+LOGIN_URL='/accounts/login/'
+LOGIN_REDIRECT_URL = '/quests/' #reverse('home') << breaks ajax-selects
 # AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -154,8 +154,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
    "django.core.context_processors.i18n",
    "django.core.context_processors.media",
    "django.core.context_processors.static",
-   # "django.contrib.messages.context_processors.messages")
-   "django.core.context_processors.request"
+   "django.contrib.messages.context_processors.messages",
+   "django.core.context_processors.request",
 )
 
 # A sample logging configuration. The only tangible logging

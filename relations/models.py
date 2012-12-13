@@ -4,9 +4,9 @@ from django.core.urlresolvers import reverse
 
 class RelationManager(models.Manager):
     def owned_by(self, user):
-        return super(RelationManager, self).get_query_set().filter(owner=user)
+        return super(RelationManager, self).get_query_set().filter(owner=user, status='A')
     def assigned_to(self, user):
-        return super(RelationManager, self).get_query_set().filter(quester=user)
+        return super(RelationManager, self).get_query_set().filter(quester=user, status='A')
     def pending_for(self, user):
         return super(RelationManager, self).get_query_set().filter(quester=user, status='C')
 

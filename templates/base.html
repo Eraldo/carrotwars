@@ -31,9 +31,21 @@
       </ul>
       {% block postman_menu %}{% endblock %}
     </div>
-  </div>  
+  </div>
   {% endblock %}
   <div id="page">
+    {% block messages %}
+    <div id="messages">
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endblock %}
+
     <div id="content">
       {% block content %}{% endblock %}
     </div>
@@ -47,8 +59,8 @@
     {% block footer %}
     {% if user.is_authenticated %}
     Welcome {{ user.username|title }}  |  
-    last update: {% now "Y-m-d" %}  | 
-    <a href="{% url 'logout' %}">Logout</a>
+    last update: {% now "Y-m-d" %}
+    <span class="logout"><a href="{% url 'logout' %}">Logout</a></span>
     {% else %}
     Welcome.. please log in.  |  
     last update: {% now "Y-m-d" %}

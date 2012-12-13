@@ -1,13 +1,16 @@
 from relations.models import Relation
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, RedirectView
 from django.views.generic.edit import ModelFormMixin
 from django.forms import ModelForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from relations.tables import OwnedRelationTable, AssignedRelationTable, PendingRelationTable
 from postman.api import pm_write
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 class RelationForm(ModelForm):
+    
     class Meta:
         model = Relation
         fields = ('quester',)
@@ -38,12 +41,14 @@ class RelationDetailView(RelationMixin, DetailView):
     pass
 
 class RelationCreateView(RelationMixin, CreateView):
+    success_url = '.'
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.save()
         self.inform_user()
+        messages.add_message(self.request, messages.INFO, 'New relation has been created. Waiting for Quester to accept.')
         return super(RelationCreateView, self).form_valid(form)
 
     def inform_user(self):
@@ -61,3 +66,19 @@ class RelationDeleteView(RelationMixin, DeleteView):
 
 class RelationUpdateView(RelationMixin, UpdateView):
     pass
+
+class AcceptView(RedirectView):
+    def get_redirect_url(self, pk):
+        relation = Relation.objects.get(pk=pk)
+        relation.status = 'A'
+        relation.save()
+        messages.add_message(self.request, messages.INFO, 'Relation has been accepted.')
+        return reverse('relations:list')
+
+class DeclineView(RedirectView):
+    def get_redirect_url(self, pk):
+        relation = Relation.objects.get(pk=pk)
+        relation.status = 'R'
+        relation.save()
+        messages.add_message(self.request, messages.INFO, 'Relation has been declined.')
+        return reverse('relations:list')

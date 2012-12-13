@@ -9,14 +9,15 @@ from django.contrib.auth.decorators import login_required
 from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 class QuestForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
     
-    def __init__(self, user=None, **kwargs):
-        super(QuestForm, self).__init__(**kwargs)
-        if user:
-            self.fields['relation'].queryset = Relation.objects.filter(owner=user)
+    # def __init__(self, user=None, **kwargs):
+    #     super(QuestForm, self).__init__(**kwargs)
+    #     if user:
+    #         self.fields['relation'].queryset = Relation.objects.filter(owner=user)
 
     class Meta:
         model = Quest
@@ -52,24 +53,17 @@ class QuestCreateView(QuestMixin, CreateView):
 
     def get_form(self, form_class):
         form = super(QuestCreateView, self).get_form(form_class)
-        # form.fields['relation'].queryset = Relation.objects.filter(owner=self.request.user)
-
         owned_relations = Relation.objects.owned_by(self.request.user)
-        print(self.request.user)
-        form.fields['quester'].queryset = User.objects.filter(pk__in=owned_relations)
-
+        form.fields['quester'].queryset = User.objects.filter(pk__in=owned_relations.values('quester'))
         return form
 
     def form_valid(self, form):
-        user = self.request.user
-        print(user)
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
-        print(self.request.user, form.instance, form.cleaned_data['quester'])
-        self.object.relation = Relation.objects.get(owner=user, quester=form.cleaned_data['quester'])
+        self.object.relation = Relation.objects.get(owner=self.request.user, quester=form.cleaned_data['quester'])
         self.object.save()
         self.inform_user()
-        print(reverse('quests:list'))
+        messages.add_message(self.request, messages.INFO, 'New quest has been created. Waiting for Quester to accept.')
         return super(QuestCreateView, self).form_valid(form)
 
     def inform_user(self):
@@ -90,15 +84,16 @@ class QuestUpdateView(QuestMixin, UpdateView):
 
 class AcceptView(RedirectView):
     def get_redirect_url(self, pk):
-        print(">>> ACCEPT", pk)
         quest = Quest.objects.get(pk=pk)
         quest.status = 'A'
         quest.save()
+        messages.add_message(self.request, messages.INFO, 'Quest has been accepted.')
         return reverse('quests:list')
 
 class DeclineView(RedirectView):
     def get_redirect_url(self, pk):
         quest = Quest.objects.get(pk=pk)
-        quest.status = 'D'
+        quest.status = 'R'
         quest.save()
-        return reverse('quests:detail', kwargs={'pk': pk})
+        messages.add_message(self.request, messages.INFO, 'Quest has been declined.')
+        return reverse('quests:list')

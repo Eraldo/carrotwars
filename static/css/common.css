@@ -95,6 +95,9 @@
         border-top: 1px solid #ccc;
         font-size: 0.5em;
 	}
+    #footer .logout {
+            float:right;
+    }
 	#footer p {
 		margin:0;
     }
@@ -190,3 +193,22 @@
        display: none;
    }
    /* End postman styling. */
+
+
+   #messages {
+       padding: 34px 0 0 0;
+       margin: 0;
+   }
+   #messages ul.messages {
+       padding: 0 0 0 0;
+       margin: 0;
+   }
+   #messages li {
+       font-size: 12px;
+       display: block;
+       padding: 4px 5px 4px 25px;
+       margin: 0 0 0 0;
+       border-bottom: 1px solid #ddd;
+       color: #666;
+       background: #ffc url(../images/icon_success.gif) 5px 0.5em no-repeat;
+   }

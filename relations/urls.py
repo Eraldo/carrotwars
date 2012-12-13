@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.views.generic import ListView, DetailView, UpdateView, FormView, CreateView
 from relations.models import Relation
-from relations.views import RelationListView, RelationDetailView, RelationCreateView, RelationDeleteView, RelationUpdateView
+from relations.views import RelationListView, RelationDetailView, RelationCreateView, RelationDeleteView, RelationUpdateView, AcceptView, DeclineView
 
 urlpatterns = patterns('',
     # ex: /relations/
@@ -16,4 +16,13 @@ urlpatterns = patterns('',
     url(r'^add$',
         RelationCreateView.as_view(),
         name='add'),
+    # ex: /relations/4/accept/
+    url(r'^(?P<pk>\d+)/accept/$',
+        AcceptView.as_view(),
+        name='accept'),
+    # ex: /relationss/4/decline/
+    url(r'^(?P<pk>\d+)/decline/$',
+        DeclineView.as_view(),
+        name='decline'),
+
 )
