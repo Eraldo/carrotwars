@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from quests.models import Quest
-from quests.views import QuestListView, QuestDetailView, QuestCreateView, QuestDeleteView, QuestUpdateView, AcceptView, DeclineView
+from quests.views import QuestListView, QuestDetailView, QuestCreateView, QuestDeleteView, QuestUpdateView, AcceptView, DeclineView, CompleteView, ConfirmView, DenyView
 
 urlpatterns = patterns('',
     # ex: /quests/
@@ -15,9 +15,7 @@ urlpatterns = patterns('',
         name='detail'),
     # ex: /quests/add/
     url(r'^add$',
-        QuestCreateView.as_view(
-            model=Quest,
-            ),
+        QuestCreateView.as_view(),
         name='add'),
     # ex: /quests/4/accept/
     url(r'^(?P<pk>\d+)/accept/$',
@@ -27,4 +25,16 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/decline/$',
         DeclineView.as_view(),
         name='decline'),
+    # ex: /quests/4/complete/
+    url(r'^(?P<pk>\d+)/complete/$',
+        CompleteView.as_view(),
+        name='complete'),
+    # ex: /quests/4/confirm/
+    url(r'^(?P<pk>\d+)/confirm/$',
+        ConfirmView.as_view(),
+        name='confirm'),
+    # ex: /quests/4/deny/
+    url(r'^(?P<pk>\d+)/deny/$',
+        DenyView.as_view(),
+        name='deny'),
 )

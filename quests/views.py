@@ -6,7 +6,7 @@ from django.forms import ModelForm
 from django import forms
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable
+from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable, CompletedQuestTable
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -37,9 +37,11 @@ class QuestMixin(LoginRequiredMixin):
         context['owned'] = Quest.objects.owned_by(self.request.user)
         context['assigned'] = Quest.objects.assigned_to(self.request.user)
         context['pending'] = Quest.objects.pending_for(self.request.user)
+        context['completed'] = Quest.objects.completed_for(self.request.user)
         context['owned_table'] = OwnedQuestTable(context['owned'])
         context['assigned_table'] = AssignedQuestTable(context['assigned'])
         context['pending_table'] = PendingQuestTable(context['pending'])
+        context['completed_table'] = CompletedQuestTable(context['completed'])
         return context
 
 class QuestListView(QuestMixin, ListView):
@@ -96,6 +98,7 @@ class AcceptView(RedirectView):
             )
         return reverse('quests:list')
 
+
 class DeclineView(RedirectView):
     def get_redirect_url(self, pk):
         quest = Quest.objects.get(pk=pk)
@@ -106,6 +109,55 @@ class DeclineView(RedirectView):
             sender=self.request.user,
             recipient=quest.relation.owner,
             subject="Quest %s has been declined." % quest.title,
+            body=""
+            )
+        return reverse('quests:list')
+
+
+class CompleteView(RedirectView):
+    def get_redirect_url(self, pk):
+        quest = Quest.objects.get(pk=pk)
+        quest.status = 'M'
+        quest.save()
+        messages.add_message(self.request, messages.INFO, 'Quest has been marked as completed. Owner has been informed.')
+        pm_write(
+            sender=self.request.user,
+            recipient=quest.relation.owner,
+            subject="Quest %s has been marked as completed." % quest.title,
+            body=""
+            )
+        return reverse('quests:list')
+
+
+class ConfirmView(RedirectView):
+    def get_redirect_url(self, pk):
+        quest = Quest.objects.get(pk=pk)
+        quest.status = 'D'
+        quest.save()
+        # TODO: update balance
+        relation = Relation.objects.get(owner=self.request.user, quester=quest.relation.quester)
+        relation.balance += quest.rating
+        relation.save()
+        messages.add_message(self.request, messages.INFO, 'Quest completion has been confirmed. %s earned %s carrots.' % (quest.relation.quester, quest.rating))
+        pm_write(
+            sender=self.request.user,
+            recipient=quest.relation.quester,
+            subject="Quest %s completion has been confirmed. You earned %s carrots!" % (quest.title, quest.rating),
+            body=""
+            )
+        return reverse('quests:list')
+
+
+class DenyView(RedirectView):
+    def get_redirect_url(self, pk):
+        quest = Quest.objects.get(pk=pk)
+        quest.status = 'A'
+        quest.save()
+        messages.add_message(self.request, messages.INFO, 'Quest completion has been denied.')
+        pm_write(
+            sender=self.request.user,
+            recipient=quest.relation.quester,
+            subject="Quest %s completion has been denied." % quest.title,
             body=""
             )
         return reverse('quests:list')

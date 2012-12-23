@@ -14,6 +14,8 @@ class QuestManager(models.Manager):
         return super(QuestManager, self).get_query_set().filter(relation__quester=user, status='A')
     def pending_for(self, user):
         return super(QuestManager, self).get_query_set().filter(relation__quester=user).filter(status='C')
+    def completed_for(self, user):
+        return super(QuestManager, self).get_query_set().filter(relation__owner=user).filter(status='M')
     
 class Quest(models.Model):
     relation = models.ForeignKey(Relation)

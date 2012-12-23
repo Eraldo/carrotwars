@@ -14,6 +14,11 @@
 {% render_table pending_table %}
 <br>
 {% endif %}
+{% if completed %}
+<h1>Completed Quests</h1>
+{% render_table completed_table %}
+<br>
+{% endif %}
 {% if assigned %}
 <h1>My Quests</h1>
 {% render_table assigned_table %}
