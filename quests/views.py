@@ -134,10 +134,12 @@ class ConfirmView(RedirectView):
         quest = Quest.objects.get(pk=pk)
         quest.status = 'D'
         quest.save()
-        # TODO: update balance
+        
+        # update balance
         relation = Relation.objects.get(owner=self.request.user, quester=quest.relation.quester)
         relation.balance += quest.rating
         relation.save()
+
         messages.add_message(self.request, messages.INFO, 'Quest completion has been confirmed. %s earned %s carrots.' % (quest.relation.quester, quest.rating))
         pm_write(
             sender=self.request.user,

@@ -9,9 +9,7 @@ urlpatterns = patterns('',
         name='list'),
     # ex: /quests/4/
     url(r'^(?P<pk>\d+)/$',
-        QuestDetailView.as_view(
-            model=Quest,
-            ),
+        QuestDetailView.as_view(),
         name='detail'),
     # ex: /quests/add/
     url(r'^add$',

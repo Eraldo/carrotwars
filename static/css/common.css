@@ -210,5 +210,11 @@
        margin: 0 0 0 0;
        border-bottom: 1px solid #ddd;
        color: #666;
+   }
+
+   #messages li.info {
        background: #ffc url(../images/icon_success.gif) 5px 0.5em no-repeat;
+   }
+   #messages li.error {
+       background: #ffc url(../images/icon_error.gif) 5px 0.5em no-repeat;
    }

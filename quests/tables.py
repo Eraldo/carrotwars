@@ -67,10 +67,6 @@ class DeclineColumn(tables.TemplateColumn):
             """ 
         super(DeclineColumn, self).__init__(*args, **kwargs)
 
-    # def render(self, value):
-    #     url = reverse('quests:decline', kwargs={'pk': value})
-    #     return mark_safe('<a href="%s"><img src="/static/images/decline.gif" /></a>' % escape(url))
-
 
 class PendingQuestTable(tables.Table):
     owner = tables.Column(accessor='relation.owner')

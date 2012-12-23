@@ -76,8 +76,39 @@ class RewardCreateView(RewardMixin, CreateView):
             body=body
             )
 
+
 class RewardDeleteView(RewardMixin, DeleteView):
     pass
 
+
 class RewardUpdateView(RewardMixin, UpdateView):
     pass
+
+
+class BuyView(RedirectView):
+    def get_redirect_url(self, pk):
+            
+        reward = Reward.objects.get(pk=pk)
+        relation = Relation.objects.get(owner=reward.relation.owner, quester=self.request.user)
+
+        if relation.balance < reward.price:
+                messages.add_message(self.request, messages.ERROR, 'Not enough carrots. You have %s carrots from %s.' % (relation.balance, relation.owner))
+                return reverse('rewards:list')
+
+        # update reward
+        reward.status = 'D'
+        reward.save()
+
+        # update balance
+        relation = Relation.objects.get(owner=reward.relation.owner, quester=self.request.user)
+        relation.balance -= reward.price
+        relation.save()
+        
+        messages.add_message(self.request, messages.INFO, 'Reward has been bought. %s has been informed.' % reward.relation.owner)
+        pm_write(
+            sender=self.request.user,
+            recipient=reward.relation.owner,
+            subject="Reward %s has been bought." % reward.title,
+            body=""
+            )
+        return reverse('rewards:list')
