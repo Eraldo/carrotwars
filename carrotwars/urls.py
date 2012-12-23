@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     # url(r'^carrotwars/', include('carrotwars.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # login page
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
