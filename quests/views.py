@@ -10,7 +10,7 @@ from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class QuestForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
@@ -22,7 +22,7 @@ class QuestForm(ModelForm):
 
     class Meta:
         model = Quest
-        exclude = ('relation', 'activation_date', 'status',)
+        exclude = ('relation', 'activation_date', 'deadline', 'status',)
 
 class LoginRequiredMixin(object):
     @method_decorator(login_required)
@@ -96,6 +96,7 @@ class AcceptView(RedirectView):
         # update quest
         quest.status = 'A'
         quest.activation_date = datetime.now()
+        quest.deadline = datetime.now()+timedelta(days=7)
         quest.save()
         
         messages.add_message(self.request, messages.INFO, 'Quest has been accepted.')

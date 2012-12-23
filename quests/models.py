@@ -33,6 +33,7 @@ class Quest(models.Model):
     description = models.TextField(blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     activation_date = models.DateTimeField(blank=True, null=True)
+    deadline = models.DateTimeField(blank=True, null=True)
     RATINGS = (
         (1, '*'),
         (2, '**'),

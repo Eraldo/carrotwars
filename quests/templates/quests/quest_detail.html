@@ -4,11 +4,14 @@
 {% block content %}
 
 <h1>{{ quest.title }}</h1>
+<b>description:</b> {{ quest.description }}<br>
 <b>owner:</b> {{ quest.relation.owner }}<br>
 <b>quester:</b> {{ quest.relation.quester }}<br>
 <b>created:</b> {{ quest.creation_date }}<br>
-<b>activated:</b> {{ quest.get_activation_date_display }}<br>
+<b>activated:</b> {{ quest.activation_date }}<br>
+<b>deadline:</b> {{ quest.deadline }}<br>
 <b>rating:</b> {{ quest.get_rating_display }}<br>
+<b>rating:</b> <br>{% for i in quest.get_rating_display %}<img src="{{ STATIC_URL }}images/carrot-25.png">{% endfor %}<br>
 <b>status:</b> {{ quest.get_status_display }}<br>
 
 {% endblock %}

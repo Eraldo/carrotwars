@@ -4,7 +4,7 @@
 
 <h1>{{ quest.title }}</h1>
 <form method="POST">
-  {{ form|linebreaksbr }}{% csrf_token %}<br>
+{{ form|linebreaksbr }}{% csrf_token %}
   <input type="submit" value="Create" />
 </form>
 

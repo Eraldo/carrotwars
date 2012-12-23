@@ -1,6 +1,21 @@
 import django_tables2 as tables
 from django_tables2.utils import A  # alias for Accessor
 from rewards.models import Reward
+from django.utils.safestring import mark_safe
+from django.conf import settings
+
+class PriceColumn(tables.Column):
+    """
+    Table column layout for displaying a price as carrot images.
+    """
+
+    def render(self, value):
+        img_html = '<img src=%simages/carrot-25.png>' % settings.STATIC_URL
+        if value <= 5:
+            return mark_safe(img_html * value)
+        else:
+            return mark_safe('%s x %s' % (img_html, value))
+
 
 class OwnedRewardTable(tables.Table):
     """
@@ -9,6 +24,7 @@ class OwnedRewardTable(tables.Table):
 
     quester = tables.Column(accessor='relation.quester')
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
+    price = PriceColumn()
     
     class Meta:
         model = Reward
@@ -28,7 +44,7 @@ class BuyColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'rewards:buy' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Buy" src="/static/images/accept.gif" />
+            <input type="image" value="Buy" src="/static/images/buy.png" />
             </form>
             """ 
         super(BuyColumn, self).__init__(*args, **kwargs)
@@ -41,6 +57,7 @@ class AssignedRewardTable(tables.Table):
 
     owner = tables.Column(accessor='relation.owner')
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
+    price = PriceColumn()
     buy = BuyColumn(accessor="pk")
     
     class Meta:

@@ -1,6 +1,22 @@
 import django_tables2 as tables
 from django_tables2.utils import A  # alias for Accessor
 from relations.models import Relation
+from django.utils.safestring import mark_safe
+from django.conf import settings
+
+
+class BalanceColumn(tables.Column):
+    """
+    Table column layout for displaying a relations balance as carrot images.
+    """
+
+    def render(self, value):
+        img_html = '<img src=%simages/carrot-25.png>' % settings.STATIC_URL
+        if value <= 5:
+            return mark_safe(img_html * value)
+        else:
+            return mark_safe('%s x %s' % (img_html, value))
+
 
 class OwnedRelationTable(tables.Table):
     """
@@ -8,6 +24,7 @@ class OwnedRelationTable(tables.Table):
     """
         
     quester = tables.LinkColumn('relations:detail', args=[A('pk')])
+    balance = BalanceColumn()
     
     class Meta:
         model = Relation
@@ -22,6 +39,7 @@ class AssignedRelationTable(tables.Table):
     """
     
     owner = tables.LinkColumn('relations:detail', args=[A('pk')])
+    balance = BalanceColumn()
     
     class Meta:
         model = Relation
