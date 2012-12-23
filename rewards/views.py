@@ -91,6 +91,11 @@ class BuyView(RedirectView):
         reward = Reward.objects.get(pk=pk)
         relation = Relation.objects.get(owner=reward.relation.owner, quester=self.request.user)
 
+        # check permission
+        if self.request.user != reward.relation.quester or reward.status != 'A':
+            return reverse('quests:list')
+
+        # check credits
         if relation.balance < reward.price:
                 messages.add_message(self.request, messages.ERROR, 'Not enough carrots. You have %s carrots from %s.' % (relation.balance, relation.owner))
                 return reverse('rewards:list')

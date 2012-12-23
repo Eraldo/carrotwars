@@ -6,14 +6,22 @@ import datetime
 from django.utils import timezone
 
 class RewardManager(models.Manager):
-    def for_relation(self, relation):        
+    """
+    Provides easy access to pre-defined custom reward filters.
+    """
+
+    def for_relation(self, relation):
+        """Returns the set of rewards associated to the provided relation."""
         return super(RewardManager, self).get_query_set().filter(relation=relation, status='A')
     def owned_by(self, user):
+        """Returns the set of rewards owned by the provided user."""
         return super(RewardManager, self).get_query_set().filter(relation__owner=user, status='A')
     def assigned_to(self, user):
+        """Returns the set of rewards assigned to the provided user."""
         return super(RewardManager, self).get_query_set().filter(relation__quester=user, status='A')
 
 class Reward(models.Model):
+    
     relation = models.ForeignKey(Relation)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)

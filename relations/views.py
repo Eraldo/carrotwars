@@ -70,15 +70,29 @@ class RelationUpdateView(RelationMixin, UpdateView):
 class AcceptView(RedirectView):
     def get_redirect_url(self, pk):
         relation = Relation.objects.get(pk=pk)
+
+        # check permission
+        if self.request.user != relation.quester or relation.status != 'C':
+            return reverse('relations:list')
+
+        # update relation
         relation.status = 'A'
         relation.save()
+        
         messages.add_message(self.request, messages.INFO, 'Relation has been accepted.')
         return reverse('relations:list')
 
 class DeclineView(RedirectView):
     def get_redirect_url(self, pk):
         relation = Relation.objects.get(pk=pk)
+
+        # check permission
+        if self.request.user != relation.quester or relation.status != 'C':
+            return reverse('relations:list')
+
+        # update relation
         relation.status = 'R'
         relation.save()
+        
         messages.add_message(self.request, messages.INFO, 'Relation has been declined.')
         return reverse('relations:list')

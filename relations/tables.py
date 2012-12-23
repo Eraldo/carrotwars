@@ -3,6 +3,10 @@ from django_tables2.utils import A  # alias for Accessor
 from relations.models import Relation
 
 class OwnedRelationTable(tables.Table):
+    """
+    Table layout for showing relations owned by a user.
+    """
+        
     quester = tables.LinkColumn('relations:detail', args=[A('pk')])
     
     class Meta:
@@ -13,6 +17,10 @@ class OwnedRelationTable(tables.Table):
         fields = ("quester", "balance", "status")
 
 class AssignedRelationTable(tables.Table):
+    """
+    Table layout for showing relations assigned to a user.
+    """
+    
     owner = tables.LinkColumn('relations:detail', args=[A('pk')])
     
     class Meta:
@@ -23,7 +31,10 @@ class AssignedRelationTable(tables.Table):
         fields = ("owner", "balance", "status")
 
 class AcceptColumn(tables.TemplateColumn):
-
+    """
+    Table column layout for marking a relation as accepted.
+    """
+    
     def __init__(self, *args, **kwargs):
         kwargs['template_code'] = """
         {% load url from future %}
@@ -35,7 +46,10 @@ class AcceptColumn(tables.TemplateColumn):
         super(AcceptColumn, self).__init__(*args, **kwargs)
 
 class DeclineColumn(tables.TemplateColumn):
-
+    """
+    Table column layout for marking a relation as declined.
+    """
+        
     def __init__(self, *args, **kwargs):
         kwargs['template_code'] = """
         {% load url from future %}
@@ -47,6 +61,9 @@ class DeclineColumn(tables.TemplateColumn):
         super(DeclineColumn, self).__init__(*args, **kwargs)
 
 class PendingRelationTable(tables.Table):
+    """
+    Table layout for showing relations pending for a user.
+    """
     owner = tables.LinkColumn('relations:detail', args=[A('pk')])
     accept = AcceptColumn(accessor="pk")
     decline = DeclineColumn(accessor="pk")

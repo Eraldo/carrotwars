@@ -6,6 +6,9 @@ from django.utils.html import escape
 from django.core.urlresolvers import reverse
 
 class OwnedQuestTable(tables.Table):
+    """
+    Table layout for showing quests owned by a user.
+    """
     quester = tables.Column(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     
@@ -18,7 +21,10 @@ class OwnedQuestTable(tables.Table):
 
 
 class CompleteColumn(tables.TemplateColumn):
-
+    """
+    Table column layout for marking a quest as completed.
+    """
+    
     def __init__(self, *args, **kwargs):
         kwargs['template_code'] = """
         {% load url from future %}
@@ -31,6 +37,10 @@ class CompleteColumn(tables.TemplateColumn):
         
 
 class AssignedQuestTable(tables.Table):
+    """
+    Table layout for showing quests assigned to a user.
+    """
+
     owner = tables.Column(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     complete = CompleteColumn(accessor="pk")
@@ -44,6 +54,9 @@ class AssignedQuestTable(tables.Table):
         
 
 class AcceptColumn(tables.TemplateColumn):
+    """
+    Table column layout for marking a quest as accepted.
+    """
 
     def __init__(self, *args, **kwargs):
         kwargs['template_code'] = """
@@ -56,6 +69,9 @@ class AcceptColumn(tables.TemplateColumn):
         super(AcceptColumn, self).__init__(*args, **kwargs)
 
 class DeclineColumn(tables.TemplateColumn):
+    """
+    Table column layout for marking a quest as declined.
+    """
 
     def __init__(self, *args, **kwargs):
         kwargs['template_code'] = """
@@ -69,6 +85,10 @@ class DeclineColumn(tables.TemplateColumn):
 
 
 class PendingQuestTable(tables.Table):
+    """
+    Table layout for showing quests pending for a user.
+    """
+
     owner = tables.Column(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     accept = AcceptColumn(accessor="pk")
@@ -83,6 +103,9 @@ class PendingQuestTable(tables.Table):
 
 
 class ConfirmColumn(tables.TemplateColumn):
+    """
+    Table column layout for marking a quest as confirmed.
+    """
 
     def __init__(self, *args, **kwargs):
         kwargs['template_code'] = """
@@ -95,6 +118,9 @@ class ConfirmColumn(tables.TemplateColumn):
         super(ConfirmColumn, self).__init__(*args, **kwargs)
 
 class DenyColumn(tables.TemplateColumn):
+    """
+    Table column layout for marking a quest as denied.
+    """
 
     def __init__(self, *args, **kwargs):
         kwargs['template_code'] = """
@@ -108,6 +134,10 @@ class DenyColumn(tables.TemplateColumn):
         
 
 class CompletedQuestTable(tables.Table):
+    """
+    Table layout for showing quests completed for a user.
+    """
+
     owner = tables.Column(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     confirm = ConfirmColumn(accessor="pk")

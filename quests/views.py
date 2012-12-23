@@ -87,8 +87,15 @@ class QuestUpdateView(QuestMixin, UpdateView):
 class AcceptView(RedirectView):
     def get_redirect_url(self, pk):
         quest = Quest.objects.get(pk=pk)
+
+        # check permission
+        if self.request.user != quest.relation.quester or quest.status != 'C':
+            return reverse('quests:list')
+
+        # update quest
         quest.status = 'A'
         quest.save()
+        
         messages.add_message(self.request, messages.INFO, 'Quest has been accepted.')
         pm_write(
             sender=self.request.user,
@@ -102,8 +109,15 @@ class AcceptView(RedirectView):
 class DeclineView(RedirectView):
     def get_redirect_url(self, pk):
         quest = Quest.objects.get(pk=pk)
+
+        # check permission
+        if self.request.user != quest.relation.quester or quest.status != 'C':
+            return reverse('quests:list')
+
+        # update quest
         quest.status = 'R'
         quest.save()
+        
         messages.add_message(self.request, messages.INFO, 'Quest has been declined.')
         pm_write(
             sender=self.request.user,
@@ -117,8 +131,15 @@ class DeclineView(RedirectView):
 class CompleteView(RedirectView):
     def get_redirect_url(self, pk):
         quest = Quest.objects.get(pk=pk)
+
+        # check permission
+        if self.request.user != quest.relation.quester or quest.status != 'A':
+            return reverse('quests:list')
+
+        # update quest
         quest.status = 'M'
         quest.save()
+        
         messages.add_message(self.request, messages.INFO, 'Quest has been marked as completed. Owner has been informed.')
         pm_write(
             sender=self.request.user,
@@ -132,6 +153,12 @@ class CompleteView(RedirectView):
 class ConfirmView(RedirectView):
     def get_redirect_url(self, pk):
         quest = Quest.objects.get(pk=pk)
+
+        # check permission
+        if self.request.user != quest.relation.owner or quest.status != 'M':
+            return reverse('quests:list')
+
+        # update quest
         quest.status = 'D'
         quest.save()
         
@@ -153,8 +180,15 @@ class ConfirmView(RedirectView):
 class DenyView(RedirectView):
     def get_redirect_url(self, pk):
         quest = Quest.objects.get(pk=pk)
+
+        # check permission
+        if self.request.user != quest.relation.owner or quest.status != 'M':
+            return reverse('quests:list')
+
+        # update quest
         quest.status = 'A'
         quest.save()
+
         messages.add_message(self.request, messages.INFO, 'Quest completion has been denied.')
         pm_write(
             sender=self.request.user,

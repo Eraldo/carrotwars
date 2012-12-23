@@ -6,18 +6,28 @@ import datetime
 from django.utils import timezone
 
 class QuestManager(models.Manager):
-    def for_relation(self, relation):        
+    """
+    Provides easy access to pre-defined custom quest filters.
+    """
+    
+    def for_relation(self, relation):
+        """Returns the set of quests associated to the provided relation."""
         return super(QuestManager, self).get_query_set().filter(relation=relation, status='A')
     def owned_by(self, user):
+        """Returns the set of quests owned by the provided user."""
         return super(QuestManager, self).get_query_set().filter(relation__owner=user, status='A')
     def assigned_to(self, user):
+        """Returns the set of quests assigned to the provided user."""
         return super(QuestManager, self).get_query_set().filter(relation__quester=user, status='A')
     def pending_for(self, user):
+        """Returns the set of quests pending for the provided user."""
         return super(QuestManager, self).get_query_set().filter(relation__quester=user).filter(status='C')
     def completed_for(self, user):
+        """Returns the set of quests completed by the provided user."""
         return super(QuestManager, self).get_query_set().filter(relation__owner=user).filter(status='M')
     
 class Quest(models.Model):
+
     relation = models.ForeignKey(Relation)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)

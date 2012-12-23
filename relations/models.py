@@ -2,19 +2,28 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
+    
 class RelationManager(models.Manager):
+    """
+    Provides easy access to pre-defined custom relation filters.
+    """
+
     def owned_by(self, user):
+        """Returns the set of relations owned by the provided user."""
         return super(RelationManager, self).get_query_set().filter(owner=user, status='A')
     def assigned_to(self, user):
+        """Returns the set of relations assigned to the provided user."""
         return super(RelationManager, self).get_query_set().filter(quester=user, status='A')
     def pending_for(self, user):
+        """Returns the set of relations pensing for the provided user."""
         return super(RelationManager, self).get_query_set().filter(quester=user, status='C')
 
 class Relation(models.Model):
+
     owner = models.ForeignKey(User, related_name='relation_owner')
     quester = models.ForeignKey(User, related_name='relation_quester')
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
-    balance = models.IntegerField(default=0)
+    balance = models.IntegerField(default=0, help_text="Amount of credits the quester has.")
     STATUS = (
         ('C', 'created'),
         ('A', 'accepted'),
