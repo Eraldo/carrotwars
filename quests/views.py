@@ -10,6 +10,7 @@ from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from datetime import datetime
 
 class QuestForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
@@ -94,6 +95,7 @@ class AcceptView(RedirectView):
 
         # update quest
         quest.status = 'A'
+        quest.activation_date = datetime.now()
         quest.save()
         
         messages.add_message(self.request, messages.INFO, 'Quest has been accepted.')
