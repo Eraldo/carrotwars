@@ -10,24 +10,23 @@
 
 <h1>New Quest</h1>
 <form method="POST">
+{% csrf_token %}
 <!-- {{ form|linebreaksbr }} -->
 
 {% for field in form %}
-<p>
-{% if field.label == "Rating" %}
+  <p>
+  {% if field.label == "Rating" %}
     {{ field.errors }}
     {{ field.label_tag }}<br>
     {% for radio in form.rating %}
       {{ radio.tag }}
-{% endfor %}<br>
+    {% endfor %}<br><br>
   {% else %}
     {{ field.errors }}
     {{ field.label_tag }} <br>{{ field }}
   {% endif %}
-</p>
-{% endfor %}
-
-{% csrf_token %}
+  </p>
+  {% endfor %}
 
 <input type="submit" value="Create" />
 </form>
