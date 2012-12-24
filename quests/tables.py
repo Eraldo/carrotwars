@@ -133,7 +133,7 @@ class ConfirmColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'quests:confirm' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Accept" src="/static/images/accept.gif" />
+            <input type="image" value="Accept" src="/static/images/confirm.gif" />
             </form>
             """ 
         super(ConfirmColumn, self).__init__(*args, **kwargs)
@@ -148,7 +148,7 @@ class DenyColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'quests:deny' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Decline" src="/static/images/decline.gif" />
+            <input type="image" value="Decline" src="/static/images/deny.gif" />
             </form>
             """ 
         super(DenyColumn, self).__init__(*args, **kwargs)
@@ -161,6 +161,7 @@ class CompletedQuestTable(tables.Table):
 
     owner = tables.Column(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    img_rating = RatingColumn(accessor="rating")
     confirm = ConfirmColumn(accessor="pk")
     deny = DenyColumn(accessor="pk")
     
@@ -169,4 +170,4 @@ class CompletedQuestTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "owner", "confirm", "deny")
-        fields = ("title", "description", "rating")
+        fields = ("title", "description")

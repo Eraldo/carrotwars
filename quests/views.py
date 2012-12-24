@@ -12,8 +12,12 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from datetime import datetime, timedelta
 
+from django.forms.widgets import RadioSelect
+
 class QuestForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
+    CHOICES = (('1', 'First',), ('2', 'Second',))
+    # rating = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
     
     # def __init__(self, user=None, **kwargs):
     #     super(QuestForm, self).__init__(**kwargs)
@@ -23,6 +27,9 @@ class QuestForm(ModelForm):
     class Meta:
         model = Quest
         exclude = ('relation', 'activation_date', 'deadline', 'status',)
+        widgets = {
+            'rating': RadioSelect(attrs={'class':'star required'}),
+        }
 
 class LoginRequiredMixin(object):
     @method_decorator(login_required)
@@ -61,6 +68,7 @@ class QuestCreateView(QuestMixin, CreateView):
         return form
 
     def form_valid(self, form):
+        print(form)
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.relation = Relation.objects.get(owner=self.request.user, quester=form.cleaned_data['quester'])

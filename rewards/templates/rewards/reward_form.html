@@ -2,10 +2,19 @@
 
 {% block content %}
 
-<h1>{{ reward.title }}</h1>
+<h1>New Reward</h1>
 <form method="POST">
-  {{ form|linebreaksbr }}{% csrf_token %}
-  <input type="submit" value="Save" />
+  <!-- {{ form|linebreaksbr }}{% csrf_token %} -->
+
+{% for field in form %}
+<p>
+    {{ field.errors }}
+    {{ field.label_tag }} <br>{{ field }}
+</p>
+{% endfor %}
+
+
+<input type="submit" value="Save" />
 </form>
 
 {% endblock %}

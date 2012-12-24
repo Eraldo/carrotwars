@@ -5,8 +5,14 @@
 <h1>{% if relation %}{{ relation.quester }}{% else %}New relation{% endif %}</h1>
 
 <form method="POST">
-  {{ form|linebreaksbr }}{% csrf_token %}
-  <input type="submit" value="Save" />
+  <!-- {{ form|linebreaksbr }}{% csrf_token %} -->
+<p>
+{% for field in form %}
+    {{ field.errors }}
+    {{ field.label_tag }} <br>{{ field }}
+{% endfor %}
+</p>
+<input type="submit" value="Save" />
 </form>
 
 {% endblock %}

@@ -1,11 +1,35 @@
 {% extends 'base.html' %}
 
+{% block extra-head %}
+<script src='{{ STATIC_URL }}jquery-rating/jquery.js' type="text/javascript"></script>
+<script src='{{ STATIC_URL }}jquery-rating/jquery.rating.js' type="text/javascript" language="javascript"></script>
+<link href='{{ STATIC_URL }}jquery-rating/jquery.rating.css' type="text/css" rel="stylesheet"/>
+{% endblock %}
+
 {% block content %}
 
-<h1>{{ quest.title }}</h1>
+<h1>New Quest</h1>
 <form method="POST">
-{{ form|linebreaksbr }}{% csrf_token %}
-  <input type="submit" value="Create" />
+<!-- {{ form|linebreaksbr }} -->
+
+{% for field in form %}
+<p>
+{% if field.label == "Rating" %}
+    {{ field.errors }}
+    {{ field.label_tag }}<br>
+    {% for radio in form.rating %}
+      {{ radio.tag }}
+{% endfor %}<br>
+  {% else %}
+    {{ field.errors }}
+    {{ field.label_tag }} <br>{{ field }}
+  {% endif %}
+</p>
+{% endfor %}
+
+{% csrf_token %}
+
+<input type="submit" value="Create" />
 </form>
 
 {% endblock %}
