@@ -62,7 +62,6 @@ class QuestCreateView(QuestMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        print(form)
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.relation = Relation.objects.get(owner=self.request.user, quester=form.cleaned_data['quester'])

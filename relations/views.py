@@ -8,6 +8,7 @@ from relations.tables import OwnedRelationTable, AssignedRelationTable, PendingR
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.db import IntegrityError
 
 class RelationForm(ModelForm):
     
@@ -46,10 +47,17 @@ class RelationCreateView(RelationMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
-        self.object.save()
-        self.inform_user()
-        messages.add_message(self.request, messages.INFO, 'New relation has been created. Waiting for Quester to accept.')
-        return super(RelationCreateView, self).form_valid(form)
+
+        try:
+            self.object.save()
+            self.inform_user()
+            messages.add_message(self.request, messages.INFO, 'New relation has been created. Waiting for Quester to accept.')
+            return super(RelationCreateView, self).form_valid(form)
+        except IntegrityError:
+            from django.forms.util import ErrorList
+            errors = form._errors.setdefault("quester", ErrorList())
+            errors.append("Such a relation does already exist.")
+            return self.render_to_response(self.get_context_data(form=form))
 
     def inform_user(self):
         subject = "New relation requested by %s" % self.object.owner
@@ -60,6 +68,7 @@ class RelationCreateView(RelationMixin, CreateView):
             subject=subject,
             body=body
             )
+
 
 class RelationDeleteView(RelationMixin, DeleteView):
     pass
