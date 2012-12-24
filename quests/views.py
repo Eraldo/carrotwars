@@ -17,12 +17,6 @@ from django.forms.widgets import RadioSelect
 class QuestForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
     CHOICES = (('1', 'First',), ('2', 'Second',))
-    # rating = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
-    
-    # def __init__(self, user=None, **kwargs):
-    #     super(QuestForm, self).__init__(**kwargs)
-    #     if user:
-    #         self.fields['relation'].queryset = Relation.objects.filter(owner=user)
 
     class Meta:
         model = Quest
