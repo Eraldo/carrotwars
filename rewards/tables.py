@@ -44,7 +44,11 @@ class BuyColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'rewards:buy' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Buy" src="/static/images/buy.png" />
+            {% if record.price <= record.relation.balance %}
+              <input type="image" value="Buy" src="/static/images/buy.png" />
+            {% else %}
+              <input type="image" value="Buy" src="/static/images/buy-inactive.png" />
+            {% endif %}
             </form>
             """ 
         super(BuyColumn, self).__init__(*args, **kwargs)
