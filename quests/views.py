@@ -36,6 +36,7 @@ class QuestMixin(LoginRequiredMixin):
     
     def get_context_data(self, **kwargs):
         context = super(QuestMixin, self).get_context_data(**kwargs)
+        context['owner'] = Relation.objects.owned_by(self.request.user)
         context['owned'] = Quest.objects.owned_by(self.request.user)
         context['assigned'] = Quest.objects.assigned_to(self.request.user)
         context['pending'] = Quest.objects.pending_for(self.request.user)
