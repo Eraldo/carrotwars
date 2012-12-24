@@ -4,18 +4,19 @@ from quests.models import Quest
 from django.utils.safestring import mark_safe
 from django.utils.html import escape
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
+class RatingColumn(tables.Column):
+    """
+    Table column layout for displaying a rating as carrot images.
+    """
 
-class RatingColumn(tables.TemplateColumn):
-    """
-    Table column layout for displaying as many carrot images as the rating.
-    """
-    
-    def __init__(self, *args, **kwargs):
-        kwargs['template_code'] = """
-        {% for i in value %}<img src="{{ STATIC_URL }}images/carrot-25.png">{% endfor %}
-        """ 
-        super(RatingColumn, self).__init__(*args, **kwargs)
+    def render(self, value):
+        img_html = '<img src=%simages/carrot-25.png>' % settings.STATIC_URL
+        if len(value) <= 5:
+            return mark_safe(img_html * len(value))
+        else:
+            return mark_safe('%s x %s' % (img_html, len(value)))
 
 
 class OwnedQuestTable(tables.Table):
@@ -24,7 +25,7 @@ class OwnedQuestTable(tables.Table):
     """
     quester = tables.Column(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
-    img_rating = RatingColumn(accessor="rating")
+    rating = RatingColumn()
 
     
     class Meta:
@@ -32,10 +33,7 @@ class OwnedQuestTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "quester")
-        fields = ("title", "description")
-
-    def render_rating(self, value):
-        return mark_safe(value)
+        fields = ("title", "description", "rating")
 
 
 class CompleteColumn(tables.TemplateColumn):
@@ -61,7 +59,7 @@ class AssignedQuestTable(tables.Table):
 
     owner = tables.Column(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
-    img_rating = RatingColumn(accessor="rating")
+    rating = RatingColumn()
     deadline = tables.DateColumn()
     complete = CompleteColumn(accessor="pk")
     
@@ -70,7 +68,7 @@ class AssignedQuestTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "owner", "deadline", "complete")
-        fields = ("title", "description", "deadline")
+        fields = ("title", "description", "deadline", "rating")
         
 
 class AcceptColumn(tables.TemplateColumn):
@@ -111,7 +109,7 @@ class PendingQuestTable(tables.Table):
 
     owner = tables.Column(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
-    img_rating = RatingColumn(accessor="rating")
+    rating = RatingColumn()
     accept = AcceptColumn(accessor="pk")
     decline = DeclineColumn(accessor="pk")
     
@@ -120,7 +118,7 @@ class PendingQuestTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "owner", "accept", "decline")
-        fields = ("title", "description")
+        fields = ("title", "description", "rating")
 
 
 class ConfirmColumn(tables.TemplateColumn):
@@ -161,7 +159,7 @@ class CompletedQuestTable(tables.Table):
 
     owner = tables.Column(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
-    img_rating = RatingColumn(accessor="rating")
+    rating = RatingColumn()
     confirm = ConfirmColumn(accessor="pk")
     deny = DenyColumn(accessor="pk")
     
@@ -170,4 +168,4 @@ class CompletedQuestTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "owner", "confirm", "deny")
-        fields = ("title", "description")
+        fields = ("title", "description", "rating")
