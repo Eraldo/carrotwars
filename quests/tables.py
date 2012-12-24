@@ -23,8 +23,10 @@ class OwnedQuestTable(tables.Table):
     """
     Table layout for showing quests owned by a user.
     """
-    quester = tables.Column(accessor='relation.quester')
+    
+    quester = tables.LinkColumn('relations:detail', accessor='relation.quester' , args=[A('relation.pk')])
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    deadline = tables.DateColumn()
     rating = RatingColumn()
 
     
@@ -33,7 +35,7 @@ class OwnedQuestTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "quester")
-        fields = ("title", "description", "rating")
+        fields = ("title", "description", "deadline", "rating")
 
 
 class CompleteColumn(tables.TemplateColumn):
@@ -57,7 +59,7 @@ class AssignedQuestTable(tables.Table):
     Table layout for showing quests assigned to a user.
     """
 
-    owner = tables.Column(accessor='relation.owner')
+    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     deadline = tables.DateColumn()
@@ -81,7 +83,7 @@ class AcceptColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'quests:accept' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Accept" src="/static/images/accept.gif" />
+            <input type="image" value="Accept" src="/static/images/accept.png" />
             </form>
             """ 
         super(AcceptColumn, self).__init__(*args, **kwargs)
@@ -96,7 +98,7 @@ class DeclineColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'quests:decline' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Decline" src="/static/images/decline.gif" />
+            <input type="image" value="Decline" src="/static/images/decline.png" />
             </form>
             """ 
         super(DeclineColumn, self).__init__(*args, **kwargs)
@@ -131,7 +133,7 @@ class ConfirmColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'quests:confirm' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Accept" src="/static/images/confirm.gif" />
+            <input type="image" value="Accept" src="/static/images/confirm.png" />
             </form>
             """ 
         super(ConfirmColumn, self).__init__(*args, **kwargs)
@@ -146,7 +148,7 @@ class DenyColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'quests:deny' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Decline" src="/static/images/deny.gif" />
+            <input type="image" value="Decline" src="/static/images/deny.png" />
             </form>
             """ 
         super(DenyColumn, self).__init__(*args, **kwargs)
@@ -157,7 +159,7 @@ class CompletedQuestTable(tables.Table):
     Table layout for showing quests completed for a user.
     """
 
-    owner = tables.Column(accessor='relation.owner')
+    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     confirm = ConfirmColumn(accessor="pk")

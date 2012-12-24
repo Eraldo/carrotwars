@@ -58,7 +58,7 @@ class AcceptColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'relations:accept' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Accept" src="/static/images/accept.gif" />
+            <input type="image" value="Accept" src="/static/images/accept.png" />
             </form>
             """ 
         super(AcceptColumn, self).__init__(*args, **kwargs)
@@ -73,7 +73,7 @@ class DeclineColumn(tables.TemplateColumn):
         {% load url from future %}
         <form action="{% url 'relations:decline' value %}" method="POST">
             {% csrf_token %}
-            <input type="image" value="Decline" src="/static/images/decline.gif" />
+            <input type="image" value="Decline" src="/static/images/decline.png" />
             </form>
             """ 
         super(DeclineColumn, self).__init__(*args, **kwargs)
