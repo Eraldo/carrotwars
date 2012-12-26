@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.db import IntegrityError
 
+__author__ = "Eraldo Helal"
+
 class RelationForm(ModelForm):
     
     class Meta:

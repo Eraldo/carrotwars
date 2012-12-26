@@ -4,6 +4,8 @@ from rewards.models import Reward
 from django.utils.safestring import mark_safe
 from django.conf import settings
 
+__author__ = "Eraldo Helal"
+
 class PriceColumn(tables.Column):
     """
     Table column layout for displaying a price as carrot images.

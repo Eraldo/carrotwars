@@ -4,6 +4,7 @@ from relations.models import Relation
 from django.utils.safestring import mark_safe
 from django.conf import settings
 
+__author__ = "Eraldo Helal"
 
 class BalanceColumn(tables.Column):
     """

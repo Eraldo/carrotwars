@@ -1,6 +1,8 @@
 # Django settings for carrotwars project.
 from django.core.urlresolvers import reverse
 
+__author__ = "Eraldo Helal"
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

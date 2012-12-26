@@ -3,6 +3,8 @@ from django.views.generic import ListView, DetailView, UpdateView, FormView, Cre
 from relations.models import Relation
 from relations.views import RelationListView, RelationDetailView, RelationCreateView, RelationDeleteView, RelationUpdateView, AcceptView, DeclineView
 
+__author__ = "Eraldo Helal"
+
 urlpatterns = patterns('',
     # ex: /relations/
     url(r'^$',

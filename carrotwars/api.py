@@ -8,6 +8,8 @@ from quests.models import Quest
 from rewards.models import Reward
 from django.db.models import Q
 
+__author__ = "Eraldo Helal"
+
 class MetaMixin:
     authentication = BasicAuthentication()
     authorization = DjangoAuthorization()

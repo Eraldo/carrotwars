@@ -6,6 +6,8 @@ from django.utils.html import escape
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
+__author__ = "Eraldo Helal"
+
 class RatingColumn(tables.Column):
     """
     Table column layout for displaying a rating as carrot images.

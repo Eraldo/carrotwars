@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+"""db model representing a relation of two users"""
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
+__author__ = "Eraldo Helal"
     
 class RelationManager(models.Manager):
     """

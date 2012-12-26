@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 import datetime
 from django.utils import timezone
 
+__author__ = "Eraldo Helal"
+
 class QuestManager(models.Manager):
     """
     Provides easy access to pre-defined custom quest filters.

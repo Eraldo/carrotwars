@@ -9,6 +9,8 @@ from ajax_select import urls as ajax_select_urls
 from tastypie.api import Api
 from carrotwars.api import UserResource, RelationResource, QuestResource, RewardResource
 
+__author__ = "Eraldo Helal"
+
 admin.autodiscover()
 
 # api config

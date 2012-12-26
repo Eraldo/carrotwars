@@ -14,6 +14,8 @@ from datetime import datetime, timedelta
 
 from django.forms.widgets import RadioSelect
 
+__author__ = "Eraldo Helal"
+
 class QuestForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
     CHOICES = (('1', 'First',), ('2', 'Second',))

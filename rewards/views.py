@@ -13,6 +13,8 @@ from django.contrib import messages
 
 from rewards.tables import OwnedRewardTable, AssignedRewardTable
 
+__author__ = "Eraldo Helal"
+
 class RewardForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
 
