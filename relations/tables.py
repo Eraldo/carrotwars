@@ -11,7 +11,7 @@ class BalanceColumn(tables.Column):
     """
 
     def render(self, value):
-        img_html = '<img src=%simages/carrot-25.png>' % settings.STATIC_URL
+        img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
         if value <= 5:
             return mark_safe(img_html * value)
         else:
