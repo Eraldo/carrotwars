@@ -28,6 +28,9 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
+    # django social auth
+    url(r'', include('social_auth.urls')),
+
     # login page
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
     # logout page

@@ -232,3 +232,24 @@ __author__ = "Eraldo Helal"
    #messages li.error {
        background: #ffc url(../images/icon_error.gif) 5px 0.5em no-repeat;
    }
+
+   /* Start login page styling. */
+   .signin-google {
+       background-image: url('../images/login/signin_google.png');
+       display: block;
+       padding: 32px 0 0 0;
+       overflow: hidden;
+       background-repeat: no-repeat;
+       height: 0px !important;
+       height /**/:32px;
+   }
+   .signin-facebook {
+       background-image: url('../images/login/signin_facebook.png');
+       display: block;
+       padding: 32px 0 0 0;
+       overflow: hidden;
+       background-repeat: no-repeat;
+       height: 0px !important;
+       height /**/:32px;
+   }
+   /* End login page styling. */

@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% load url from future %}
 
+
 {% block content %}
 
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 
-<h1>Login</h1>
+<h1>Sign in</h1>
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
 <table>
@@ -21,8 +22,11 @@
 </tr>
 </table>
 
-<input type="submit" value="login" />
+<input type="submit" value="Sign in" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
+<br>
+<a href="{% url 'socialauth_begin' 'google-oauth2' %}?{{redirect_querystring }}" class="signin-google"></span>Sign in with Google</span></a>
+<a href="{% url 'socialauth_begin' 'facebook' %}?{{redirect_querystring }}" class="signin-facebook">Sign in with Facebook</a>
 
 {% endblock %}

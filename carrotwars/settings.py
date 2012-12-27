@@ -145,7 +145,8 @@ INSTALLED_APPS = (
 
     'tastypie', # api
     'south', # data migration
-
+    'social_auth', # social login
+    
     # 'accounts',
 )
 
@@ -161,6 +162,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
    "django.core.context_processors.static",
    "django.contrib.messages.context_processors.messages",
    "django.core.context_processors.request",
+   "social_auth.context_processors.social_auth_by_name_backends",
+   "social_auth.context_processors.social_auth_backends",
+   "social_auth.context_processors.social_auth_by_type_backends",
+   "social_auth.context_processors.social_auth_login_redirect",
 )
 
 # A sample logging configuration. The only tangible logging
@@ -225,3 +230,36 @@ POSTMAN_AUTOCOMPLETER_APP = {
         'arg_name': 'channel',
         'arg_default': 'user', # no default, mandatory to enable the feature
 }
+
+AUTHENTICATION_BACKENDS = (
+    # 'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    # 'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    # 'social_auth.backends.google.GoogleBackend',
+    # 'social_auth.backends.yahoo.YahooBackend',
+    # 'social_auth.backends.browserid.BrowserIDBackend',
+    # 'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    # 'social_auth.backends.contrib.disqus.DisqusBackend',
+    # 'social_auth.backends.contrib.livejournal.LiveJournalBackend',
+    # 'social_auth.backends.contrib.orkut.OrkutBackend',
+    # 'social_auth.backends.contrib.foursquare.FoursquareBackend',
+    # 'social_auth.backends.contrib.github.GithubBackend',
+    # 'social_auth.backends.contrib.vkontakte.VKontakteBackend',
+    # 'social_auth.backends.contrib.live.LiveBackend',
+    # 'social_auth.backends.contrib.skyrock.SkyrockBackend',
+    # 'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
+    # 'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+# django social auth settings
+
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+
+# add email to requested facebook user
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+
+SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
