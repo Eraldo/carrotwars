@@ -33,7 +33,7 @@ class OwnedRewardTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "quester")
-        fields = ("title", "description", "price", "status")
+        fields = ("title", "description", "price")
 
 
 class BuyColumn(tables.TemplateColumn):
@@ -71,4 +71,4 @@ class AssignedRewardTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "owner", "buy")
-        fields = ("title", "description", "price", "status")
+        fields = ("title", "description", "price")
