@@ -100,8 +100,9 @@ class BuyView(RedirectView):
 
         # check credits
         if relation.balance < reward.price:
-                messages.add_message(self.request, messages.ERROR, 'Not enough carrots. You have %s carrots from %s.' % (relation.balance, relation.owner))
-                return reverse('rewards:list')
+            diff = reward.price - relation.balance
+            messages.add_message(self.request, messages.ERROR, 'Not enough carrots. You have %s carrot%s from %s. You need %s more carrot%s.' % (relation.balance, "s"[relation.balance==1:], relation.owner, diff, "s"[diff==1:]))
+            return reverse('rewards:list')
 
         # update reward
         reward.status = 'D'
