@@ -6,7 +6,7 @@ from django.forms import ModelForm
 from django import forms
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable, CompletedQuestTable
+from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable, CompletedQuestTable, WaitingQuestTable
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -41,12 +41,16 @@ class QuestMixin(LoginRequiredMixin):
         context['owner'] = Relation.objects.owned_by(self.request.user)
         context['owned'] = Quest.objects.owned_by(self.request.user)
         context['assigned'] = Quest.objects.assigned_to(self.request.user)
+        context['proposed'] = Quest.objects.proposed_by(self.request.user)
         context['pending'] = Quest.objects.pending_for(self.request.user)
         context['completed'] = Quest.objects.completed_for(self.request.user)
+        context['waiting'] = Quest.objects.waiting_for(self.request.user)
         context['owned_table'] = OwnedQuestTable(context['owned'])
         context['assigned_table'] = AssignedQuestTable(context['assigned'])
+        context['proposed_table'] = WaitingQuestTable(context['proposed'])
         context['pending_table'] = PendingQuestTable(context['pending'])
         context['completed_table'] = CompletedQuestTable(context['completed'])
+        context['waiting_table'] = WaitingQuestTable(context['waiting'])
         return context
 
 class QuestListView(QuestMixin, ListView):
@@ -174,11 +178,11 @@ class ConfirmView(RedirectView):
         relation.balance += quest.rating
         relation.save()
 
-        messages.add_message(self.request, messages.INFO, 'Quest completion has been confirmed. %s earned %s carrots.' % (quest.relation.quester, quest.rating))
+        messages.add_message(self.request, messages.INFO, 'Quest completion has been confirmed. %s earned %s carrot%s.' % (quest.relation.quester, quest.rating, "s"[quest.rating==1:]))
         pm_write(
             sender=self.request.user,
             recipient=quest.relation.quester,
-            subject="Quest %s completion has been confirmed. You earned %s carrots!" % (quest.title, quest.rating),
+        subject="Quest %s completion has been confirmed. You earned %s carrot%s!" % (quest.title, quest.rating, "s"[quest.rating==1:]),
             body=""
             )
         return reverse('quests:list')

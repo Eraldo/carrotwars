@@ -21,12 +21,19 @@ class QuestManager(models.Manager):
     def assigned_to(self, user):
         """Returns the set of quests assigned to the provided user."""
         return super(QuestManager, self).get_query_set().filter(relation__quester=user, status='A')
+    def proposed_by(self, user):
+        """Returns the set of quests proposed by the provided user."""
+        return super(QuestManager, self).get_query_set().filter(relation__owner=user).filter(status='C')
     def pending_for(self, user):
         """Returns the set of quests pending for the provided user."""
         return super(QuestManager, self).get_query_set().filter(relation__quester=user).filter(status='C')
     def completed_for(self, user):
         """Returns the set of quests completed by the provided user."""
         return super(QuestManager, self).get_query_set().filter(relation__owner=user).filter(status='M')
+    def waiting_for(self, user):
+        """Returns the set of quests the provided user is waiting for."""
+        return super(QuestManager, self).get_query_set().filter(relation__quester=user).filter(status='M')
+
     
 class Quest(models.Model):
 

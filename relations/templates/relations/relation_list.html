@@ -9,7 +9,7 @@
 {% block content %}
 
 {% if not owned and not assigned and not pending %}
-You don't have any relations yet.
+You don't have any relations at the moment. ;)
 {% endif %}
 <a href="{% url 'relations:add' %}" id="add">+ add relation</a>
 {% if pending %}

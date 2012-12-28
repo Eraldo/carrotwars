@@ -14,8 +14,8 @@
   <a href="{% url 'quests:add' %}" id="add">+ add quest</a>
 {% endif %}
 
-{% if not pending and not completed and not assigned and not owned %}
-You don't have any quests yet. ;)
+{% if not pending and not completed and not assigned and not owned and not waiting and not proposed %}
+You don't have any quests at the moment. ;)
 {% endif %}
 
 {% if pending %}
@@ -39,6 +39,18 @@ You don't have any quests yet. ;)
 {% if owned %}
   <h1>Owned Quests</h1>
   {% render_table owned_table %}
+  <br>
+{% endif %}
+
+{% if waiting %}
+  <h1>Waiting Approval Quests </h1>
+  {% render_table waiting_table %}
+  <br>
+{% endif %}
+
+{% if proposed %}
+  <h1>Waiting Acceptance Quests</h1>
+  {% render_table proposed_table %}
   <br>
 {% endif %}
 
