@@ -32,7 +32,7 @@ class OwnedRelationTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         # sequence = ("title", "description", "...", "quester")
-        fields = ("quester", "balance", "status")
+        fields = ("quester", "balance")
 
 class AssignedRelationTable(tables.Table):
     """
@@ -47,7 +47,7 @@ class AssignedRelationTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         # sequence = ("owner", "description", "...", "owner")
-        fields = ("owner", "balance", "status")
+        fields = ("owner", "balance")
 
 class AcceptColumn(tables.TemplateColumn):
     """
