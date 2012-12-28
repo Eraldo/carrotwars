@@ -4,7 +4,8 @@
 
 <h1>New Reward</h1>
 <form method="POST">
-  <!-- {{ form|linebreaksbr }}{% csrf_token %} -->
+{% csrf_token %}
+  <!-- {{ form|linebreaksbr }} -->
 
 {% for field in form %}
 <p>
