@@ -7,7 +7,12 @@
 <b>owner:</b> {{ reward.relation.owner }}<br>
 <b>quester:</b> {{ reward.relation.quester }}<br>
 <b>created:</b> {{ reward.creation_date }}<br>
-<b>price:</b> {{ reward.price }}<br>
+<b>price:</b> <br>
+  {% if reward.price <= 5 %}
+    {% for i in ""|ljust:reward.price %}<img src="{{ STATIC_URL }}images/carrot.png">{% endfor %}<br>
+  {% else %}
+    <img src="{{ STATIC_URL }}images/carrot.png"> x {{ reward.price }}<br>
+  {% endif %}
 <b>status:</b> {{ reward.get_status_display }}<br>
 
 {% endblock %}
