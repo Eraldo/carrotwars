@@ -60,26 +60,11 @@ __author__ = "Eraldo Helal"
     }
 	#header {
 	}
-    /*
-	  #menu {
-	  padding:5px 10px;
-	  background:#c99;
-	  }
-	  #menu ul {
-	  margin:0;
-		padding:0;
-		list-style:none;
-	    }
-	    #menu li {
-		display:inline;
-		margin:0;
-		padding:0;
-	    }*/
 	#content {
 		float:left;
 		width:600px;
 		padding:20px 40px 40px 40px;
-		background:#F8F8F8 ; /* remove */
+		background:#F8F8F8 ; /* TODO: find better color */
         border-right: 1px solid #ccc;
 	}
 	#content h1 {
@@ -112,7 +97,8 @@ __author__ = "Eraldo Helal"
 
 
    /* Begin menu bar styling */
-   #menu { }
+   #menu {
+   }
    #menu ul {
        width: 100%;
        float: left;
@@ -210,7 +196,7 @@ __author__ = "Eraldo Helal"
    /* End form styling. */
 
    #messages {
-       padding: 34px 0 0 0;
+       clear:left;
        margin: 0;
    }
    #messages ul.messages {
@@ -227,10 +213,13 @@ __author__ = "Eraldo Helal"
    }
 
    #messages li.info {
-       background: #ffc url(../images/icon_success.gif) 5px 0.5em no-repeat;
+       background: #ffc url(../images/icon_info.gif) 5px 0.5em no-repeat;
    }
    #messages li.error {
        background: #ffc url(../images/icon_error.gif) 5px 0.5em no-repeat;
+   }
+   #messages li.success {
+       background: #ffc url(../images/icon_success.gif) 5px 0.5em no-repeat;
    }
 
    /* Start login page styling. */
