@@ -63,6 +63,18 @@ class RewardCreateView(RewardMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
+
+        # check if price is in range (between price_min and price_max)
+        price_min = 1
+        price_max = 100
+        if price_min <= form.cleaned_data['price'] <= price_max: # in range ?
+            pass # in range :)
+        else: # out of range :|
+            from django.forms.util import ErrorList
+            errors = form._errors.setdefault("price", ErrorList())
+            errors.append("The price needs to be between %s and %s." % (price_min, price_max))
+            return self.render_to_response(self.get_context_data(form=form))
+        
         self.object.relation = Relation.objects.get(owner=self.request.user, quester=form.cleaned_data['quester'])
         self.object.save()
         self.inform_user()

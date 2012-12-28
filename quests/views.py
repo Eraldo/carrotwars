@@ -6,7 +6,7 @@ from django.forms import ModelForm
 from django import forms
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable, CompletedQuestTable, WaitingQuestTable
+from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable, CompletedQuestTable, WaitingQuestTable, ProposedQuestTable
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -47,7 +47,7 @@ class QuestMixin(LoginRequiredMixin):
         context['waiting'] = Quest.objects.waiting_for(self.request.user)
         context['owned_table'] = OwnedQuestTable(context['owned'])
         context['assigned_table'] = AssignedQuestTable(context['assigned'])
-        context['proposed_table'] = WaitingQuestTable(context['proposed'])
+        context['proposed_table'] = ProposedQuestTable(context['proposed'])
         context['pending_table'] = PendingQuestTable(context['pending'])
         context['completed_table'] = CompletedQuestTable(context['completed'])
         context['waiting_table'] = WaitingQuestTable(context['waiting'])

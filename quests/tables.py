@@ -190,3 +190,20 @@ class WaitingQuestTable(tables.Table):
         attrs = {"class": "paleblue"}
         sequence = ("title", "description", "...", "owner")
         fields = ("title", "description", "rating")
+
+
+class ProposedQuestTable(tables.Table):
+    """
+    Table layout for showing quests a user is waiting for.
+    """
+
+    quester = tables.LinkColumn('relations:detail', accessor='relation.quester' , args=[A('relation.pk')])
+    title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    rating = RatingColumn()
+    
+    class Meta:
+        model = Quest
+        # add class="paleblue" to <table> tag
+        attrs = {"class": "paleblue"}
+        sequence = ("title", "description", "...", "quester")
+        fields = ("title", "description", "rating")
