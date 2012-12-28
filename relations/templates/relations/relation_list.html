@@ -8,25 +8,36 @@
 
 {% block content %}
 
-{% if not owned and not assigned and not pending %}
-You don't have any relations at the moment. ;)
+{% if not owned and not assigned and not proposed and not pending %}
+  You don't have any relations at the moment. ;)
 {% endif %}
+
 <a href="{% url 'relations:add' %}" id="add">+ add relation</a>
+
 {% if pending %}
-<h1>Pending Relations</h1>
-{% render_table pending_table %}
-<br>
+  <h1>Pending Relations</h1>
+  {% render_table pending_table %}
+  <br>
 {% endif %}
+
 {% if assigned %}
-<h1>Assigned Relations</h1>
-{% render_table assigned_table %}
-<br>
+  <h1>Assigned Relations</h1>
+  {% render_table assigned_table %}
+  <br>
 {% endif %}
+
 {% if owned %}
-<h1>Owned Relations</h1>
-{% render_table owned_table %}
-<br>
+  <h1>Owned Relations</h1>
+  {% render_table owned_table %}
+  <br>
 {% endif %}
+
+{% if proposed %}
+  <h1>Waiting for Acceptance</h1>
+  {% render_table proposed_table %}
+  <br>
+{% endif %}
+
 <!-- <h1>All Relations</h1> -->
 <!-- {% render_table object_list %} -->
 

@@ -93,3 +93,19 @@ class PendingRelationTable(tables.Table):
         attrs = {"class": "paleblue"}
         # sequence = ("owner", "description", "...", "owner")
         fields = ("owner",)
+
+
+class ProposedRelationTable(tables.Table):
+    """
+    Table layout for showing relations proposed by a user.
+    """
+    owner = tables.LinkColumn('relations:detail', args=[A('pk')])
+    # accept = AcceptColumn(accessor="pk")
+    # decline = DeclineColumn(accessor="pk")
+    
+    class Meta:
+        model = Relation
+        # add class="paleblue" to <table> tag
+        attrs = {"class": "paleblue"}
+        # sequence = ("owner", "description", "...", "owner")
+        fields = ("owner",)

@@ -4,7 +4,7 @@ from django.views.generic.edit import ModelFormMixin
 from django.forms import ModelForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from relations.tables import OwnedRelationTable, AssignedRelationTable, PendingRelationTable
+from relations.tables import OwnedRelationTable, AssignedRelationTable, PendingRelationTable, ProposedRelationTable
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -31,9 +31,11 @@ class RelationMixin(LoginRequiredMixin):
         context = super(RelationMixin, self).get_context_data(**kwargs)
         context['owned'] = Relation.objects.owned_by(self.request.user)
         context['assigned'] = Relation.objects.assigned_to(self.request.user)
+        context['proposed'] = Relation.objects.proposed_by(self.request.user)
         context['pending'] = Relation.objects.pending_for(self.request.user)
         context['owned_table'] = OwnedRelationTable(context['owned'])
         context['assigned_table'] = AssignedRelationTable(context['assigned'])
+        context['proposed_table'] = ProposedRelationTable(context['proposed'])
         context['pending_table'] = PendingRelationTable(context['pending'])
         return context
 
