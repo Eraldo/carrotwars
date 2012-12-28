@@ -111,7 +111,7 @@ class PendingQuestTable(tables.Table):
     Table layout for showing quests pending for a user.
     """
 
-    owner = tables.Column(accessor='relation.owner')
+    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     accept = AcceptColumn(accessor="pk")
