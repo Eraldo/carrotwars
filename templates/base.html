@@ -30,7 +30,7 @@ __author__ = "Eraldo Helal"
         <li><a href="{% url 'quests:list' %}">Quests</a></li>
         <li><a href="{% url 'rewards:list' %}">Rewards</a></li>
         <li><a href="/messages/">Messages
-          {% if unread_count > 0 %}<span style="font-weight:normal;">({{ unread_count }})</span>{% endif %}</a></li>
+          {% if user.is_authenticated and unread_count > 0 %}<span style="font-weight:normal;">({{ unread_count }})</span>{% endif %}</a></li>
       </ul>
       {% block postman_menu %}{% endblock %}
     </div>
