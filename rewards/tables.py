@@ -24,7 +24,7 @@ class OwnedRewardTable(tables.Table):
     Table layout for showing rewards owned by a user.
     """
 
-    quester = tables.Column(accessor='relation.quester')
+    quester = tables.LinkColumn('relations:detail', accessor='relation.quester' , args=[A('relation.pk')])
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
     price = PriceColumn()
     
@@ -61,7 +61,7 @@ class AssignedRewardTable(tables.Table):
     Table layout for showing rewards assigned to a user.
     """
 
-    owner = tables.Column(accessor='relation.owner')
+    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
     price = PriceColumn()
     buy = BuyColumn(accessor="pk")
