@@ -4,4 +4,4 @@ dev.db.bk
 
 # ignore personal settings file
 carrotwars/secrets.py
-media
+media/profiles/avatars
