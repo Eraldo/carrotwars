@@ -249,3 +249,20 @@ __author__ = "Eraldo Helal"
        height /**/:32px;
    }
    /* End login page styling. */
+
+   #settings {
+       float:right;
+   }
+   #settings img {
+       height: 32px;
+       vertical-align: top;
+       /* vertical-align: middle; */
+   }
+   #settings span {
+       line-height: 30px;
+       /* display: table-cell; */
+       /* vertical-align: middle; */
+       /* display: block; */
+       /* margin-left: auto; */
+       /* margin-right: auto; */
+   }

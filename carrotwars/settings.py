@@ -137,6 +137,8 @@ INSTALLED_APPS = (
     'quests',
     'rewards',
 
+    'accounts', # user profiles
+
     'pagination', # should be above postman
     'ajax_select', # should be above postman
     'postman', # user messaging
@@ -146,13 +148,11 @@ INSTALLED_APPS = (
     'tastypie', # api
     'south', # data migration
     'social_auth', # social login
-    
-    # 'accounts',
 )
 
 LOGIN_URL='/accounts/login/'
 LOGIN_REDIRECT_URL = '/quests/' #reverse('home') << breaks ajax-selects
-# AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
    "django.contrib.auth.context_processors.auth",
