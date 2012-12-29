@@ -44,7 +44,7 @@ __author__ = "Eraldo Helal"
         font-size: 1.5em;
         padding: 1em 8px;
         color: #333;
-        background-color: #069;
+        background-color: #539fe1; /* was 069 */
         margin: 0;
     }
     #logo a {
@@ -173,8 +173,15 @@ __author__ = "Eraldo Helal"
    /* End add button styling. */
 
    /* Start table styling. */
-   .paleblue, #pm_messages {
+   .paleblue, .table-container, #pm_messages {
        width: 100%;
+   }
+   table.paleblue + ul.pagination {
+       padding: 2px 10px 2px 10px !important;
+       background-position: top !important;
+   }
+   table.paleblue + ul.pagination > li {
+       line-height: 13px !important;
    }
    /* End table styling. */
 

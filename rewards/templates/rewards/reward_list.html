@@ -19,15 +19,17 @@ You don't have any rewards at the moment. ;)
 {% endif %}
 
 {% if assigned %}
+  <p>
   <h1>Offered Rewards</h1>
   {% render_table assigned_table %}
-  <br>
+  </p>
 {% endif %}
 
 {% if owned %}
+  <p>
   <h1>Owned Rewards</h1>
   {% render_table owned_table %}
-  <br>
+  </p>
 {% endif %}
 
 <!-- <h1>All Rewards</h1> -->

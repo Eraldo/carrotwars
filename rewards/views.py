@@ -10,6 +10,7 @@ from rewards.tables import OwnedRewardTable, AssignedRewardTable
 from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django_tables2 import RequestConfig
 
 from rewards.tables import OwnedRewardTable, AssignedRewardTable
 
@@ -43,6 +44,9 @@ class RewardMixin(LoginRequiredMixin):
         context['assigned'] = Reward.objects.assigned_to(self.request.user)
         context['owned_table'] = OwnedRewardTable(context['owned'])
         context['assigned_table'] = AssignedRewardTable(context['assigned'])
+        requestConfig = RequestConfig(self.request, paginate={"per_page": 10,})
+        requestConfig.configure(context['owned_table'])
+        requestConfig.configure(context['assigned_table'])
         return context
 
 class RewardListView(RewardMixin, ListView):

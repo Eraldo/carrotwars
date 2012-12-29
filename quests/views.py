@@ -11,6 +11,7 @@ from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from datetime import datetime, timedelta
+from django_tables2 import RequestConfig
 
 from django.forms.widgets import RadioSelect
 
@@ -51,6 +52,13 @@ class QuestMixin(LoginRequiredMixin):
         context['pending_table'] = PendingQuestTable(context['pending'])
         context['completed_table'] = CompletedQuestTable(context['completed'])
         context['waiting_table'] = WaitingQuestTable(context['waiting'])
+        requestConfig = RequestConfig(self.request, paginate={"per_page": 10,})
+        requestConfig.configure(context['owned_table'])
+        requestConfig.configure(context['assigned_table'])
+        requestConfig.configure(context['proposed_table'])
+        requestConfig.configure(context['pending_table'])
+        requestConfig.configure(context['completed_table'])
+        requestConfig.configure(context['waiting_table'])
         return context
 
 class QuestListView(QuestMixin, ListView):

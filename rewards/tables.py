@@ -64,7 +64,7 @@ class AssignedRewardTable(tables.Table):
     owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
     price = PriceColumn()
-    buy = BuyColumn(accessor="pk")
+    buy = BuyColumn(accessor="pk", orderable=False)
     
     class Meta:
         model = Reward

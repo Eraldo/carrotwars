@@ -84,8 +84,8 @@ class PendingRelationTable(tables.Table):
     Table layout for showing relations pending for a user.
     """
     owner = tables.LinkColumn('relations:detail', args=[A('pk')])
-    accept = AcceptColumn(accessor="pk")
-    decline = DeclineColumn(accessor="pk")
+    accept = AcceptColumn(accessor="pk", orderable=False)
+    decline = DeclineColumn(accessor="pk", orderable=False)
     
     class Meta:
         model = Relation
@@ -100,8 +100,6 @@ class ProposedRelationTable(tables.Table):
     Table layout for showing relations proposed by a user.
     """
     owner = tables.LinkColumn('relations:detail', args=[A('pk')])
-    # accept = AcceptColumn(accessor="pk")
-    # decline = DeclineColumn(accessor="pk")
     
     class Meta:
         model = Relation

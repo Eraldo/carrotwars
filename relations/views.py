@@ -9,6 +9,7 @@ from postman.api import pm_write
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.db import IntegrityError
+from django_tables2 import RequestConfig
 
 __author__ = "Eraldo Helal"
 
@@ -37,6 +38,11 @@ class RelationMixin(LoginRequiredMixin):
         context['assigned_table'] = AssignedRelationTable(context['assigned'])
         context['proposed_table'] = ProposedRelationTable(context['proposed'])
         context['pending_table'] = PendingRelationTable(context['pending'])
+        requestConfig = RequestConfig(self.request, paginate={"per_page": 10,})
+        requestConfig.configure(context['owned_table'])
+        requestConfig.configure(context['assigned_table'])
+        requestConfig.configure(context['proposed_table'])
+        requestConfig.configure(context['pending_table'])
         return context
 
 class RelationListView(RelationMixin, ListView):

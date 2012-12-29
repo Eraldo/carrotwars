@@ -19,33 +19,38 @@ You don't have any quests at the moment. ;)
 {% endif %}
 
 {% if pending %}
+  <p>
   <h1>Pending Quests</h1>
   {% render_table pending_table %}
-  <br>
+  </p>
 {% endif %}
 
 {% if completed %}
+  <p>
   <h1>Completed Quests</h1>
   {% render_table completed_table %}
-  <br>
+  </p>
 {% endif %}
 
 {% if assigned %}
+  <p>
   <h1>My Quests</h1>
   {% render_table assigned_table %}
-  <br>
+  </p>
 {% endif %}
 
 {% if owned %}
+  <p>
   <h1>Owned Quests</h1>
   {% render_table owned_table %}
-  <br>
+  </p>
 {% endif %}
 
 {% if waiting %}
+  <p>
   <h1>Waiting for Approval </h1>
   {% render_table waiting_table %}
-  <br>
+  </p>
 {% endif %}
 
 {% if proposed %}

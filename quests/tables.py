@@ -65,7 +65,7 @@ class AssignedQuestTable(tables.Table):
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     deadline = tables.DateColumn()
-    complete = CompleteColumn(accessor="pk")
+    complete = CompleteColumn(accessor="pk", orderable=False)
     
     class Meta:
         model = Quest
@@ -114,8 +114,8 @@ class PendingQuestTable(tables.Table):
     owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
-    accept = AcceptColumn(accessor="pk")
-    decline = DeclineColumn(accessor="pk")
+    accept = AcceptColumn(accessor="pk", orderable=False)
+    decline = DeclineColumn(accessor="pk", orderable=False)
     
     class Meta:
         model = Quest
@@ -164,8 +164,8 @@ class CompletedQuestTable(tables.Table):
     owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
-    confirm = ConfirmColumn(accessor="pk")
-    deny = DenyColumn(accessor="pk")
+    confirm = ConfirmColumn(accessor="pk", orderable=False)
+    deny = DenyColumn(accessor="pk", orderable=False)
     
     class Meta:
         model = Quest
