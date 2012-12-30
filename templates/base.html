@@ -6,11 +6,20 @@ __author__ = "Eraldo Helal"
 {% load postman_tags %}
 {% postman_unread as unread_count %}
 <html lang="en">
+
+
 <head>
-<title>{% block base_title %}Carrotwars{% endblock %} - {% block title %}Welcome{% endblock %}</title>
-<link href="{{ STATIC_URL }}css/common.css" rel="stylesheet" type="text/css" media="screen" />
-{% block extra-head %}{% endblock %}
+  <title>{% block base_title %}Carrotwars{% endblock %} - {% block title %}Welcome{% endblock %}</title>
+
+  <link href="{{ STATIC_URL }}css/common.css" rel="stylesheet" type="text/css" media="screen" />
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}dropdownmenu/dropdownmenu.js"></script>
+  <link href="{{ STATIC_URL }}dropdownmenu/dropdownmenu.css" rel="stylesheet" type="text/css" media ="screen" />
+
+  {% block extra-head %}{% endblock %}
 </head>
+
 
 <body>
 <div id="page-wrapper">
@@ -33,14 +42,26 @@ __author__ = "Eraldo Helal"
           {% if user.is_authenticated and unread_count > 0 %}<span style="font-weight:normal;">({{ unread_count }})</span>{% endif %}</a>
         </li>
         <div id="settings">
+          <div class="dropdown">
           {% if user.profile.avatar %}
-          <a href="#">
+          <a class="account" >
             <span id="center-text">
               {{ user.username|title }}
             </span>
             <img id="avatar" src="{{ MEDIA_URL }}{{ user.profile.avatar }}">
-          </a>
+            <img src="{{ STATIC_URL }}dropdownmenu/icons/arrow.png">
+            </a>
+
+          <div class="submenu">
+            <ul class="root">
+              <!-- <li ><a href="#profile" >Profile</a></li> -->
+              <!-- <li ><a href="#settings">Settings</a></li> -->
+              <!-- <li ><a href="#feedback">Send Feedback</a></li> -->
+              <li ><a href="{% url 'logout' %}" >Logout</a></li>
+            </ul>
+          </div>
           {% endif %}
+          </div>
         </div>
       </ul>
       {% block postman_menu %}{% endblock %}
@@ -82,5 +103,37 @@ __author__ = "Eraldo Helal"
     {% endblock %}
   </div>
 </div>
+
+
+
+
+        <div id="settings">
+          <div class="dropdown">
+          {% if user.profile.avatar %}
+          <a class="account" >
+            <span id="center-text">
+              {{ user.username|title }}
+            </span>
+            <img id="avatar" src="{{ MEDIA_URL }}{{ user.profile.avatar }}">
+          </a>
+
+          <div class="submenu">
+            <ul class="root">
+              <!-- <li ><a href="#profile" >Profile</a></li> -->
+              <!-- <li ><a href="#settings">Settings</a></li> -->
+              <!-- <li ><a href="#feedback">Send Feedback</a></li> -->
+              <li ><a href="{% url 'logout' %}" >Logout</a></li>
+            </ul>
+          </div>
+          {% endif %}
+          </div>
+        </div>
+
+
+
+
+
 </body>
+
+
 </html>

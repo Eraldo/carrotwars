@@ -23,7 +23,7 @@ __author__ = "Eraldo Helal"
 		background:#fff;
         border-radius: 15px;
         -moz-border-radius: 15px;
-        overflow:hidden;
+        /* overflow:hidden; */
 	}
     @font-face {
         font-family: 'LOT';
@@ -38,6 +38,12 @@ __author__ = "Eraldo Helal"
         url('../fonts/raleway_thin-webfont.ttf') format('truetype');    
     }
     #logo {
+        /* border-radius: 15px; */
+        /* -moz-border-radius: 15px; */
+        border-top-left-radius: 15px;
+        -moz-border-radius-topleft: 15px;
+        border-top-right-radius: 15px;
+        -moz-border-radius-topright: 15px;
         text-align: center;
         font-family: 'rtw', Georgia, serif;
         font-weight: 900;
@@ -257,10 +263,10 @@ __author__ = "Eraldo Helal"
    #settings a:link {
        text-decoration: none !important;
    }
-   #settings img {
+   #settings img#avatar {
        height: 25px;
        vertical-align: middle;
-       padding: 4px;
+       padding: 4px 0px 4px 4px;
    }
    #avatar {
        height: 32px;
