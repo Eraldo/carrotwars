@@ -6,6 +6,25 @@ from django.conf import settings
 
 __author__ = "Eraldo Helal"
 
+
+class UserColumn(tables.TemplateColumn):
+    """
+    Table column layout for avatar and username display of a user.
+    """
+        
+    def __init__(self, *args, **kwargs):
+        kwargs['template_code'] = """
+        {% load url from future %}
+        <span id="center-text">
+        <a href="{% url 'relations:detail' record.relation.pk %}">
+          <img id="avatar" src="{{ MEDIA_URL }}{{ value.profile.avatar }}">
+          {{ value }}
+        </a>
+        </span>
+        """ 
+        super(UserColumn, self).__init__(*args, **kwargs)
+
+
 class PriceColumn(tables.Column):
     """
     Table column layout for displaying a price as carrot images.
@@ -24,7 +43,7 @@ class OwnedRewardTable(tables.Table):
     Table layout for showing rewards owned by a user.
     """
 
-    quester = tables.LinkColumn('relations:detail', accessor='relation.quester' , args=[A('relation.pk')])
+    quester = UserColumn(accessor='relation.quester')
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
     price = PriceColumn()
     
@@ -61,7 +80,7 @@ class AssignedRewardTable(tables.Table):
     Table layout for showing rewards assigned to a user.
     """
 
-    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
+    owner = UserColumn(accessor='relation.owner')
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
     price = PriceColumn()
     buy = BuyColumn(accessor="pk", orderable=False)

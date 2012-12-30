@@ -6,19 +6,19 @@
 <h1>{{ reward.title }}</h1>
 
 <p>
-  <b>owner:</b><br>
+  <b>owner</b><br>
   {{ reward.relation.owner }}<br>
   <img id="avatar" src="{{ MEDIA_URL }}{{ reward.relation.owner.profile.avatar }}">
 </p>
 
 <p>
-  <b>quester:</b><br>
-  {{ reward.relation.quest }}<br>
+  <b>quester</b><br>
+  {{ reward.relation.quester }}<br>
   <img id="avatar" src="{{ MEDIA_URL }}{{ reward.relation.quester.profile.avatar }}">
 </p>
 
 <p>
-  <b>price:</b> <br>
+  <b>price</b> <br>
   {% if reward.price <= 5 %}
     {% for i in ""|ljust:reward.price %}<img src="{{ STATIC_URL }}images/carrot.png">{% endfor %}<br>
   {% else %}
