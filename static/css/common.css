@@ -1,4 +1,4 @@
-@import url("gradient.css");
+/* @import url("gradient.css"); */
 @import url("pm_messages.css");
 /* @import url("button.css"); */
 
@@ -258,8 +258,9 @@ __author__ = "Eraldo Helal"
        text-decoration: none !important;
    }
    #settings img {
-       height: 32px;
-       vertical-align: top;
+       height: 25px;
+       vertical-align: middle;
+       padding: 4px;
    }
    #avatar {
        height: 32px;
