@@ -4,10 +4,31 @@
 {% block content %}
 
 <h1>{{ object }}</h1>
-<b>owner:</b> {{ relation.owner }}<br>
-<b>quester:</b> {{ relation.quester }}<br>
+
+<p>
+  <b>owner:</b><br>
+  {{ relation.owner }}<br>
+  <img id="avatar" src="{{ MEDIA_URL }}{{ relation.owner.profile.avatar }}">
+</p>
+
+<p>
+  <b>quester:</b><br>
+  {{ relation.quester }}<br>
+  <img id="avatar" src="{{ MEDIA_URL }}{{ relation.quester.profile.avatar }}"><br>
+</p>
+
+<p>
+  <b>balance:</b><br>
+  {% if relation.balance == 0 %}
+    No credit.
+  {% elif relation.balance <= 5 %}
+    {% for i in ""|ljust:relation.balance %}<img src="{{ STATIC_URL }}images/carrot.png">{% endfor %}<br>
+  {% else %}
+    <img src="{{ STATIC_URL }}images/carrot.png"> x {{ relation.balance }}<br>
+  {% endif %}
+</p>
+
 <b>created:</b> {{ relation.creation_date }}<br>
-<b>balance:</b> {{ relation.balance }}<br>
 <b>status:</b> {{ relation.get_status_display }}<br>
 
 {% endblock %}

@@ -3,8 +3,28 @@ from django_tables2.utils import A  # alias for Accessor
 from relations.models import Relation
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 __author__ = "Eraldo Helal"
+
+
+class UserColumn(tables.TemplateColumn):
+    """
+    Table column layout for avatar and username display of a user.
+    """
+        
+    def __init__(self, *args, **kwargs):
+        kwargs['template_code'] = """
+        {% load url from future %}
+        <span id="center-text">
+        <a href="{% url 'relations:detail' record.pk %}">
+          <img id="avatar" src="{{ MEDIA_URL }}{{ value.profile.avatar }}">
+          {{ value }}
+        </a>
+        </span>
+        """ 
+        super(UserColumn, self).__init__(*args, **kwargs)
+
 
 class BalanceColumn(tables.Column):
     """
@@ -13,7 +33,9 @@ class BalanceColumn(tables.Column):
 
     def render(self, value):
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
-        if value <= 5:
+        if value == 0:
+            return mark_safe("no credits")
+        elif value <= 5:
             return mark_safe(img_html * value)
         else:
             return mark_safe('%s x %s' % (img_html, value))
@@ -24,7 +46,7 @@ class OwnedRelationTable(tables.Table):
     Table layout for showing relations owned by a user.
     """
         
-    quester = tables.LinkColumn('relations:detail', args=[A('pk')])
+    quester = UserColumn()
     balance = BalanceColumn()
     
     class Meta:
@@ -39,7 +61,7 @@ class AssignedRelationTable(tables.Table):
     Table layout for showing relations assigned to a user.
     """
     
-    owner = tables.LinkColumn('relations:detail', args=[A('pk')])
+    owner = UserColumn()
     balance = BalanceColumn()
     
     class Meta:
@@ -53,7 +75,7 @@ class AcceptColumn(tables.TemplateColumn):
     """
     Table column layout for marking a relation as accepted.
     """
-    
+
     def __init__(self, *args, **kwargs):
         kwargs['template_code'] = """
         {% load url from future %}
@@ -83,7 +105,7 @@ class PendingRelationTable(tables.Table):
     """
     Table layout for showing relations pending for a user.
     """
-    owner = tables.LinkColumn('relations:detail', args=[A('pk')])
+    owner = UserColumn()
     accept = AcceptColumn(accessor="pk", orderable=False)
     decline = DeclineColumn(accessor="pk", orderable=False)
     
@@ -99,11 +121,11 @@ class ProposedRelationTable(tables.Table):
     """
     Table layout for showing relations proposed by a user.
     """
-    owner = tables.LinkColumn('relations:detail', args=[A('pk')])
+
+    quester = UserColumn()
     
     class Meta:
         model = Relation
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        # sequence = ("owner", "description", "...", "owner")
-        fields = ("owner",)
+        fields = ("quester",)

@@ -6,7 +6,7 @@ class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(User)
     # Other fields here
-    avatar = models.ImageField(upload_to='profiles/avatars', default='', blank=True)
+    avatar = models.ImageField(upload_to='profiles/avatars', default='profiles/avatars/default.jpg', blank=True)
 
     def __unicode__(self):
         return "%s's profile" % self.user
