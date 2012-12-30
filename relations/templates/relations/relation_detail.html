@@ -6,19 +6,19 @@
 <h1>{{ relation }}</h1>
 
 <p>
-  <b>owner:</b><br>
+  <b>owner</b><br>
   {{ relation.owner }}<br>
   <img id="avatar" src="{{ MEDIA_URL }}{{ relation.owner.profile.avatar }}">
 </p>
 
 <p>
-  <b>quester:</b><br>
+  <b>quester</b><br>
   {{ relation.quester }}<br>
   <img id="avatar" src="{{ MEDIA_URL }}{{ relation.quester.profile.avatar }}"><br>
 </p>
 
 <p>
-  <b>balance:</b><br>
+  <b>balance</b><br>
   {% if relation.balance == 0 %}
     No credit.
   {% elif relation.balance <= 5 %}
