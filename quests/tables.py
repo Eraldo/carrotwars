@@ -8,6 +8,25 @@ from django.conf import settings
 
 __author__ = "Eraldo Helal"
 
+
+class UserColumn(tables.TemplateColumn):
+    """
+    Table column layout for avatar and username display of a user.
+    """
+        
+    def __init__(self, *args, **kwargs):
+        kwargs['template_code'] = """
+        {% load url from future %}
+        <span id="center-text">
+        <a href="{% url 'relations:detail' record.relation.pk %}">
+          <img id="avatar" src="{{ MEDIA_URL }}{{ value.profile.avatar }}">
+          {{ value }}
+        </a>
+        </span>
+        """ 
+        super(UserColumn, self).__init__(*args, **kwargs)
+
+
 class RatingColumn(tables.Column):
     """
     Table column layout for displaying a rating as carrot images.
@@ -25,8 +44,8 @@ class OwnedQuestTable(tables.Table):
     """
     Table layout for showing quests owned by a user.
     """
-    
-    quester = tables.LinkColumn('relations:detail', accessor='relation.quester' , args=[A('relation.pk')])
+
+    quester = UserColumn(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     deadline = tables.DateColumn()
     rating = RatingColumn()
@@ -61,7 +80,7 @@ class AssignedQuestTable(tables.Table):
     Table layout for showing quests assigned to a user.
     """
 
-    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
+    owner = UserColumn(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     deadline = tables.DateColumn()
@@ -111,7 +130,7 @@ class PendingQuestTable(tables.Table):
     Table layout for showing quests pending for a user.
     """
 
-    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
+    owner = UserColumn(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     accept = AcceptColumn(accessor="pk", orderable=False)
@@ -161,7 +180,7 @@ class CompletedQuestTable(tables.Table):
     Table layout for showing quests completed for a user.
     """
 
-    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
+    quester = UserColumn(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     confirm = ConfirmColumn(accessor="pk", orderable=False)
@@ -171,7 +190,7 @@ class CompletedQuestTable(tables.Table):
         model = Quest
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        sequence = ("title", "description", "...", "owner", "confirm", "deny")
+        sequence = ("title", "description", "...", "quester", "confirm", "deny")
         fields = ("title", "description", "rating")
 
 
@@ -180,7 +199,7 @@ class WaitingQuestTable(tables.Table):
     Table layout for showing quests a user is waiting for.
     """
 
-    owner = tables.LinkColumn('relations:detail', accessor='relation.owner' , args=[A('relation.pk')])
+    owner = UserColumn(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     
@@ -197,7 +216,7 @@ class ProposedQuestTable(tables.Table):
     Table layout for showing quests a user is waiting for.
     """
 
-    quester = tables.LinkColumn('relations:detail', accessor='relation.quester' , args=[A('relation.pk')])
+    quester = UserColumn(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
     
