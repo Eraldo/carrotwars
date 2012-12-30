@@ -7,14 +7,18 @@
 
 <p>
   <b>owner</b><br>
-  {{ relation.owner }}<br>
+  <span id="center-text">
   <img id="avatar" src="{{ MEDIA_URL }}{{ relation.owner.profile.avatar }}">
+  {{ relation.owner }}
+  </span>
 </p>
 
 <p>
   <b>quester</b><br>
-  {{ relation.quester }}<br>
-  <img id="avatar" src="{{ MEDIA_URL }}{{ relation.quester.profile.avatar }}"><br>
+  <span id="center-text">
+  <img id="avatar" src="{{ MEDIA_URL }}{{ relation.quester.profile.avatar }}">
+  {{ relation.quester }}
+  </span>
 </p>
 
 <p>

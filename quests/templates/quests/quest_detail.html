@@ -9,14 +9,18 @@
 
 <p>
   <b>owner</b><br>
-  {{ quest.relation.owner }}<br>
+  <span id="center-text">
   <img id="avatar" src="{{ MEDIA_URL }}{{ quest.relation.owner.profile.avatar }}">
+  {{ quest.relation.owner }}
+  </span>
 </p>
 
 <p>
   <b>quester</b><br>
-  {{ quest.relation.quester }}<br>
+  <span id="center-text">
   <img id="avatar" src="{{ MEDIA_URL }}{{ quest.relation.quester.profile.avatar }}">
+  {{ quest.relation.quester }}
+  </span>
 </p>
 
 <p>
