@@ -276,3 +276,15 @@ __author__ = "Eraldo Helal"
        line-height: 32px;
    }
    /* End settings styling. */
+
+   /* Start date styling. */
+   .deadline span#due {
+       color: #f00;
+   }
+   .deadline span#notdue {
+       color: #080;
+   }
+   .deadline span#overdue {
+       color: #888;
+   }
+   /* End date styling. */

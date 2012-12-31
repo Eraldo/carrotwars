@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 from django.utils.html import escape
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from datetime import datetime, timedelta
 
 __author__ = "Eraldo Helal"
 
@@ -40,6 +41,22 @@ class RatingColumn(tables.Column):
             return mark_safe('%s x %s' % (img_html, len(value)))
 
 
+class DeadlineColumn(tables.Column):
+    """
+    Table column layout for displaying a color coded deadline.
+    """
+
+    def render(self, value):
+        today = datetime.now().date()
+        deadline = value.date()
+        # render date in color depending on time left
+        if today == deadline: # due
+            return mark_safe('<span id="due">%s</span>' % value.date())
+        elif today < deadline: # not due
+            return mark_safe('<span id="notdue">%s</span>' % value.date())
+        else: # over due
+            return mark_safe('<span id="overdue">%s</span>' % value.date())
+
 class OwnedQuestTable(tables.Table):
     """
     Table layout for showing quests owned by a user.
@@ -47,9 +64,8 @@ class OwnedQuestTable(tables.Table):
 
     quester = UserColumn(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
-    deadline = tables.DateColumn()
+    deadline = DeadlineColumn()
     rating = RatingColumn()
-
     
     class Meta:
         model = Quest
@@ -83,7 +99,7 @@ class AssignedQuestTable(tables.Table):
     owner = UserColumn(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
     rating = RatingColumn()
-    deadline = tables.DateColumn()
+    deadline = DeadlineColumn()
     complete = CompleteColumn(accessor="pk", orderable=False)
     
     class Meta:
