@@ -54,9 +54,9 @@ __author__ = "Eraldo Helal"
 
           <div class="submenu">
             <ul class="root">
-              <!-- <li ><a href="#profile" >Profile</a></li> -->
-              <!-- <li ><a href="#settings">Settings</a></li> -->
-              <!-- <li ><a href="#feedback">Send Feedback</a></li> -->
+              <li ><a href="#profile" >Profile</a></li>
+              <li ><a href="#settings">Settings</a></li>
+              <li ><a href="#feedback">Send Feedback</a></li>
               <li ><a href="{% url 'logout' %}" >Logout</a></li>
             </ul>
           </div>
@@ -103,35 +103,6 @@ __author__ = "Eraldo Helal"
     {% endblock %}
   </div>
 </div>
-
-
-
-
-        <div id="settings">
-          <div class="dropdown">
-          {% if user.profile.avatar %}
-          <a class="account" >
-            <span id="center-text">
-              {{ user.username|title }}
-            </span>
-            <img id="avatar" src="{{ MEDIA_URL }}{{ user.profile.avatar }}">
-          </a>
-
-          <div class="submenu">
-            <ul class="root">
-              <!-- <li ><a href="#profile" >Profile</a></li> -->
-              <!-- <li ><a href="#settings">Settings</a></li> -->
-              <!-- <li ><a href="#feedback">Send Feedback</a></li> -->
-              <li ><a href="{% url 'logout' %}" >Logout</a></li>
-            </ul>
-          </div>
-          {% endif %}
-          </div>
-        </div>
-
-
-
-
 
 </body>
 
