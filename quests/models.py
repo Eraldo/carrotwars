@@ -2,8 +2,9 @@ from django.db import models
 from relations.models import Relation
 from django.core.urlresolvers import reverse
 
-import datetime
+# import datetime
 from django.utils import timezone
+from datetime import datetime, timedelta
 
 __author__ = "Eraldo Helal"
 
@@ -77,3 +78,20 @@ class Quest(models.Model):
         self.activation_date = timezone.now()
         self.status = 'A'
 
+    def get_deadline_html(self):
+        if not self.deadline:
+            return "-"
+        today = datetime.now().date()
+        deadline = self.deadline.date()
+        warning_days = 1
+        template = '<span id="deadline-%s">%s</span>'
+        # render date in color depending on time left
+        if today == deadline: # due
+            return template % ("due", deadline)
+        elif today < deadline: # not yet due
+            if (deadline - today).days <= warning_days: # soon due
+                return template % ("soon-due", deadline)
+            else: # not due
+                return template % ("not-due", deadline)
+        else: # over due
+            return template % ("over-due", deadline)

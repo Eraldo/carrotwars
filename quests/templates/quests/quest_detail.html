@@ -31,7 +31,7 @@
 </p>
 
 <p>
-  <b>deadline:</b> {{ quest.deadline }}<br>
+  <b>deadline:</b> {{ quest.get_deadline_html|safe }}<br>
 </p>
 
 <b>created:</b> {{ quest.creation_date }}<br>

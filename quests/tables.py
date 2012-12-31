@@ -46,20 +46,9 @@ class DeadlineColumn(tables.Column):
     Table column layout for displaying a color coded deadline.
     """
 
-    def render(self, value):
-        today = datetime.now().date()
-        deadline = value.date()
-        warning_days = 1
-        # render date in color depending on time left
-        if today == deadline: # due
-            return mark_safe('<span id="due">%s</span>' % value.date())
-        elif today < deadline: # not due
-            if (deadline - today).days <= warning_days: # soon due
-                return mark_safe('<span id="soondue">%s</span>' % value.date())
-            else:
-                return mark_safe('<span id="notdue">%s</span>' % value.date())
-        else: # over due
-            return mark_safe('<span id="overdue">%s</span>' % value.date())
+    def render(self, value, record):
+        return mark_safe(record.get_deadline_html())
+    
 
 class OwnedQuestTable(tables.Table):
     """

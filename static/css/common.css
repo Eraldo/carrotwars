@@ -278,16 +278,16 @@ __author__ = "Eraldo Helal"
    /* End settings styling. */
 
    /* Start date styling. */
-   .deadline span#due {
+   #deadline-due {
        color: #f00;
    }
-   .deadline span#notdue {
+   #deadline-not-due {
        color: #080;
    }
-   .deadline span#soondue {
+   #deadline-soon-due {
        color: #f80;
    }
-   .deadline span#overdue {
+   #deadline-over-due {
        color: #888;
    }
    /* End date styling. */
