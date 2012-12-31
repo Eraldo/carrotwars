@@ -284,6 +284,9 @@ __author__ = "Eraldo Helal"
    .deadline span#notdue {
        color: #080;
    }
+   .deadline span#soondue {
+       color: #f80;
+   }
    .deadline span#overdue {
        color: #888;
    }

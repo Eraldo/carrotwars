@@ -49,11 +49,15 @@ class DeadlineColumn(tables.Column):
     def render(self, value):
         today = datetime.now().date()
         deadline = value.date()
+        warning_days = 1
         # render date in color depending on time left
         if today == deadline: # due
             return mark_safe('<span id="due">%s</span>' % value.date())
         elif today < deadline: # not due
-            return mark_safe('<span id="notdue">%s</span>' % value.date())
+            if (deadline - today).days <= warning_days: # soon due
+                return mark_safe('<span id="soondue">%s</span>' % value.date())
+            else:
+                return mark_safe('<span id="notdue">%s</span>' % value.date())
         else: # over due
             return mark_safe('<span id="overdue">%s</span>' % value.date())
 
