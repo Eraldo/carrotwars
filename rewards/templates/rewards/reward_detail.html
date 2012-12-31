@@ -7,18 +7,12 @@
 
 <p>
   <b>owner</b><br>
-  <span id="center-text">
-  <img id="avatar" src="{{ MEDIA_URL }}{{ reward.relation.owner.profile.avatar }}">
-  {{ reward.relation.owner }}
-  </span>
+  {{ reward.relation.get_owner_html }}<br>
 </p>
 
 <p>
   <b>quester</b><br>
-  <span id="center-text">
-  <img id="avatar" src="{{ MEDIA_URL }}{{ reward.relation.quester.profile.avatar }}">
-  {{ reward.relation.quester }}
-  </span>
+  {{ reward.relation.get_quester_html }}<br>
 </p>
 
 <p>

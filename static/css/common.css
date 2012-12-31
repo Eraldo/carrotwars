@@ -256,6 +256,7 @@ __author__ = "Eraldo Helal"
    }
    /* End login page styling. */
 
+
    /* End settings styling. */
    #settings {
        float:right;
@@ -277,6 +278,7 @@ __author__ = "Eraldo Helal"
    }
    /* End settings styling. */
 
+
    /* Start date styling. */
    #deadline-due {
        color: #f00;
@@ -291,3 +293,9 @@ __author__ = "Eraldo Helal"
        color: #888;
    }
    /* End date styling. */
+
+   #user-link {
+       color: #5B80B2;
+       text-decoration: none;
+       font-weight: bold;
+   }

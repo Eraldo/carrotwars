@@ -7,20 +7,13 @@
 
 <p>
   <b>owner</b><br>
-  <span id="center-text">
-  <img id="avatar" src="{{ MEDIA_URL }}{{ relation.owner.profile.avatar }}">
-  {{ relation.owner }}
-  </span>
+  {{ relation.get_owner_html }}<br>
 </p>
 
 <p>
   <b>quester</b><br>
-  <span id="center-text">
-  <img id="avatar" src="{{ MEDIA_URL }}{{ relation.quester.profile.avatar }}">
-  {{ relation.quester }}
-  </span>
+  {{ relation.get_quester_html }}<br>
 </p>
-
 
 <p>
   <b>balance</b><br>

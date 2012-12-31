@@ -63,3 +63,26 @@ class Relation(models.Model):
         else:
             html = '%s x %s' % (img_html, balance)
         return mark_safe(html)
+
+    def _get_user_html(self, user):
+        img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
+        link = reverse('relations:detail', args=[self.pk])
+        template = """
+        <span id="center-text">
+        <a id="user-link" href="%s">
+          <img id="avatar" src="%s%s">
+          %s
+        </a>
+        </span>
+        """ % (link, settings.MEDIA_URL, user.profile.avatar, user)
+        html = ""
+        if user:
+            html = template
+        return mark_safe(html)
+
+    def get_owner_html(self):
+        return self._get_user_html(self.owner)
+
+    def get_quester_html(self):
+        return self._get_user_html(self.quester)
+

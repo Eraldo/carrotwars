@@ -3,28 +3,22 @@ from django_tables2.utils import A  # alias for Accessor
 from relations.models import Relation
 from django.utils.safestring import mark_safe
 from django.conf import settings
-from django.core.urlresolvers import reverse
 
 __author__ = "Eraldo Helal"
 
 
-class UserColumn(tables.TemplateColumn):
+class UserColumn(tables.Column):
     """
     Table column layout for avatar and username display of a user.
     """
-        
-    def __init__(self, *args, **kwargs):
-        kwargs['template_code'] = """
-        {% load url from future %}
-        <span id="center-text">
-        <a href="{% url 'relations:detail' record.pk %}">
-          <img id="avatar" src="{{ MEDIA_URL }}{{ value.profile.avatar }}">
-          {{ value }}
-        </a>
-        </span>
-        """ 
-        super(UserColumn, self).__init__(*args, **kwargs)
 
+    def render(self, value, record):
+        user = value
+        relation = record
+        if user == relation.owner:
+            return relation.get_owner_html
+        elif user == relation.quester:
+            return relation.get_quester_html
 
 class BalanceColumn(tables.Column):
     """
