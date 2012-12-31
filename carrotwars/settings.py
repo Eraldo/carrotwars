@@ -152,6 +152,7 @@ INSTALLED_APPS = (
 
 LOGIN_URL='/accounts/login/'
 LOGIN_REDIRECT_URL = '/quests/' #reverse('home') << breaks ajax-selects
+LOGIN_ERROR_URL    = '/accounts/login-error/'
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -257,6 +258,7 @@ AUTHENTICATION_BACKENDS = (
 # django social auth settings
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 # add email to requested facebook user
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']

@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.shortcuts import redirect
+from accounts.views import LoginErrorView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -35,6 +36,8 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
     # logout page
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', name='logout'),
+    # login error page
+    url(r'^accounts/login-error/$', LoginErrorView.as_view(), name='login-error'),
 
     # main urls
     url(r'^$', lambda x: redirect('/quests'), name='home'),
