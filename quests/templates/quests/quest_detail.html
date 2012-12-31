@@ -3,32 +3,38 @@
 
 {% block content %}
 
-<h1>{{ quest.title }}</h1>
+{% if user == quest.relation.owner or user == quest.relation.quester %}
 
-{{ quest.description }}<br>
+  <h1>{{ quest.title }}</h1>
 
-<p>
-  <b>owner</b><br>
-  {{ quest.relation.get_owner_html }}<br>
-</p>
+  {{ quest.description }}<br>
 
-<p>
-  <b>quester</b><br>
-  {{ quest.relation.get_quester_html }}<br>
-</p>
-
-
-<p>
-  <b>rating</b><br>
-  {{ quest.get_rating_html }}<br>
-</p>
-
-<p>
-  <b>deadline:</b> {{ quest.get_deadline_html }}<br>
-</p>
-
-<b>created:</b> {{ quest.creation_date }}<br>
-<b>activated:</b> {{ quest.activation_date }}<br>
-<b>status:</b> {{ quest.get_status_display }}<br>
+  <p>
+    <b>owner</b><br>
+    {{ quest.relation.get_owner_html }}<br>
+  </p>
+  
+  <p>
+    <b>quester</b><br>
+    {{ quest.relation.get_quester_html }}<br>
+  </p>
+  
+  
+  <p>
+    <b>rating</b><br>
+    {{ quest.get_rating_html }}<br>
+  </p>
+  
+  <p>
+    <b>deadline:</b> {{ quest.get_deadline_html }}<br>
+  </p>
+  
+  <b>created:</b> {{ quest.creation_date }}<br>
+  <b>activated:</b> {{ quest.activation_date }}<br>
+  <b>status:</b> {{ quest.get_status_display }}<br>
+    
+{% else %}
+  You do not have the perssion to view this page.
+{% endif %}
 
 {% endblock %}

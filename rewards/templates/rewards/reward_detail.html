@@ -3,24 +3,30 @@
 
 {% block content %}
 
-<h1>{{ reward.title }}</h1>
-
-<p>
-  <b>owner</b><br>
-  {{ reward.relation.get_owner_html }}<br>
-</p>
-
-<p>
-  <b>quester</b><br>
-  {{ reward.relation.get_quester_html }}<br>
-</p>
-
-<p>
-  <b>price</b><br>
-  {{ reward.get_price_html }}<br>
-</p>
-
-<b>created:</b> {{ reward.creation_date }}<br>
-<b>status:</b> {{ reward.get_status_display }}<br>
+{% if user == quest.relation.owner or user == quest.relation.quester %}
+  
+  <h1>{{ reward.title }}</h1>
+  
+  <p>
+    <b>owner</b><br>
+    {{ reward.relation.get_owner_html }}<br>
+  </p>
+  
+  <p>
+    <b>quester</b><br>
+    {{ reward.relation.get_quester_html }}<br>
+  </p>
+  
+  <p>
+    <b>price</b><br>
+    {{ reward.get_price_html }}<br>
+  </p>
+  
+  <b>created:</b> {{ reward.creation_date }}<br>
+  <b>status:</b> {{ reward.get_status_display }}<br>
+  
+{% else %}
+  You do not have the perssion to view this page.
+{% endif %}
 
 {% endblock %}
