@@ -33,12 +33,8 @@ class RatingColumn(tables.Column):
     Table column layout for displaying a rating as carrot images.
     """
 
-    def render(self, value):
-        img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
-        if len(value) <= 5:
-            return mark_safe(img_html * len(value))
-        else:
-            return mark_safe('%s x %s' % (img_html, len(value)))
+    def render(self, value, record):
+      return record.get_rating_html()
 
 
 class DeadlineColumn(tables.Column):
@@ -47,7 +43,7 @@ class DeadlineColumn(tables.Column):
     """
 
     def render(self, value, record):
-        return mark_safe(record.get_deadline_html())
+        return record.get_deadline_html()
     
 
 class OwnedQuestTable(tables.Table):

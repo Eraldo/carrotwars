@@ -4,6 +4,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.utils.safestring import mark_safe
 
 __author__ = "Eraldo Helal"
     
@@ -21,6 +23,7 @@ class RelationManager(models.Manager):
     def proposed_by(self, user):
         """Returns the set of relations proposed by the provided user."""
         return super(RelationManager, self).get_query_set().filter(owner=user).filter(status='C')
+    
     def pending_for(self, user):
         """Returns the set of relations pensing for the provided user."""
         return super(RelationManager, self).get_query_set().filter(quester=user, status='C')
@@ -48,3 +51,15 @@ class Relation(models.Model):
     
     class Meta:
         unique_together = ("owner", "quester")
+
+    def get_balance_html(self):
+        balance = self.balance
+        img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
+        html = ""
+        if balance == 0:
+            html = "no credits"
+        elif balance <= 5:
+            html = img_html * balance
+        else:
+            html = '%s x %s' % (img_html, balance)
+        return mark_safe(html)

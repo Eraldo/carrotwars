@@ -25,13 +25,11 @@
 
 <p>
   <b>rating</b><br>
-  {% for i in quest.get_rating_display %}
-    <img src="{{ STATIC_URL }}images/carrot.png">
-  {% endfor %}<br>
+  {{ quest.get_rating_html }}<br>
 </p>
 
 <p>
-  <b>deadline:</b> {{ quest.get_deadline_html|safe }}<br>
+  <b>deadline:</b> {{ quest.get_deadline_html }}<br>
 </p>
 
 <b>created:</b> {{ quest.creation_date }}<br>

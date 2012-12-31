@@ -31,14 +31,8 @@ class BalanceColumn(tables.Column):
     Table column layout for displaying a relations balance as carrot images.
     """
 
-    def render(self, value):
-        img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
-        if value == 0:
-            return mark_safe("no credits")
-        elif value <= 5:
-            return mark_safe(img_html * value)
-        else:
-            return mark_safe('%s x %s' % (img_html, value))
+    def render(self, value, record):
+        return record.get_balance_html
 
 
 class OwnedRelationTable(tables.Table):

@@ -21,15 +21,10 @@
   </span>
 </p>
 
+
 <p>
   <b>balance</b><br>
-  {% if relation.balance == 0 %}
-    No credit.
-  {% elif relation.balance <= 5 %}
-    {% for i in ""|ljust:relation.balance %}<img src="{{ STATIC_URL }}images/carrot.png">{% endfor %}<br>
-  {% else %}
-    <img src="{{ STATIC_URL }}images/carrot.png"> x {{ relation.balance }}<br>
-  {% endif %}
+  {{ relation.get_balance_html }}<br>
 </p>
 
 <b>created:</b> {{ relation.creation_date }}<br>

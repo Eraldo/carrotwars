@@ -1,6 +1,8 @@
 from django.db import models
 from relations.models import Relation
 from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.utils.safestring import mark_safe
 
 import datetime
 from django.utils import timezone
@@ -52,3 +54,14 @@ class Reward(models.Model):
         self.activation_date = timezone.now()
         self.status = 'A'
 
+    def get_price_html(self):
+        price = self.price
+        img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
+        html = ""
+        if price == 0:
+            html = "free"
+        elif price <= 5:
+            html = img_html * price
+        else:
+            html = '%s x %s' % (img_html, price)
+        return mark_safe(html)

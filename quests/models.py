@@ -1,10 +1,10 @@
 from django.db import models
 from relations.models import Relation
 from django.core.urlresolvers import reverse
-
-# import datetime
+from django.conf import settings
 from django.utils import timezone
 from datetime import datetime, timedelta
+from django.utils.safestring import mark_safe
 
 __author__ = "Eraldo Helal"
 
@@ -85,13 +85,25 @@ class Quest(models.Model):
         deadline = self.deadline.date()
         warning_days = 1
         template = '<span id="deadline-%s">%s</span>'
+        html = ""
         # render date in color depending on time left
         if today == deadline: # due
-            return template % ("due", deadline)
+            html = template % ("due", deadline)
         elif today < deadline: # not yet due
             if (deadline - today).days <= warning_days: # soon due
-                return template % ("soon-due", deadline)
+                html = template % ("soon-due", deadline)
             else: # not due
-                return template % ("not-due", deadline)
+                html = template % ("not-due", deadline)
         else: # over due
-            return template % ("over-due", deadline)
+            html = template % ("over-due", deadline)
+        return  mark_safe(html)
+
+    def get_rating_html(self):
+        rating = self.rating
+        img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
+        html = ""
+        if rating <= 5:
+            html = img_html * rating
+        else:
+            html = '%s x %s' % (img_html, rating)
+        return mark_safe(html)
