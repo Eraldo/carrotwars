@@ -31,6 +31,7 @@ class Reward(models.Model):
     description = models.TextField(blank=True)
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
     price = models.IntegerField(default=1)
+    image = models.ImageField(upload_to='rewards/images', default='rewards/images/default.jpg', blank=True)
     STATUS = (
         ('C', 'created'),
         ('A', 'accepted'),
@@ -65,3 +66,33 @@ class Reward(models.Model):
         else:
             html = '%s x %s' % (img_html, price)
         return mark_safe(html)
+
+    def _get_image_html(self, id):
+        image_path = self.image
+        img_html = '<img id="%s" src="%s%s">' % (id, settings.MEDIA_URL, image_path)
+        html = ""
+        if image_path:
+            html = img_html
+        return mark_safe(html)
+
+    def get_image_html(self):
+        return self._get_image_html("image")
+
+    def get_icon_html(self):
+        return self._get_image_html("icon")
+
+
+    def get_html(self):
+        img_html = self.get_icon_html()
+        link = self.get_absolute_url()
+        text = self.title
+        template = """
+        <span id="center-text">
+        <a id="reward-link" href="%s">
+          %s %s
+        </a>
+        </span>
+        """ % (link, img_html, text)
+        html = template
+        return mark_safe(html)
+

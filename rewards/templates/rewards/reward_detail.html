@@ -6,7 +6,9 @@
 {% if user == reward.relation.owner or user == reward.relation.quester %}
   
   <h1>{{ reward.title }}</h1>
-  
+
+  {{ reward.get_image_html }}
+
   <p>
     <b>owner</b><br>
     {{ reward.relation.get_owner_html }}<br>

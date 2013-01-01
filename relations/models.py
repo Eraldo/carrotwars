@@ -70,11 +70,10 @@ class Relation(models.Model):
         template = """
         <span id="center-text">
         <a id="user-link" href="%s">
-          <img id="avatar" src="%s%s">
-          %s
+          %s %s
         </a>
         </span>
-        """ % (link, settings.MEDIA_URL, user.profile.avatar, user)
+        """ % (link, self._get_user_image_html(user, "icon"), user)
         html = ""
         if user:
             html = template
@@ -85,4 +84,25 @@ class Relation(models.Model):
 
     def get_quester_html(self):
         return self._get_user_html(self.quester)
+
+    def _get_user_image_html(self, user, id):
+        # return # TODO return image
+        image_path = user.profile.avatar
+        img_html = '<img id="%s" src="%s%s">' % (id, settings.MEDIA_URL, image_path)
+        html = ""
+        if image_path:
+            html = img_html
+        return mark_safe(html)
+
+    def get_owner_image_html(self):
+        return self._get_user_image_html(self.owner, "image")
+
+    def get_quester_image_html(self):
+        return self._get_user_image_html(self.quester, "image")
+
+    def get_owner_icon_html(self):
+        return self._get_user_image_html(self.owner, "icon")
+
+    def get_quester_icon_html(self):
+        return self._get_user_image_html(self.quester, "icon")
 

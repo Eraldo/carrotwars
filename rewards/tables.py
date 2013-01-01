@@ -9,7 +9,7 @@ __author__ = "Eraldo Helal"
 
 class UserColumn(tables.Column):
     """
-    Table column layout for avatar and username display of a user.
+    Table column layout for icon and username display of a user.
     """
 
     def render(self, value, record):
@@ -30,21 +30,43 @@ class PriceColumn(tables.Column):
         return record.get_price_html
 
 
+class ImageColumn(tables.Column):
+    """
+    Table column layout for displaying a reward image.
+    """
+
+    def render(self, value, record):
+        link = record.get_absolute_url()
+        html = '<a id="reward-link" href="%s">%s</a>' % (link, record.get_icon_html())
+        return mark_safe(html)
+
+
+class RewardColumn(tables.Column):
+    """
+    Table column layout for displaying a reward title and icon.
+    """
+
+    def render(self, value, record):
+        return record.get_html
+
+
 class OwnedRewardTable(tables.Table):
     """
     Table layout for showing rewards owned by a user.
     """
 
-    quester = UserColumn(accessor='relation.quester')
+    image = ImageColumn(orderable=False, verbose_name="icon")
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
+    # title = RewardColumn()
+    quester = UserColumn(accessor='relation.quester')
     price = PriceColumn()
     
     class Meta:
         model = Reward
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        sequence = ("title", "description", "...", "quester")
-        fields = ("title", "description", "price")
+        sequence = ("image", "title", "description", "...", "quester")
+        fields = ("image", "title", "description", "price")
 
 
 class BuyColumn(tables.TemplateColumn):
@@ -72,8 +94,9 @@ class AssignedRewardTable(tables.Table):
     Table layout for showing rewards assigned to a user.
     """
 
-    owner = UserColumn(accessor='relation.owner')
+    image = ImageColumn(orderable=False, verbose_name="icon")
     title = tables.LinkColumn('rewards:detail', args=[A('pk')])
+    owner = UserColumn(accessor='relation.owner')
     price = PriceColumn()
     buy = BuyColumn(accessor="pk", orderable=False)
     
@@ -81,5 +104,5 @@ class AssignedRewardTable(tables.Table):
         model = Reward
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        sequence = ("title", "description", "...", "owner", "buy")
-        fields = ("title", "description", "price")
+        sequence = ("image", "title", "description", "...", "owner", "buy")
+        fields = ("image", "title", "description", "price")

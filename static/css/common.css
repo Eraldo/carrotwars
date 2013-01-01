@@ -264,14 +264,10 @@ __author__ = "Eraldo Helal"
    #settings a:link {
        text-decoration: none !important;
    }
-   #settings img#avatar {
+   #settings img#icon {
        height: 25px;
        vertical-align: middle;
        padding: 4px 0px 4px 4px;
-   }
-   #avatar {
-       height: 32px;
-       vertical-align: top;
    }
    #center-text {
        line-height: 32px;
@@ -298,4 +294,13 @@ __author__ = "Eraldo Helal"
        color: #5B80B2;
        text-decoration: none;
        font-weight: bold;
+   }
+
+   #image {
+       max-height: 250px;
+   }
+
+   #icon {
+       max-height: 32px;
+       vertical-align: top;
    }

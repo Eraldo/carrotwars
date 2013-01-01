@@ -140,7 +140,7 @@ INSTALLED_APPS = (
     'accounts', # user profiles
 
     'pagination', # should be above postman
-    'ajax_select', # should be above postman
+    # 'ajax_select', # should be above postman
     'postman', # user messaging
 
     'django_tables2', # display model tables
