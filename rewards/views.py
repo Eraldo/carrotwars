@@ -34,7 +34,8 @@ class RewardForm(ModelForm):
         max_width = 600
         max_height = 600
         image = self.cleaned_data.get('image', False)
-        if image:
+        if image and not isinstance(image, unicode): # image was set
+            print(type(image))
             if image._size > max_size*1024*1024:
                 raise forms.ValidationError("Image file is too large. (> %s MB)" % max_size)
             from PIL import Image
@@ -50,7 +51,8 @@ class RewardForm(ModelForm):
                 # raise forms.ValidationError("Image file is too large. (> %s x %s)" % (max_width, max_height))
             return image
         else:
-            raise forms.ValidationError("Couldn't read uploaded image")
+            # raise forms.ValidationError("Couldn't read uploaded image")
+            return image # the default image
 
 class LoginRequiredMixin(object):
     @method_decorator(login_required)
