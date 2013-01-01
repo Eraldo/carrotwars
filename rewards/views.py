@@ -19,14 +19,38 @@ __author__ = "Eraldo Helal"
 class RewardForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
 
+    class Meta:
+        model = Reward
+        exclude = ('relation', 'status',)
+
     def __init__(self, user=None, **kwargs):
         super(RewardForm, self).__init__(**kwargs)
         if user:
             self.fields['relation'].queryset = Relation.objects.filter(owner=user)
 
-    class Meta:
-        model = Reward
-        exclude = ('relation', 'status',)
+    # Add some custom validation to our image field
+    def clean_image(self):
+        max_size = 1 # in MB
+        max_width = 600
+        max_height = 600
+        image = self.cleaned_data.get('image', False)
+        if image:
+            if image._size > max_size*1024*1024:
+                raise forms.ValidationError("Image file is too large. (> %s MB)" % max_size)
+            from PIL import Image
+            img = Image.open(image)
+            width, height = img.size
+            if width > max_width or height > max_height:
+                raise forms.ValidationError("Image file is too large. (> %s x %s)" % (max_width, max_height))
+                # # TODO resize image (then update size [and type if it was not jpg] on the memory image file)
+                # print("before:", image.file, image.field_name, image.name, image.content_type, image.size)
+                # img.thumbnail((max_width, max_height), Image.ANTIALIAS)
+                # img.save(image.file, "JPEG")
+                # print("after:", image.file, image.field_name, image.name, image.content_type, image.size)
+                # raise forms.ValidationError("Image file is too large. (> %s x %s)" % (max_width, max_height))
+            return image
+        else:
+            raise forms.ValidationError("Couldn't read uploaded image")
 
 class LoginRequiredMixin(object):
     @method_decorator(login_required)
@@ -49,11 +73,14 @@ class RewardMixin(LoginRequiredMixin):
         requestConfig.configure(context['assigned_table'])
         return context
 
+
 class RewardListView(RewardMixin, ListView):
     pass
 
+
 class RewardDetailView(RewardMixin, DetailView):
     pass
+
 
 class RewardCreateView(RewardMixin, CreateView):
     success_url = '.' # reverse('rewards:list')
@@ -84,6 +111,7 @@ class RewardCreateView(RewardMixin, CreateView):
         self.inform_user()
         messages.add_message(self.request, messages.INFO, 'New reward has been created.')
         return super(RewardCreateView, self).form_valid(form)
+
 
     def inform_user(self):
         subject = "New reward!"
