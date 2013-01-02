@@ -24,6 +24,21 @@ class UserColumn(tables.Column):
             return quest.relation.get_quester_html
 
 
+class DescriptionColumn(tables.Column):
+    """
+    Table column layout for displaying a description.
+    If the description is long.. a shortened version will be used.
+    """
+
+    def render(self, value, record):
+        max_lenth = 25
+        if len(value) > max_lenth:
+            html = value[:max_lenth] + ".."
+        else:
+            html = value
+        return html
+  
+
 class RatingColumn(tables.Column):
     """
     Table column layout for displaying a rating as carrot images.
@@ -49,6 +64,7 @@ class OwnedQuestTable(tables.Table):
 
     quester = UserColumn(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    description = DescriptionColumn()
     deadline = DeadlineColumn()
     rating = RatingColumn()
     
@@ -83,6 +99,7 @@ class AssignedQuestTable(tables.Table):
 
     owner = UserColumn(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    description = DescriptionColumn()
     rating = RatingColumn()
     deadline = DeadlineColumn()
     complete = CompleteColumn(accessor="pk", orderable=False)
@@ -133,6 +150,7 @@ class PendingQuestTable(tables.Table):
 
     owner = UserColumn(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    description = DescriptionColumn()
     rating = RatingColumn()
     accept = AcceptColumn(accessor="pk", orderable=False)
     decline = DeclineColumn(accessor="pk", orderable=False)
@@ -183,6 +201,7 @@ class CompletedQuestTable(tables.Table):
 
     quester = UserColumn(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    description = DescriptionColumn()
     rating = RatingColumn()
     confirm = ConfirmColumn(accessor="pk", orderable=False)
     deny = DenyColumn(accessor="pk", orderable=False)
@@ -202,6 +221,7 @@ class WaitingQuestTable(tables.Table):
 
     owner = UserColumn(accessor='relation.owner')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    description = DescriptionColumn()
     rating = RatingColumn()
     
     class Meta:
@@ -219,6 +239,7 @@ class ProposedQuestTable(tables.Table):
 
     quester = UserColumn(accessor='relation.quester')
     title = tables.LinkColumn('quests:detail', args=[A('pk')])
+    description = DescriptionColumn()
     rating = RatingColumn()
     
     class Meta:

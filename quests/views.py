@@ -19,7 +19,6 @@ __author__ = "Eraldo Helal"
 
 class QuestForm(ModelForm):
     quester = forms.ModelChoiceField(queryset = User.objects.all())
-    CHOICES = (('1', 'First',), ('2', 'Second',))
 
     class Meta:
         model = Quest
@@ -80,9 +79,18 @@ class QuestCreateView(QuestMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.relation = Relation.objects.get(owner=self.request.user, quester=form.cleaned_data['quester'])
+
+        if self.object.bomb:
+            self.object.activate()
+            success_msg = 'New quest has been created.'
+        else:
+            success_msg = 'New quest has been created. Waiting for Quester to accept.'
+
         self.object.save()
+        
         self.inform_user()
-        messages.add_message(self.request, messages.INFO, 'New quest has been created. Waiting for Quester to accept.')
+        messages.add_message(self.request, messages.INFO, success_msg)
+
         return super(QuestCreateView, self).form_valid(form)
 
     def inform_user(self):
@@ -110,12 +118,11 @@ class AcceptView(RedirectView):
             return reverse('quests:list')
 
         # update quest
-        quest.status = 'A'
-        quest.activation_date = datetime.now()
-        quest.deadline = datetime.now()+timedelta(days=7)
+        quest.activate()
+
         quest.save()
         
-        messages.add_message(self.request, messages.INFO, 'Quest has been accepted.')
+        messages.add_message(self.request, messages.SUCCESS, 'Quest has been accepted.')
         pm_write(
             sender=self.request.user,
             recipient=quest.relation.owner,

@@ -52,6 +52,7 @@ class Quest(models.Model):
         (5, '*****'),
     )
     rating = models.PositiveSmallIntegerField(default=1, max_length=1, choices=RATINGS)
+    bomb = models.BooleanField()
     STATUS = (
         ('C', 'created'),
         ('A', 'accepted'),
@@ -77,6 +78,16 @@ class Quest(models.Model):
     def set_active(self):
         self.activation_date = timezone.now()
         self.status = 'A'
+
+    def activate(self):
+        self.status = 'A'
+        self.activation_date = datetime.now()
+        self.deadline = datetime.now()+timedelta(days=7)
+
+    def fail(self):
+        if self.bomb and self.relation.balance > self.rating:
+            self.relation.balance -= self.rating
+        self.status = 'F'
 
     def get_deadline_html(self):
         if not self.deadline:
@@ -106,4 +117,14 @@ class Quest(models.Model):
             html = img_html * rating
         else:
             html = '%s x %s' % (img_html, rating)
+        if self.bomb:
+            html += " " + self.get_bomb_html()
+        return mark_safe(html)
+
+    def get_bomb_html(self):
+        bomb = self.bomb
+        img_html = '<img src=%simages/bomb.png>' % settings.STATIC_URL
+        html = ""
+        if bomb:
+            html = img_html
         return mark_safe(html)
