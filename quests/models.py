@@ -39,7 +39,7 @@ class QuestManager(models.Manager):
 class Quest(models.Model):
 
     relation = models.ForeignKey(Relation)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=60)
     description = models.TextField(blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     activation_date = models.DateTimeField(blank=True, null=True)

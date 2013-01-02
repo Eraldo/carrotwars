@@ -31,9 +31,9 @@ class DescriptionColumn(tables.Column):
     """
 
     def render(self, value, record):
-        max_lenth = 25
+        max_lenth = 60
         if len(value) > max_lenth:
-            html = value[:max_lenth] + ".."
+            html = value[:max_lenth] + " .."
         else:
             html = value
         return html

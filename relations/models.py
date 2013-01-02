@@ -70,7 +70,7 @@ class Relation(models.Model):
         template = """
         <span id="center-text">
         <a id="user-link" href="%s">
-          %s %s
+          %s<br>%s
         </a>
         </span>
         """ % (link, self._get_user_image_html(user, "icon"), user)
