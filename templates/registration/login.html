@@ -5,7 +5,9 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<ul class="errorlist">
+  <li>Your username and password didn't match. Please try again.</li>
+</ul>
 {% endif %}
 
 <h1>Sign in</h1>

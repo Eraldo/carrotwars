@@ -181,12 +181,53 @@ __author__ = "Eraldo Helal"
 
 
    /* Start table styling. */
+   .table-container { /* , table#pm_messages */
+       border: 1px solid #DDD;
+       border-radius: 10px;
+       -moz-border-radius: 10px;
+   }
+   
+   table.paleblue {
+       border: None !important;
+       border-radius: 10px;
+       -moz-border-radius: 10px;
+   }
+   table.paleblue thead {
+       border-radius: 15px;
+       -moz-border-radius: 15px;
+   }
+   table.paleblue thead tr {
+       border-right: 4px !important;
+       border-radius: 10px;
+       -moz-border-radius: 10px;       
+   }
+   table.paleblue td:first-child {
+       border-left: none !important;
+   }
+   table.paleblue th:first-child {
+       border-top-left-radius: 10px;
+       -moz-border-radius-topleft: 10px;
+   }
+   table th:last-child {
+       border-top-right-radius: 10px;
+       -moz-border-radius-topright: 10px;
+   }
+
    .paleblue, .table-container, #pm_messages {
        width: 100%;
    }
    table.paleblue + ul.pagination {
+       border-left: 0px !important;
+       border-right: 0px !important;
+       border-bottom: 0px !important;
+       border-top: 1px;
        padding: 2px 10px 2px 10px !important;
        background-position: top !important;
+
+       border-bottom-left-radius: 10px;
+       -moz-border-radius-bottomleft: 10px;
+       border-bottom-right-radius: 10px;
+       -moz-border-radius-bottomright: 10px;
    }
    table.paleblue + ul.pagination > li {
        line-height: 13px !important;
@@ -349,3 +390,21 @@ __author__ = "Eraldo Helal"
        margin: auto auto;
    }
    /* End content styling. */
+
+   /* Start form styling. */
+   ul.errorlist {
+       margin: 0 !important;
+       padding: 0 !important;
+   }
+   .errorlist li {
+       font-size: 12px !important;
+       display: block;
+       padding: 4px 5px 4px 25px;
+       margin: 0 0 3px 0;
+       border: 1px solid red;
+       color: red;
+       background: #FFC url(../images/icon_alert.gif) 5px .3em no-repeat;
+       -moz-border-radius: 15px;
+       border-radius: 15px;
+   }
+   /* End form styling. */
