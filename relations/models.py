@@ -68,11 +68,9 @@ class Relation(models.Model):
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
         link = reverse('relations:detail', args=[self.pk])
         template = """
-        <span id="center-text">
         <a id="user-link" href="%s">
-          %s<br>%s
+          %s<span id="user-link-text">%s</span>
         </a>
-        </span>
         """ % (link, self._get_user_image_html(user, "icon"), user)
         html = ""
         if user:

@@ -145,6 +145,7 @@ __author__ = "Eraldo Helal"
    }
    /* End sub-menu bar styling. */
 
+
    /* Start add button styling. */
    #add {
        Background-color: #cfc;
@@ -178,6 +179,7 @@ __author__ = "Eraldo Helal"
    }
    /* End add button styling. */
 
+
    /* Start table styling. */
    .paleblue, .table-container, #pm_messages {
        width: 100%;
@@ -197,6 +199,7 @@ __author__ = "Eraldo Helal"
    }
    /* End postman styling. */
 
+
    /* Start form styling. */
    label {
        /* width: 80px; */
@@ -207,6 +210,7 @@ __author__ = "Eraldo Helal"
        font-weight: bold;
    }
    /* End form styling. */
+
 
    #messages {
        clear:left;
@@ -270,8 +274,7 @@ __author__ = "Eraldo Helal"
        padding: 4px 0px 4px 4px;
    }
    #center-text {
-       /* line-height: 32px; */
-       /* text-align: center; */
+       text-align: center;
    }
    /* End settings styling. */
 
@@ -291,10 +294,13 @@ __author__ = "Eraldo Helal"
    }
    /* End date styling. */
 
+
+   /* Start content styling. */
    #user-link {
        color: #5B80B2;
        text-decoration: none;
        font-weight: bold;
+       margin: 0px;
    }
 
    #image {
@@ -306,3 +312,40 @@ __author__ = "Eraldo Helal"
        max-height: 32px;
        vertical-align: top;
    }
+
+   table #user-link-text {
+       display: block;
+       text-align: center;
+   }
+   table td.owner img, td.quester img {
+       display: block;
+       margin: 0 auto;
+   }
+
+   table #user-link {
+       display: block;
+       /* max-width: 65px; */
+       margin: 0 auto;
+   }
+   #user-link-text {
+       display: block;
+   }
+
+   th.rating {
+       width: 130px;
+   }
+   th.owner, th.quester {
+       width: 40px;
+   }
+   th.accept, th.decline, th.confirm, th.deny, th.complete, th.buy {
+       width: 40px;
+   }
+   td.accept input, td.decline input, td.confirm input, td.deny input, td.complete input, td.buy input {
+       display: block;
+       margin: 0 auto;
+   }
+   td.image img {
+       display: block;
+       margin: auto auto;
+   }
+   /* End content styling. */

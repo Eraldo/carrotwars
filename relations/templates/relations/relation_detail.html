@@ -6,22 +6,16 @@
 {% if user == relation.owner or user == relation.quester %}
   
   <h1>{{ relation }}</h1>
-  
-  <p>
-    <b>owner</b><br>
-    {{ relation.get_owner_html }}<br>
-  </p>
-  
-  <p>
-    <b>quester</b><br>
-    {{ relation.get_quester_html }}<br>
-  </p>
-  
-  <p>
-    <b>balance</b><br>
-    {{ relation.get_balance_html }}<br>
-  </p>
-  
+
+  <b>owner</b><br>
+  {{ relation.get_owner_html }}
+  <br>
+  <b>quester</b><br>
+  {{ relation.get_quester_html }}
+  <br>
+  <b>balance</b><br>
+  {{ relation.get_balance_html }}<br>
+  <br>
   <b>created:</b> {{ relation.creation_date }}<br>
   <b>status:</b> {{ relation.get_status_display }}<br>
   

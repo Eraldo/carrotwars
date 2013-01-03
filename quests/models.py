@@ -128,3 +128,9 @@ class Quest(models.Model):
         if bomb:
             html = img_html
         return mark_safe(html)
+
+    def get_description_html(self):
+        if self.description:
+            return self.description
+        else:
+            return "-"
