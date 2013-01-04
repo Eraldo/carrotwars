@@ -61,7 +61,7 @@ class QuestMixin(LoginRequiredMixin):
         return context
 
 class QuestListView(QuestMixin, ListView):
-    Quest.objects.update_status()
+    pass
 
 class QuestDetailView(QuestMixin, DetailView):
     pass

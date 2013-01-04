@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'tastypie', # api
     'south', # data migration
     'social_auth', # social login
+    'django_cron', # event based tasks
 )
 
 LOGIN_URL='/accounts/login/'
@@ -265,3 +266,7 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
+
+CRON_CLASSES = [
+    "quests.cron.UpdateQuestStatusCronJob",
+]

@@ -108,12 +108,23 @@ class Quest(models.Model):
             deduction = self.rating
         self.status = 'F'
         self.save()
+        # notify owner
         pm_write(
             sender=self.relation.quester,
             recipient=self.relation.owner,
+            subject="Quest %s has failed. %s lost %s carrot%s." % (
+                self.title, self.relation.quester.title(), deduction, "s"[deduction==1:]),
+            body=""
+            )
+        # notify quester
+        pm_write(
+            sender=self.relation.owner,
+            recipient=self.relation.quester,
             subject="Quest %s has failed. You lost %s carrot%s." % (self.title, deduction, "s"[deduction==1:]),
             body=""
             )
+        # TODO notify both owner and quester?
+        # TODO no loss message for non-bomb quests
     
     def get_deadline_html(self):
         if not self.deadline:
@@ -160,3 +171,4 @@ class Quest(models.Model):
             return self.description
         else:
             return "-"
+
