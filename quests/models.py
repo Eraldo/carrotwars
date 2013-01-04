@@ -5,6 +5,7 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.utils.safestring import mark_safe
+from postman.api import pm_write
 
 __author__ = "Eraldo Helal"
 
@@ -34,6 +35,13 @@ class QuestManager(models.Manager):
     def waiting_for(self, user):
         """Returns the set of quests the provided user is waiting for."""
         return super(QuestManager, self).get_query_set().filter(relation__quester=user).filter(status='M')
+
+    def update_status(self):
+        """Checks all quests to see if they are overdue and fails them if so."""
+        quests = super(QuestManager, self).get_query_set()
+        for quest in quests:
+            if quest.status == 'A' and quest.is_overdue():
+                quest.fail()
 
     
 class Quest(models.Model):
@@ -81,18 +89,36 @@ class Quest(models.Model):
 
     def activate(self):
         self.status = 'A'
-        self.activation_date = datetime.now()
-        self.deadline = datetime.now()+timedelta(days=7)
+        self.activation_date = timezone.now()
+        self.deadline = timezone.now()+timedelta(days=7)
+
+    def is_overdue(self):
+        today = timezone.now().date()
+        deadline = self.deadline
+        if deadline and today > deadline.date():
+            return True
+        else:
+            return False
 
     def fail(self):
-        if self.bomb and self.relation.balance > self.rating:
+        deduction = 0
+        if self.bomb and self.relation.balance >= self.rating:
             self.relation.balance -= self.rating
+            self.relation.save()
+            deduction = self.rating
         self.status = 'F'
-
+        self.save()
+        pm_write(
+            sender=self.relation.quester,
+            recipient=self.relation.owner,
+            subject="Quest %s has failed. You lost %s carrot%s." % (self.title, deduction, "s"[deduction==1:]),
+            body=""
+            )
+    
     def get_deadline_html(self):
         if not self.deadline:
             return "-"
-        today = datetime.now().date()
+        today = timezone.now().date()
         deadline = self.deadline.date()
         warning_days = 1
         template = '<span id="deadline-%s">%s</span>'
