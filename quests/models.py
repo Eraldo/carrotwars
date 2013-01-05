@@ -102,10 +102,13 @@ class Quest(models.Model):
 
     def fail(self):
         deduction = 0
-        if self.bomb and self.relation.balance >= self.rating:
-            self.relation.balance -= self.rating
-            self.relation.save()
-            deduction = self.rating
+        if self.bomb:
+            if self.relation.balance >= self.rating:
+                self.relation.balance -= self.rating
+                self.relation.save()
+                deduction = self.rating
+            else:
+                defuction = self.relation.balance
         self.status = 'F'
         self.save()
         # notify owner
