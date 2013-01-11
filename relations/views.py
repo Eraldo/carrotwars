@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from relations.tables import OwnedRelationTable, AssignedRelationTable, PendingRelationTable, ProposedRelationTable
 from postman.api import pm_write
+from django.utils.html import strip_tags
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.db import IntegrityError
@@ -71,7 +72,7 @@ class RelationCreateView(RelationMixin, CreateView):
 
     def inform_user(self):
         subject = "New relation requested by %s" % self.object.owner
-        body = """<a href="%s">%s</a>""" % (self.object.get_absolute_url(), self.object.owner)
+        body = """<a href="%s">%s</a>""" % (self.object.get_absolute_url(), strip_tags(self.object.owner))
         pm_write(
             sender=self.request.user,
             recipient=self.object.quester,

@@ -8,6 +8,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from quests.tables import OwnedQuestTable, AssignedQuestTable, PendingQuestTable, CompletedQuestTable, WaitingQuestTable, ProposedQuestTable
 from postman.api import pm_write
+from django.utils.html import strip_tags
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from datetime import datetime, timedelta
@@ -95,7 +96,7 @@ class QuestCreateView(QuestMixin, CreateView):
 
     def inform_user(self):
         subject = "New quest!"
-        body = """<a href="%s">%s</a>""" % (self.object.get_absolute_url(), self.object.title)
+        body = """<a href="%s">%s</a>""" % (self.object.get_absolute_url(), strip_tags(self.object.title))
         pm_write(
             sender=self.request.user,
             recipient=self.object.relation.quester,
