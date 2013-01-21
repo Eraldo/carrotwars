@@ -11,7 +11,8 @@ __author__ = "Eraldo Helal"
 
 class QuestManager(models.Manager):
     """
-    Provides easy access to pre-defined custom quest filters.
+    Provides easy access to pre-defined custom quest sets.
+    (using django filters)
     """
     
     def for_relation(self, relation):
@@ -45,6 +46,9 @@ class QuestManager(models.Manager):
 
     
 class Quest(models.Model):
+    """
+    A django model representing a persistant quest bound to a user relation.
+    """
 
     relation = models.ForeignKey(Relation)
     title = models.CharField(max_length=60)
@@ -60,7 +64,7 @@ class Quest(models.Model):
         (5, '*****'),
     )
     rating = models.PositiveSmallIntegerField(default=1, max_length=1, choices=RATINGS)
-    bomb = models.BooleanField()
+    bomb = models.BooleanField() # used to flag obligatory quests
     STATUS = (
         ('C', 'created'),
         ('A', 'accepted'),
@@ -71,28 +75,38 @@ class Quest(models.Model):
         ('X', 'deleted'),
     )
     status = models.CharField(default='C', max_length=1, choices=STATUS)
-    objects = QuestManager()
+    objects = QuestManager() # adding a custom django quest manager
 
     def __unicode__(self):
+        """Returns the unicode string representation of the quest."""
         return self.title
 
     def get_absolute_url(self):
+        """Returns the absolute url of the quest."""
         return reverse('quests:detail', args=[self.pk])
 
     def is_active(self):
-        "Returns True if this quest is active."
+        """Returns True if this quest is active."""
         return self.status in ('A')
 
     def set_active(self):
+        """Activates the quest and updates its activation date."""
         self.activation_date = timezone.now()
         self.status = 'A'
 
     def activate(self):
+        """
+        Activates the quest, updates it's activation date
+        and sets the deadline to 7 days after activation.
+        """
         self.status = 'A'
         self.activation_date = timezone.now()
         self.deadline = timezone.now()+timedelta(days=7)
 
     def is_overdue(self):
+        """
+        Checks if the quest is overdue.
+        """
         today = timezone.now().date()
         deadline = self.deadline
         if deadline and today > deadline.date():
@@ -101,12 +115,20 @@ class Quest(models.Model):
             return False
 
     def fail(self):
+        """
+        Fails the quest,
+        updates the relation balance if it was a forced quest
+        and informs owner and quester.
+        """
+
         deduction = 0
+        loss_message = ""
         if self.bomb:
             if self.relation.balance >= self.rating:
                 self.relation.balance -= self.rating
                 self.relation.save()
                 deduction = self.rating
+                loss_message = "You lost %s carrot%s." % (deduction, "s"[deduction==1:])
             else:
                 defuction = self.relation.balance
         self.status = 'F'
@@ -123,13 +145,12 @@ class Quest(models.Model):
         pm_write(
             sender=self.relation.owner,
             recipient=self.relation.quester,
-            subject="Quest %s has failed. You lost %s carrot%s." % (self.title, deduction, "s"[deduction==1:]),
+            subject="Quest %s has failed. %s" % (self.title, loss_message),
             body=""
             )
-        # TODO notify both owner and quester?
-        # TODO no loss message for non-bomb quests
     
     def get_deadline_html(self):
+        """Returns the color coded html representation of the quest deadline."""
         if not self.deadline:
             return "-"
         today = timezone.now().date()
@@ -150,6 +171,11 @@ class Quest(models.Model):
         return  mark_safe(html)
 
     def get_rating_html(self):
+        """
+        Returns the html representation of the quest rating.
+        The code displays 1-5 carrot images
+        and a bomb image if the quest bomb flag is set.
+        """
         rating = self.rating
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
         html = ""
@@ -162,6 +188,10 @@ class Quest(models.Model):
         return mark_safe(html)
 
     def get_bomb_html(self):
+        """
+        Returns the html representation of the quest bomb flag.
+        The code contains is an image path for the bomb or an empty string.
+        """
         bomb = self.bomb
         img_html = '<img src=%simages/bomb.png>' % settings.STATIC_URL
         html = ""
@@ -170,6 +200,7 @@ class Quest(models.Model):
         return mark_safe(html)
 
     def get_description_html(self):
+        """Returns the quest description as a string or a hyphen if not set."""
         if self.description:
             return self.description
         else:
