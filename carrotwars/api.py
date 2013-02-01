@@ -13,7 +13,7 @@ __author__ = "Eraldo Helal"
 class MetaMixin:
     authentication = BasicAuthentication()
     authorization = DjangoAuthorization()
-    allowed_methods = ['get']
+    allowed_methods = ['get', 'put']
 
 class UserResource(ModelResource):
     class Meta(MetaMixin):

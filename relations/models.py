@@ -11,7 +11,8 @@ __author__ = "Eraldo Helal"
     
 class RelationManager(models.Manager):
     """
-    Provides easy access to pre-defined custom relation filters.
+    Provides easy access to pre-defined custom relation sets.
+    (using django filters)
     """
 
     def owned_by(self, user):
@@ -25,12 +26,16 @@ class RelationManager(models.Manager):
         return super(RelationManager, self).get_query_set().filter(owner=user).filter(status='C')
     
     def pending_for(self, user):
-        """Returns the set of relations pensing for the provided user."""
+        """Returns the set of relations pending for the provided user."""
         return super(RelationManager, self).get_query_set().filter(quester=user, status='C')
 
 class Relation(models.Model):
+    """
+    A django model representing a persistant 1-to-1 relation between two users.
+    Including a credit balance showing how many credits a quester has gained from the owner.
+    """
 
-    owner = models.ForeignKey(User, related_name='relation_owner')
+    owner = models.ForeignKey(User, related_name='relation_owner') # creator of the relation
     quester = models.ForeignKey(User, related_name='relation_quester')
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
     balance = models.IntegerField(default=0, help_text="Amount of credits the quester has.")
@@ -41,18 +46,27 @@ class Relation(models.Model):
         ('X', 'deleted'),
     )
     status = models.CharField(default='C', max_length=1, choices=STATUS)
-    objects = RelationManager()
+    objects = RelationManager() # custom django quest manager
     
     def __unicode__(self):
+        """Returns the unicode string representation of the relation."""
         return u'%s - %s' % (self.owner, self.quester)
 
     def get_absolute_url(self):
+        """Returns the absolute url of the relation."""
         return reverse('relations:detail', args=[self.pk])
     
     class Meta:
         unique_together = ("owner", "quester")
 
     def get_balance_html(self):
+        """
+        Returns the html representation of the relation balance.
+        The code displays a string if balance is 0,
+        1-5 carrot images if below 6
+        or single carrot image, a times symbol and a number representing
+        the amount of collected carrots of above 5.
+        """
         balance = self.balance
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
         html = ""
@@ -65,6 +79,7 @@ class Relation(models.Model):
         return mark_safe(html)
 
     def _get_user_html(self, user):
+        """Returns the html reperesentation of a user containing avatar and username."""
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
         link = reverse('relations:detail', args=[self.pk])
         template = """
@@ -78,13 +93,15 @@ class Relation(models.Model):
         return mark_safe(html)
 
     def get_owner_html(self):
+        """Returns the html reperesentation of the relation owner containing avatar and username."""
         return self._get_user_html(self.owner)
 
     def get_quester_html(self):
+        """Returns the html reperesentation of the relation quester containing avatar and username."""
         return self._get_user_html(self.quester)
 
     def _get_user_image_html(self, user, id):
-        # return # TODO return image
+        """Returns the html reperesentation of a user avatar."""
         image_path = user.profile.avatar
         img_html = '<img id="%s" src="%s%s">' % (id, settings.MEDIA_URL, image_path)
         html = ""
@@ -93,14 +110,18 @@ class Relation(models.Model):
         return mark_safe(html)
 
     def get_owner_image_html(self):
+        """Returns the html reperesentation the relation owner avatar."""
         return self._get_user_image_html(self.owner, "image")
 
     def get_quester_image_html(self):
+        """Returns the html reperesentation the relation quester avatar."""
         return self._get_user_image_html(self.quester, "image")
 
     def get_owner_icon_html(self):
+        """Returns the html reperesentation the relation owner avatar icon."""
         return self._get_user_image_html(self.owner, "icon")
 
     def get_quester_icon_html(self):
+        """Returns the html reperesentation the relation quester avatar icon."""
         return self._get_user_image_html(self.quester, "icon")
 

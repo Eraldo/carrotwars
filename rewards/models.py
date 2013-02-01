@@ -11,7 +11,8 @@ __author__ = "Eraldo Helal"
 
 class RewardManager(models.Manager):
     """
-    Provides easy access to pre-defined custom reward filters.
+    Provides easy access to pre-defined custom reward sets.
+    (using django filters)
     """
 
     def for_relation(self, relation):
@@ -25,6 +26,9 @@ class RewardManager(models.Manager):
         return super(RewardManager, self).get_query_set().filter(relation__quester=user, status='A')
 
 class Reward(models.Model):
+    """
+    A django model representing a persistant relation bound to a user relation.
+    """
     
     relation = models.ForeignKey(Relation)
     title = models.CharField(max_length=200)
@@ -43,19 +47,17 @@ class Reward(models.Model):
     objects = RewardManager()
 
     def __unicode__(self):
+        """Returns the unicode string representation of the reward."""
         return self.title
 
     def get_absolute_url(self):
+        """Returns the absolute url of the reward."""
         return reverse('rewards:detail', args=[self.pk])
-    
-    def is_active(self):
-        return self.status in ('A')
-
-    def set_active(self):
-        self.activation_date = timezone.now()
-        self.status = 'A'
 
     def get_price_html(self):
+        """
+        Returns the html representation of the reward price.
+        """
         price = self.price
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
         html = ""

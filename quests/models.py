@@ -75,7 +75,7 @@ class Quest(models.Model):
         ('X', 'deleted'),
     )
     status = models.CharField(default='C', max_length=1, choices=STATUS)
-    objects = QuestManager() # adding a custom django quest manager
+    objects = QuestManager() # custom django quest manager
 
     def __unicode__(self):
         """Returns the unicode string representation of the quest."""
