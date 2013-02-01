@@ -1,3 +1,7 @@
+"""
+Contains the quest model and the quest manager.
+"""
+
 from django.db import models
 from relations.models import Relation
 from django.core.urlresolvers import reverse
@@ -63,6 +67,7 @@ class Quest(models.Model):
         (4, '****'),
         (5, '*****'),
     )
+    #: Used to rated the degree of challenge associated with the quest.
     rating = models.PositiveSmallIntegerField(default=1, max_length=1, choices=RATINGS)
     bomb = models.BooleanField() # used to flag obligatory quests
     STATUS = (
@@ -82,11 +87,11 @@ class Quest(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        """Returns the absolute url of the quest."""
+        """Returns the absolute url of the quest as a string."""
         return reverse('quests:detail', args=[self.pk])
 
     def is_active(self):
-        """Returns True if this quest is active."""
+        """Returns True if this quest is active, False otherwise."""
         return self.status in ('A')
 
     def set_active(self):
@@ -106,6 +111,8 @@ class Quest(models.Model):
     def is_overdue(self):
         """
         Checks if the quest is overdue.
+        True if overdue.
+        False if not.
         """
         today = timezone.now().date()
         deadline = self.deadline
@@ -150,7 +157,7 @@ class Quest(models.Model):
             )
     
     def get_deadline_html(self):
-        """Returns the color coded html representation of the quest deadline."""
+        """Returns the color coded html representation of the quest deadline as a string."""
         if not self.deadline:
             return "-"
         today = timezone.now().date()
@@ -172,7 +179,7 @@ class Quest(models.Model):
 
     def get_rating_html(self):
         """
-        Returns the html representation of the quest rating.
+        Returns the html representation of the quest rating as a string.
         The code displays 1-5 carrot images
         and a bomb image if the quest bomb flag is set.
         """
@@ -189,7 +196,7 @@ class Quest(models.Model):
 
     def get_bomb_html(self):
         """
-        Returns the html representation of the quest bomb flag.
+        Returns the html representation of the quest bomb flag as a string.
         The code contains is an image path for the bomb or an empty string.
         """
         bomb = self.bomb
