@@ -57,15 +57,16 @@ class Relation(models.Model):
         return reverse('relations:detail', args=[self.pk])
     
     class Meta:
+        #: Constraint making sure that each relation is unique.
         unique_together = ("owner", "quester")
 
     def get_balance_html(self):
         """
-        Returns the html representation of the relation balance.
+        Returns the html representation of the relation balance as a string.
         The code displays a string if balance is 0,
         1-5 carrot images if below 6
         or single carrot image, a times symbol and a number representing
-        the amount of collected carrots of above 5.
+        the amount of collected carrots if above 5.
         """
         balance = self.balance
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
@@ -79,7 +80,7 @@ class Relation(models.Model):
         return mark_safe(html)
 
     def _get_user_html(self, user):
-        """Returns the html reperesentation of a user containing avatar and username."""
+        """Returns the html reperesentation of a user containing avatar and username as a string."""
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
         link = reverse('relations:detail', args=[self.pk])
         template = """
@@ -93,15 +94,15 @@ class Relation(models.Model):
         return mark_safe(html)
 
     def get_owner_html(self):
-        """Returns the html reperesentation of the relation owner containing avatar and username."""
+        """Returns the html reperesentation of the relation owner containing avatar and username as a string."""
         return self._get_user_html(self.owner)
 
     def get_quester_html(self):
-        """Returns the html reperesentation of the relation quester containing avatar and username."""
+        """Returns the html reperesentation of the relation quester containing avatar and username as a string."""
         return self._get_user_html(self.quester)
 
     def _get_user_image_html(self, user, id):
-        """Returns the html reperesentation of a user avatar."""
+        """Returns the html reperesentation of a user avatar as a string."""
         image_path = user.profile.avatar
         img_html = '<img id="%s" src="%s%s">' % (id, settings.MEDIA_URL, image_path)
         html = ""
@@ -110,18 +111,18 @@ class Relation(models.Model):
         return mark_safe(html)
 
     def get_owner_image_html(self):
-        """Returns the html reperesentation the relation owner avatar."""
+        """Returns the html reperesentation the relation owner avatar as a string."""
         return self._get_user_image_html(self.owner, "image")
 
     def get_quester_image_html(self):
-        """Returns the html reperesentation the relation quester avatar."""
+        """Returns the html reperesentation the relation quester avatar as a string."""
         return self._get_user_image_html(self.quester, "image")
 
     def get_owner_icon_html(self):
-        """Returns the html reperesentation the relation owner avatar icon."""
+        """Returns the html reperesentation the relation owner avatar icon as a string."""
         return self._get_user_image_html(self.owner, "icon")
 
     def get_quester_icon_html(self):
-        """Returns the html reperesentation the relation quester avatar icon."""
+        """Returns the html reperesentation the relation quester avatar icon as a string."""
         return self._get_user_image_html(self.quester, "icon")
 

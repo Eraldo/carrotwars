@@ -1,5 +1,6 @@
+#!/usr/bin/env python
 """
-Contains the quest model and the quest manager.
+Contains the quest model and a quest manager.
 """
 
 from django.db import models

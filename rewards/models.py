@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Contains the reward model and a reward manager.
+"""
+
 from django.db import models
 from relations.models import Relation
 from django.core.urlresolvers import reverse
@@ -27,7 +32,9 @@ class RewardManager(models.Manager):
 
 class Reward(models.Model):
     """
-    A django model representing a persistant relation bound to a user relation.
+    A django model representing a persistant reward bound to a user relation.
+    Rewards can be created by the relation owned and bought by the quester
+    if he has enough credits to afford the price.
     """
     
     relation = models.ForeignKey(Relation)
@@ -51,12 +58,12 @@ class Reward(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        """Returns the absolute url of the reward."""
+        """Returns the absolute url of the reward as a string."""
         return reverse('rewards:detail', args=[self.pk])
 
     def get_price_html(self):
         """
-        Returns the html representation of the reward price.
+        Returns the html representation of the reward price as a string.
         """
         price = self.price
         img_html = '<img src=%simages/carrot.png>' % settings.STATIC_URL
@@ -70,6 +77,9 @@ class Reward(models.Model):
         return mark_safe(html)
 
     def _get_image_html(self, id):
+        """
+        Returns the html representation of the reward image as a string.
+        """
         image_path = self.image
         img_html = '<img id="%s" src="%s%s">' % (id, settings.MEDIA_URL, image_path)
         html = ""
@@ -78,13 +88,22 @@ class Reward(models.Model):
         return mark_safe(html)
 
     def get_image_html(self):
+        """
+        Returns the html representation of the reward image as a string.
+        """
         return self._get_image_html("image")
 
     def get_icon_html(self):
+        """
+        Returns the iconified html representation of the reward image as a string.
+        """
         return self._get_image_html("icon")
 
 
     def get_html(self):
+        """
+        Returns the html representation of the reward as a string.
+        """
         img_html = self.get_icon_html()
         link = self.get_absolute_url()
         text = self.title
