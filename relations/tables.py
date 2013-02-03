@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Contains the table settings for the relation model.
+"""
+
 import django_tables2 as tables
 from django_tables2.utils import A  # alias for Accessor
 from relations.models import Relation
@@ -13,6 +18,7 @@ class UserColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing a user."""
         user = value
         relation = record
         if user == relation.owner:
@@ -26,6 +32,7 @@ class BalanceColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing the record's balance."""
         return record.get_balance_html
 
 

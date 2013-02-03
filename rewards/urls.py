@@ -1,8 +1,14 @@
+#!/usr/bin/env python
+"""
+Contains the reward related url mappings.
+"""
+
 from django.conf.urls import patterns, url
 from rewards.models import Reward
 from rewards.views import RewardListView, RewardDetailView, RewardCreateView, RewardDeleteView, RewardUpdateView, BuyView
 
 __author__ = "Eraldo Helal"
+
 
 urlpatterns = patterns('',
     # ex: /rewards/

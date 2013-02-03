@@ -1,8 +1,21 @@
+#!/usr/bin/env python
+"""
+Contains the UserProfile model and initial generation functionality.
+"""
+
 from django.db import models
 from django.contrib.auth.models import User
 # from django.db.models.signals import post_save
 
+__author__ = "Eraldo Helal"
+
+
 class UserProfile(models.Model):
+    """
+    A django model representing a persistant user profile bound to an existing user.
+    On user creation via social login, avatar images get added to the related user profile.
+    """
+
     # This field is required.
     user = models.OneToOneField(User)
     # Other fields here
@@ -20,6 +33,10 @@ from social_auth.backends.facebook import FacebookBackend
 from social_auth.backends.google import GoogleOAuth2Backend
 from social_auth.signals import socialauth_registered
 def new_users_handler(sender, user, response, details, **kwargs):
+    """
+    Tries to get avatar images from social user login information on new user creation
+    and generates profiles based on that information assoziated to that user.
+    """
     user.is_new = True
     if user.is_new:
         if "id" in response:
@@ -49,5 +66,6 @@ def new_users_handler(sender, user, response, details, **kwargs):
                 pass
                 
     return False
+
 
 socialauth_registered.connect(new_users_handler, sender=None)

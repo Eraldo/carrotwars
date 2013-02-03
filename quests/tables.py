@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Contains the table settings for the quest model.
+"""
+
 import django_tables2 as tables
 from django_tables2.utils import A  # alias for Accessor
 from quests.models import Quest
@@ -16,6 +21,7 @@ class UserColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing a user."""
         user = value
         quest = record
         if user == quest.relation.owner:
@@ -31,6 +37,7 @@ class DescriptionColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing a description."""
         max_lenth = 60
         if len(value) > max_lenth:
             html = value[:max_lenth] + " .."
@@ -45,6 +52,7 @@ class RatingColumn(tables.Column):
     """
 
     def render(self, value, record):
+      """Returns the html string version of the record rating."""
       return record.get_rating_html()
 
 
@@ -54,6 +62,7 @@ class DeadlineColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing the records deadline."""
         return record.get_deadline_html()
     
 
@@ -234,7 +243,7 @@ class WaitingQuestTable(tables.Table):
 
 class ProposedQuestTable(tables.Table):
     """
-    Table layout for showing quests a user is waiting for.
+    Table layout for showing quests proposed for a user.
     """
 
     quester = UserColumn(accessor='relation.quester')

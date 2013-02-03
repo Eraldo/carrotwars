@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Contains the table settings for the reward model.
+"""
+
 import django_tables2 as tables
 from django_tables2.utils import A  # alias for Accessor
 from rewards.models import Reward
@@ -13,6 +18,7 @@ class UserColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing a user."""
         user = value
         quest = record
         if user == quest.relation.owner:
@@ -27,6 +33,7 @@ class PriceColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing the record's price."""
         return record.get_price_html
 
 
@@ -36,6 +43,7 @@ class ImageColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing the rewards image."""
         link = record.get_absolute_url()
         html = '<a id="reward-link" href="%s">%s</a>' % (link, record.get_icon_html())
         return mark_safe(html)
@@ -47,6 +55,7 @@ class RewardColumn(tables.Column):
     """
 
     def render(self, value, record):
+        """Returns a html string version representing a reward."""
         return record.get_html
 
 

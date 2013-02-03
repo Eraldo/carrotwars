@@ -1,9 +1,15 @@
+#!/usr/bin/env python
+"""
+Contains the relation related url mappings.
+"""
+
 from django.conf.urls import patterns, url
 from django.views.generic import ListView, DetailView, UpdateView, FormView, CreateView
 from relations.models import Relation
 from relations.views import RelationListView, RelationDetailView, RelationCreateView, RelationDeleteView, RelationUpdateView, AcceptView, DeclineView
 
 __author__ = "Eraldo Helal"
+
 
 urlpatterns = patterns('',
     # ex: /relations/

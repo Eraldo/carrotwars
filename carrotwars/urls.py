@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Contains the base url mappings for the carrotwars project.
+"""
+
 from django.conf.urls import patterns, include, url
 from django.shortcuts import redirect
 from accounts.views import LoginErrorView
@@ -11,6 +16,7 @@ from tastypie.api import Api
 from carrotwars.api import UserResource, RelationResource, QuestResource, RewardResource
 
 __author__ = "Eraldo Helal"
+
 
 admin.autodiscover()
 

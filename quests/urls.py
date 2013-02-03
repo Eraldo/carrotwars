@@ -1,8 +1,14 @@
+#!/usr/bin/env python
+"""
+Contains the quest related url mappings.
+"""
+
 from django.conf.urls import patterns, url
 from quests.models import Quest
 from quests.views import QuestListView, QuestDetailView, QuestCreateView, QuestDeleteView, QuestUpdateView, AcceptView, DeclineView, CompleteView, ConfirmView, DenyView
 
 __author__ = "Eraldo Helal"
+
 
 urlpatterns = patterns('',
     # ex: /quests/
